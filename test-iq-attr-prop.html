@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="checkbox" onclick="myFunction()"/>123
+
+<span id="demo"></span>
+<span id=“demo1”></span>
+
+<script>
+function myFunction()
+{
+var a=document.getElementsByTagName("input")[0];
+document.getElementById("demo").innerHTML=a.getAttribute("checked");
+document.getElementById("demo").innerHTML=a["checked"];
+}
+</script>
+
+</body>
+</html>

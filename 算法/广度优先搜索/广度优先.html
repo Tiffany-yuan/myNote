@@ -1,0 +1,223 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+ * @param {character[][]} maze
+ * @param {number[]} entrance
+ * @return {number}
+ */
+ var nearestExit = function(maze, entrance) {
+    var arr = []
+    var startX = entrance[0]
+    var startY = entrance[1]
+    var hash = new Set()
+    var count = 0
+    arr.push(entrance)
+    hash.add(`${startX}-${startY}`)
+    // 每次都可能 上下左右 移动
+    var moveX = [-1, 1, 0, 0]
+    var moveY = [0, 0, -1, 1]
+    // 判断是否边界
+    function isBorder (node) {
+        return node[0] === 0 || node[1] === 0 || node[0] == maze.length - 1 || node[1] == maze[0].length - 1
+    }
+    // 判断是否合法
+    function isVaild (node) {
+        return node[0] > -1 && node[1] > -1 && node[0] < maze.length && node[1] < maze[0].length
+    }
+    while(arr.length > 0) {
+        count++
+        var tempNextArr = []
+        while (arr.length > 0) {
+            var curNode = arr.shift()
+            for(var j = 0; j < 4; j++) {
+                var nextX = curNode[0] + moveX[j]
+                var nextY = curNode[1] + moveY[j]
+                if (isVaild([nextX, nextY]) && maze[nextX][nextY] == '.' && !hash.has(`${nextX}-${nextY}`)) {
+                    if (isBorder([nextX, nextY])) {
+                        return count
+                    }
+                    tempNextArr.push([nextX, nextY])
+                    hash.add(`${nextX}-${nextY}`)
+                }
+            }
+        }
+        arr = tempNextArr
+    }
+    return -1;
+ };
+
+// var nearestExit = function(maze, entrance) {
+// 	let arr = [];
+// 	arr.push(entrance);
+// 	let seen = new Set([]);
+// 	seen.add(entrance[0] + '-' + entrance[1]);
+
+// 	function nextPos(arr) {
+// 		let ret = [];
+// 		ret.push([arr[0] - 1, arr[1]]);
+// 		ret.push([arr[0] + 1, arr[1]]);
+// 		ret.push([arr[0], arr[1] - 1]);
+// 		ret.push([arr[0], arr[1] + 1]);
+
+// 		return ret;
+// 	}
+
+// 	function isVaild(arr) {
+// 		return (arr[0] >= 0 && arr[0] < maze.length) && (arr[1] >= 0 && arr[1] < maze[0].length) && maze[arr[0]][arr[1]] == '.';
+// 	}
+
+// 	let step = 0;
+// 	while (arr.length) {
+// 		step++;
+// 		let tmpArr = [];
+// 		for (let i = 0; i < arr.length; i++) {
+// 			let next = nextPos(arr[i]);
+
+// 			for (let j = 0; j < next.length; j++) {
+// 				let tmpStr = next[j][0] + '-' + next[j][1];
+// 				if (!seen.has(tmpStr) && isVaild(next[j])) {
+// 					let row = next[j][0];
+// 					let col = next[j][1];
+// 					if ((row == 0 || col == 0 || row == maze.length - 1 || col == maze[0].length - 1) && maze[row][col] == '.') {
+// 						return step;
+// 					}
+
+//                     tmpArr.push(next[j]);
+//                     seen.add(tmpStr);
+// 				}
+// 			}
+// 		}
+// 		arr = tmpArr;
+// 	}
+// 	return -1;
+// }
+
+// var nearestExit = function (maze, entrance) {
+//     function bfs(line, low) {
+//         const arr = [];
+//         // hash记录走过的节点
+//         const hash = new Set();
+//         let [i, j] = entrance;
+//         hash.add(`${i}-${j}`);
+//         arr.push([i + 1, j]);
+//         arr.push([i - 1, j]);
+//         arr.push([i, j + 1]);
+//         arr.push([i, j - 1]);
+//         let step = 1;
+//         while (arr.length) {
+//             length = arr.length;
+//             for (let k = 0; k < length; k++) {
+//                 data = arr.shift();
+//                 [i, j] = data;
+//                 // 超过边界
+//                 if (i < 0 || j < 0 || i >= line || j >= low) {
+//                     continue;
+//                 }
+//                 // 是墙或者出现过
+//                 if (maze[i][j] === '+' || hash.has(`${i}-${j}`)) {
+//                     continue;
+//                 }
+//                 // 等于出口则返回
+//                 if (i === 0 || j === 0 || i === line - 1 || j === low - 1) {
+//                     return step;
+//                 }
+//                 // 上下左右移动
+//                 arr.push([i + 1, j]);
+//                 arr.push([i - 1, j]);
+//                 arr.push([i, j + 1]);
+//                 arr.push([i, j - 1]);
+//                 // 记录走过的节点
+//                 hash.add(`${i}-${j}`);
+//             }
+//             step++;
+//         }
+//         return -1;
+//     }
+
+//     return bfs(maze.length, maze[0].length);
+// };
+
+//  console.log(  nearestExit([["+","+",".","+"],[".",".",".","+"],["+","+","+","."]], [1,2]) );
+//  console.log(  nearestExit([[".","+"]], [0,0]) );
+//  console.log( nearestExit([["+",".","+","+","+","+","+"],["+",".","+",".",".",".","+"],["+",".","+",".","+",".","+"],["+",".",".",".","+",".","+"],["+","+","+","+","+",".","+"]], [0,1]) );
+// console.log( nearestExit( [["+",".","+","+","+","+","+"],["+",".","+",".",".",".","+"],["+",".","+",".","+",".","+"],["+",".",".",".","+",".","+"],["+","+","+","+","+",".","+"]], [3,2] ));
+// console.log( nearestExit( [["+",".","+","+","+","+","+"],["+",".","+",".",".",".","+"],["+",".","+",".","+",".","+"],["+",".",".",".",".",".","+"],["+","+","+","+",".","+","."]], [0,1] ));
+
+
+// var partitionDisjoint = function(nums) {
+//     var length = nums.length
+//     var leftMaxArr = [nums[0]]
+//     var rightMinArr = [nums[length - 1]]
+//     for (var i = 1; i < length; i++) {
+//         leftMaxArr.push(Math.max(leftMaxArr[i-1], nums[i]))
+//     }
+//     for (var i = length - 2; i >= 0; i--) {
+//         rightMinArr.unshift(Math.min(rightMinArr[0], nums[i]))
+//     }
+//     for (var i = 0; i < length; i++) {
+//         if (leftMaxArr[i] <= rightMinArr[i+1]) {
+//             return i+1;
+//         }
+//     }
+// };
+var partitionDisjoint = function(nums) {
+    var maxVal = nums[0];
+    var maxIndex = 0;
+    var maxIndexVal = nums[0];
+    for (var i = 1; i < nums.length; i++) {
+        maxVal = Math.max(maxVal, nums[i]);
+        if (maxIndexVal > nums[i]) {
+            maxIndex = i;
+            maxIndexVal = maxVal;
+        }
+    }
+    return maxIndex + 1;
+};
+partitionDisjoint([5,0,3,8,6])
+</script>
+</html>
+
+<script type="text/javascript">
+    (function(){
+      var advertisement;
+      var ignore = [""],flag = false;
+      for(var i = 0 ; i < ignore.length ; i ++ ){
+        if($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1){
+          flag = true;
+        }
+      }
+      if(flag){return;}
+      var Advertisement = function(){
+        function Impl(){}
+        function bindListener(dom){
+          dom.on("click",".close",function(){
+            dom.remove();
+          });
+          dom.on("click",".feedback",function(){
+            Tatami.pub("AD.SYS.FEEDBACK",10037);
+          });
+        }
+        Impl.show = function(){
+          var notice = '<div id="notice" class="advertisement" style="height: 30px;background-color: #FFF2DC;text-align: center;font-size: 16px;color: #365064;overflow-y: hidden"><img style="vertical-align: middle;" src="https://img.alicdn.com/imgextra/i3/69942425/TB2MTpTbib_F1JjSZFzXXc6KXXa-69942425.png"><span style="vertical-align: middle;">重要通知：尊敬的掌柜，淘宝官方即将支持买家自助修改商品属性了，这将大大降低买家因商品信息拍错引起的退款，提升商家客服工作效率。<a class="close feedback" href="https://www.yuque.com/docs/share/9127fd8f-88ca-4715-a7a6-6c5e14748058?#"_blank" target="_blank">点此查看介绍>></a>&nbsp;&nbsp;<a class="close feedback" href="https://survey.taobao.com/apps/zhiliao/MsCs7WX7p"_blank" target="_blank">点此报名开通>></a></span></div>';
+   $("#J_app-main-page").prepend(notice);
+   bindListener($(notice));
+          Tatami.pub('Tatami.clickPoint.manualTrigger',{
+    point: '11194.11720.16640.16641',
+      _fm: '4089'
+  });
+        };
+        return Impl;
+      };
+      advertisement = new Advertisement();
+      advertisement.show();
+    }())
+    </script>

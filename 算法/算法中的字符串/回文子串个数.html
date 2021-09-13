@@ -1,0 +1,74 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-08-20 10:22:56
+ * @LastEditTime: 2021-09-13 10:14:48
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /test/算法/算法中的字符串/回文子串个数.html
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    // n2时间复杂度解法
+    // var countSubstrings = function(s) {
+    //     let count = 0;
+    //     for (var i = 0; i < s.length * 2; i++) {
+    //         let l = i / 2;
+    //         let r = i / 2 + i % 2;
+    //         while(l >= 0 && r < s.length && s.charAt(l) === s.charAt(r)) {
+    //             l--;
+    //             r++;
+    //             ++count;
+    //         }
+    //     }
+    //     console.log(count);
+    //     return count;
+    // };
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    // Manacher，时间复杂度n
+    var countSubstrings = function(s) {
+        let newStr = '#' + s.split('').join('#', s) + '#';
+        let index = 0;
+        let maxRightIndex = 0;
+        let count = 0;
+        let MP = [];
+        for (var i = 0; i < newStr.length; i++) {
+            let l;
+            let r;
+            maxR = index > 0 ? Math.min(MP[2*index - i], maxRightIndex - i) : 1;
+            l = i - maxR;
+            r = i + maxR;
+            while(l >= 0 && r < newStr.length && newStr.charAt(l) == newStr.charAt(r)) {
+                maxRightIndex = Math.max(maxRightIndex, r);
+                --l;
+                ++r;
+                ++maxR;
+            }
+            // TODO fix index
+            if (maxRightIndex < r) {
+                index = i;
+            }
+            MP.push(maxR)
+            count += Math.floor(maxR / 2);
+        }
+        return count;
+    };
+    countSubstrings('32122120'); // 13
+</script>
+</html>

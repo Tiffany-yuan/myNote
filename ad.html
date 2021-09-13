@@ -1,0 +1,809 @@
+<script type="text/javascript">
+    (function () {
+
+        var advertisement;
+        var ignore = [""], flag = false;
+        for (var i = 0; i < ignore.length; i++) {
+            if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            return;
+        }
+
+        var h = Tatami.localcache.get('loginUserData', 'session'),
+            taobaoId = h.taobaoId,
+            expireDate,
+            standardPrintNums;
+
+        Tatami.controls.get('control.sellerList').getMethod('getSellerList', function (data) {
+            $.each(data.sellers, function (index, i) {
+                if (i.taobaoId == taobaoId) {
+                    expireDate = i.expireDate;
+                    vip = i.vip;
+                    standardPrintNums = Number(i.standardPrintNums);
+                }
+            });
+            if (expireDate) {
+                expireDate = new Date(expireDate);
+                var nowDate = new Date();
+                var expireDays = (expireDate - nowDate) / (1000 * 60 * 60 * 24);
+                if (expireDays <= 7) return;
+
+                if (standardPrintNums >= 2000) return;
+
+                var Advertisement = function () {
+                    function Impl() { }
+
+                    function bindListener(dom) {
+                        dom.on("click", ".close", function () {
+                            dom.remove();
+                        });
+                        dom.on("click", ".feedback", function () {
+                            Tatami.pub("AD.SYS.FEEDBACK", 10733);
+                        });
+                    }
+                    Impl.show = function () {
+                        var html = '<div id="" class="advertisement" style="text-align: center;"><img border="0" usemap="#planetmap" src="https://img.alicdn.com/imgextra/i1/69942425/O1CN01f8vFL71Tmh2WyjY0q_!!69942425.png" alt="" style="height:170px;width:400px"><map name="planetmap" id="planetmap"><area style="background:rgba(0,0,0,0)" class="close feedback" shape="rect" coords="366,1,393,33"   ><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="4,41,390,166" href="https://tb.cn/5KIQprv" target="_blank"  data-clickData-points="point=11194.11720.40712.40714&_fm=8765"></map></div>';
+                        var $html = $(html);
+                        $(".main-updates").append($html);
+                        bindListener($html);
+                        Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                            point: '11194.11720.40712.40713',
+                            _fm: '8760'
+                        });
+                    };
+                    return Impl;
+                };
+                advertisement = new Advertisement();
+                advertisement.show();
+            }
+        })
+    }())
+</script>
+
+<script>
+        (function () {
+
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip != 3) {
+                //bu neng kan 
+                return;
+            }
+            var h = Tatami.localcache.get('loginUserData', 'session'),
+                taobaoId = h.taobaoId,
+                version,
+                vip,
+                expireDate,
+                nowDateObj = new Date(),
+                daysToExpire,
+                expireDateObj,
+                isShowDialog = false,
+                standardPrintNums,
+                areaHtml;
+
+            Tatami.controls.get('control.sellerList').getMethod('getSellerList', function (data) {
+                $.each(data.sellers, function (index, i) {
+                    if (i.taobaoId == taobaoId) {
+                        expireDate = i.expireDate;
+                        vip = i.vip;
+                        standardPrintNums = Number(i.standardPrintNums);
+                    }
+                });
+
+                if (expireDate) {
+                    expireDateObj = new Date();
+                    var dateStr = expireDate.split(' ')[0];
+                    var dateStrArr = dateStr.split('-');
+                    expireDateObj.setFullYear(dateStrArr[0]);
+                    expireDateObj.setMonth(dateStrArr[1] - 1);
+                    expireDateObj.setDate(dateStrArr[2]);
+                    expireDateObj.setHours(0, 0, 0);
+                    daysToExpire = parseInt((expireDateObj.getTime() - nowDateObj.getTime()) / (24 * 3600 * 1000)) + 1;
+
+                    // 用于测试
+                    // vip = -1;  // -1或-3：试用，大于0：非试用
+                    // data.sellers.length = 1;  // 1为单店铺 大于1为多店铺
+                    // daysToExpire = 3;  //过期时间
+
+                    if (daysToExpire > 5 && (vip == -1 || vip == -3 || vip == -5)) {
+                        isShowDialog = true;
+                    } else if (vip > 0 && daysToExpire > 7) {
+                        isShowDialog = true;
+                    }
+
+                    if (standardPrintNums <= 2300) {
+                        isShowDialog = false;
+                    }
+
+                    if (isShowDialog) {
+                        //todo 展示弹窗
+
+                        (function () {
+                            var advertisement;
+                            var ignore = ["p66"], flag = false;
+                            for (var i = 0; i < ignore.length; i++) {
+                                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                                    flag = true;
+                                }
+                            }
+                            if (flag) { return; }
+                            var Advertisement = function () {
+                                function Impl() { }
+                                function bindListener(dom) {
+                                    dom.on("click", ".close", function () {
+                                        dom.remove();
+                                    });
+                                    dom.on("click", ".feedback", function () {
+                                        Tatami.pub("AD.SYS.FEEDBACK", 5061);
+                                    });
+                                }
+                                Impl.show = function () {
+                                    var html = '<div id="" class="advertisement" style="position: fixed;top: 50%;left: 50%;margin-left: -239px;margin-top: -185.5px;"><img border="0" usemap="#planetmap" src="https://img.alicdn.com/imgextra/i1/69942425/O1CN011TmgupVQoVqB2PB_!!69942425.png" alt="" style="height:371px;width=478px"><map name="planetmap" id="planetmap"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="14,83,437,360" href="https://tb.cn/UwFPKOw" target="_blank"  data-clickData-points="point=11194.11720.20618.20620&_fm=5053"><area style="background:rgba(0,0,0,0)" class="close feedback" shape="rect" coords="424,25,458,61"   ></map></div>';
+                                    $html = $(html);
+                                    $("body").append($html); bindListener($html);
+                                    Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                                        point: '11194.11720.20618.20619',
+                                        _fm: '5052'
+                                    });
+                                };
+                                return Impl;
+                            };
+                            advertisement = new Advertisement();
+                            advertisement.show();
+                        }())
+                    }
+                }
+            });
+        }());
+</script>
+
+<script type="text/javascript">
+    (function () {
+
+        var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+        if (vip != 3) {
+            //仅基础版显示
+            return;
+        }
+        var advertisement;
+        var ignore = [""], flag = false;
+        for (var i = 0; i < ignore.length; i++) {
+            if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            return;
+        }
+
+        var h = Tatami.localcache.get('loginUserData', 'session'),
+            taobaoId = h.taobaoId,
+            expireDate,
+            standardPrintNums;
+
+        Tatami.controls.get('control.sellerList').getMethod('getSellerList', function (data) {
+            $.each(data.sellers, function (index, i) {
+                if (i.taobaoId == taobaoId) {
+                    expireDate = i.expireDate;
+                    vip = i.vip;
+                    standardPrintNums = Number(i.standardPrintNums);
+                }
+            });
+            if (expireDate) {
+                expireDate = new Date(expireDate);
+                var nowDate = new Date();
+                var expireDays = (expireDate - nowDate) / (1000 * 60 * 60 * 24);
+                if (expireDays <= 7) return;
+
+                if (standardPrintNums >= 2000) return;
+
+                var Advertisement = function () {
+                    function Impl() { }
+
+                    function bindListener(dom) {
+                        dom.on("click", ".close", function () {
+                            dom.remove();
+                        });
+                        dom.on("click", ".feedback", function () {
+                            Tatami.pub("AD.SYS.FEEDBACK", 10733);
+                        });
+                    }
+                    Impl.show = function () {
+                        var html = '<div id="" class="advertisement" style="text-align: center;"><img border="0" usemap="#planetmap" src="https://img.alicdn.com/imgextra/i1/69942425/O1CN01f8vFL71Tmh2WyjY0q_!!69942425.png" alt="" style="height:170px;width:400px"><map name="planetmap" id="planetmap"><area style="background:rgba(0,0,0,0)" class="close feedback" shape="rect" coords="366,1,393,33"   ><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="4,41,390,166" href="https://tb.cn/5KIQprv" target="_blank"  data-clickData-points="point=11194.11720.40712.40714&_fm=8765"></map></div>';
+                        var $html = $(html);
+                        $(".main-updates").append($html);
+                        bindListener($html);
+                        Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                            point: '11194.11720.40712.40713',
+                            _fm: '8760'
+                        });
+                    };
+                    return Impl;
+                };
+                advertisement = new Advertisement();
+                advertisement.show();
+            }
+        })
+    }())
+</script>
+
+<script type="text/javascript">
+        (function () {
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip != 5) {
+                //bu neng kan 
+                return;
+            }
+            var advertisement;
+            var ignore = [""], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) { return; }
+            var Advertisement = function () {
+                function Impl() { }
+                function bindListener(dom) {
+                    dom.on("click", ".close", function () {
+                        dom.remove();
+                    });
+                    dom.on("click", ".feedback", function () {
+                        Tatami.pub("AD.SYS.FEEDBACK", 10972);
+                    });
+                }
+                Impl.show = function () {
+                    var notice = '<div id="notice" class="advertisement" style="height: 30px;background-color: #FFF2DC;text-align: center;font-size: 16px;color: #365064;overflow-y: hidden"><img style="vertical-align: middle;" src="https://img.alicdn.com/imgextra/i3/69942425/TB2MTpTbib_F1JjSZFzXXc6KXXa-69942425.png"><span style="vertical-align: middle;">尊敬的商家，软件将于今晚22:00-23:00对评价管理功能进行停机维护，届时相关功能不可用，请合理安排处理时间~</span></div>';
+                    $("#notice").remove();
+                    $("#J_app-main-page").prepend(notice);
+                    bindListener($(notice));
+
+                };
+                return Impl;
+            };
+            advertisement = new Advertisement();
+            advertisement.show();
+        }())
+</script>
+
+<script type="text/javascript">
+        (function () {
+
+
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip == 3 || vip == 1 || vip == -7 || vip == -1 || vip == -3) {
+
+            } else {
+                return;
+            }
+
+            if ($('#clickThis').length) {
+                return;
+            }
+            if ($("#51Adv").length) {
+                return
+            }
+
+            var advertisement;
+            var ignore = ["p66"], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) { return; }
+
+            var h = Tatami.localcache.get('loginUserData', 'session'),
+                taobaoId = h.taobaoId,
+                expireDate;
+
+            Tatami.controls.get('control.sellerList').getMethod('getSellerList', function (data) {
+                $.each(data.sellers, function (index, i) {
+                    if (i.taobaoId == taobaoId) {
+                        expireDate = i.expireDate;
+                    }
+                });
+                if (expireDate) {
+                    expireDate = new Date(expireDate);
+                    var nowDate = new Date();
+                    var expireDays = (expireDate - nowDate) / (1000 * 60 * 60 * 24);
+                    if (expireDays < 7 || expireDays > 30) return;
+
+                    var Advertisement = function () {
+                        function Impl() { }
+                        function bindListener(dom) {
+                            dom.on("click", ".close", function () {
+                                dom.remove();
+                            });
+                            dom.on("click", ".feedback", function () {
+                                Tatami.pub("AD.SYS.FEEDBACK", 10821);
+                            });
+                        }
+                        Impl.show = function () {
+                            var html = '<div id="51Adv" class="advertisement" style="width:100%;height:60px;"><img border="0" usemap="#planetmap1" src="https://img.alicdn.com/imgextra/i1/69942425/O1CN01U0VFAL1Tmh2kQ4Qbz_!!69942425.png" alt="" style="height:60px;width:100%;"><map name="planetmap1" id="planetmap1"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="0,4,1910,58" href="https://tb.cn/8WjdJqv" target="_blank"  data-clickData-points="point=11194.11720.40871.40873.40877.40886&_fm=8783"></map></div>';
+                            $html = $(html);
+                            $("#J_app-main-page").prepend($html); bindListener($html);
+                            Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                                point: '11194.11720.40871.40873.40877.40885',
+                                _fm: '8782'
+                            });
+                        };
+                        return Impl;
+                    };
+                    advertisement = new Advertisement();
+                    advertisement.show();
+                }
+            })
+
+
+
+        }())
+</script>
+
+
+<script type="text/javascript">
+        (function () {
+            var advertisement;
+            var ignore = ["pp"], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) { return; }
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip != -10) {
+                return;
+            }
+
+            var Advertisement = function () {
+                function Impl() { }
+                function bindListener(dom) {
+                    dom.on("click", ".close", function () {
+                        dom.remove();
+                    });
+                    dom.on("click", ".feedback", function () {
+                        Tatami.pub("AD.SYS.FEEDBACK", 11251);
+                    });
+                }
+                Impl.show = function () {
+                    var html = '<div id="" class="advertisement_1586751149133_419 ad" style="position: fixed;top: 50%;left: 50%;margin-left: -375px;margin-top: -160px;z-index:10"><div style="position: fixed;top: 0;left: 0;z-index: -1;width: 100%;height: 100%;background-color: #999;opacity: 0.5;"></div><img border="0" usemap="#1586751149133_419" src="https://img.alicdn.com/imgextra/i2/69942425/O1CN01A8ZFzQ1Tmh3Ftzt52_!!69942425.png" alt="" style="height:320px;width:750px"><map name="1586751149133_419" id="1586751149133_419"><area style="background:rgba(0,0,0,0)" class="J-clickPoint feedback" shape="rect" coords="5,9,739,311" href="https://www.taobao.com/go/market/webww/ww.php?spm=a1z13.2196529.0.0.55e25acahV9F6X&ver=3&touid=%E5%8C%BF%E5%90%8D%E8%84%9A%E4%B8%AB%3A%E5%94%AE%E5%89%8D&siteid=cntaobao&status=1&charset=utf-8" target="_blank"  data-clickData-points="point=11194.11720.44110.44112&_fm=9018"></map></div>';
+                    $html = $(html);
+                    $("body").append($html); bindListener($html);
+                    Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                        point: '11194.11720.44110.44111',
+                        _fm: '9017'
+                    });
+                };
+                return Impl;
+            };
+            advertisement = new Advertisement();
+            advertisement.show();
+        }())
+</script>
+
+<script type="text/javascript">
+        (function () {
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip != 5) {
+                //bu neng kan 
+                return;
+            }
+            var ignore = ["p51", "p66"], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) { return; }
+            var h = Tatami.localcache.get('loginUserData', 'session'),
+                taobaoId = h.taobaoId;
+            var advertisement;
+            var Advertisement = function () {
+                function Impl() { }
+                function bindListener(dom) {
+                    dom.on("click", ".close", function () {
+                        dom.remove();
+                    });
+                    dom.on("click", ".feedback", function () {
+                        Tatami.pub("AD.SYS.FEEDBACK", 11407);
+                        Tatami.request.forceAPICall({
+                            api: 'user_moveToP51',
+                            params: { 'taobaoId': taobaoId }
+                        }, function (data) {
+                            location.href = location.href.replace(/^https:\/\/p(\d{1,2}|p)/, 'https://p51');
+                        });
+                    });
+                }
+                Impl.show = function () {
+                    var html = '<div id="" class="advertisement_1587966878999_84 ad" style="position: fixed;top: 50%;left: 50%;margin-left: -250px;margin-top: 19px;"><img border="0" usemap="#1587966878999_84" src="https://img.alicdn.com/imgextra/i2/69942425/O1CN014iLFrV1Tmh3a74dQC_!!69942425.gif" alt="" style="height:230px;width:500px"><map name="1587966878999_84" id="1587966878999_84"><area style="background:rgba(0,0,0,0)" class="close" shape="rect" coords="480,2,499,22"   ><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="41,53,466,216" target="_blank"  data-clickData-points="point=11194.11206.44855.44866&_fm=9114"></map></div>';
+                    $html = $(html);
+                    $("body").append($html); bindListener($html);
+                    Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                        point: '11194.11206.44855.44865',
+                        _fm: '9113'
+                    });
+                };
+                return Impl;
+            };
+            advertisement = new Advertisement();
+            advertisement.show();
+        }())
+</script>
+
+
+
+
+<script type="text/javascript">
+        (function () {
+            var advertisement;
+            var ignore = [""], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            var vip = (Tatami.localcache.get('com.userInfo', 'session') || {}).vip;
+            if (vip != -7) { return; }
+            if (flag) { return; }
+            var Advertisement = function () {
+                function Impl() { }
+                function bindListener(dom) {
+                    dom.on("click", ".close", function () {
+                        dom.remove();
+                    });
+                    dom.on("click", ".feedback", function () {
+                        Tatami.pub("AD.SYS.FEEDBACK", 12607);
+                    });
+                }
+                Impl.show = function () {
+                    var html = '<div id="" class="advertisement_1610960308388_613 ad" style="position: fixed;top: 50%;left: 50%;margin-left: -375px;margin-top: -311px;"><img border="0" usemap="#1610960308388_613" src="https://img.alicdn.com/imgextra/i1/69942425/O1CN01cWi9hp1Tmh7BeU1ZO_!!69942425.png" alt="" style="height:622px;width:750px"><map name="1610960308388_613" id="1610960308388_613"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="286,483,584,561" href="https://c.tb.cn/Y4.d6iTh" target="_blank"  data-clickData-points="point=11194.11720.54184.54185.54187&_fm=10030"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="637,28,673,61"   data-clickData-points="point=11194.11720.54184.54185.54188&_fm=10031"></map></div>';
+                    $html = $(html);
+                    $("body").append($html); bindListener($html);
+                    Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                        point: '11194.11720.54184.54185.54186',
+                        _fm: '10029'
+                    });
+                };
+                return Impl;
+            };
+            advertisement = new Advertisement();
+            advertisement.show();
+        }())
+</script>
+
+
+<script>
+        (function () {
+            var ignore = ['p66'], flag = false;
+            for (var i = 0; i < ignore.length; i++) {
+                if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                return;
+            }
+            var rc = Tatami,
+                rcc = rc.controls;
+            var h = rc.localcache.get('loginUserData', 'session'),
+                taobaoId = h.taobaoId,
+                version,
+                vip,
+                expireDate,
+                nowDateObj = new Date(),
+                daysToExpire,
+                expireDateObj,
+                picSrc,
+                picUrl_7 = {
+                    '2': [  //付费版（基础版、标准版）
+                        'https://img.alicdn.com/imgextra/i4/69942425/O1CN01Xu1yfs1Tmh8QOvAce_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01RYxdDE1Tmh8UmBEKp_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01uR4KEm1Tmh8Sfbko7_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i4/69942425/O1CN01ezLLfl1Tmh8NkHEsE_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i1/69942425/O1CN01kPFr2V1Tmh8QOtcyc_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01p887Wp1Tmh8No1Ny1_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01lbo5aG1Tmh8QOv6TN_!!69942425.png'
+                    ],
+                    '4': [ //专业版
+                        'https://img.alicdn.com/imgextra/i4/69942425/O1CN01Xu1yfs1Tmh8QOvAce_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01RYxdDE1Tmh8UmBEKp_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01uR4KEm1Tmh8Sfbko7_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i4/69942425/O1CN01ezLLfl1Tmh8NkHEsE_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i1/69942425/O1CN01kPFr2V1Tmh8QOtcyc_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01p887Wp1Tmh8No1Ny1_!!69942425.png',
+                        'https://img.alicdn.com/imgextra/i3/69942425/O1CN01lbo5aG1Tmh8QOv6TN_!!69942425.png'
+                    ],
+                },
+                picUrl_8to15 = {
+                    '2': 'https://img.alicdn.com/imgextra/i2/69942425/O1CN01CcBnJC1Tmh8qajfRw_!!69942425.png',//付费版（基础版、标准版）
+                    '4': 'https://img.alicdn.com/imgextra/i1/69942425/O1CN01YDtPxN1Tmh8tFiPaX_!!69942425.png' //专业版
+                },
+                isShowBanner = false,
+                areaHtml;
+
+            rcc.get('control.sellerList').getMethod('getSellerList', function (data) {
+                $.each(data.sellers, function (index, i) {
+                    if (i.taobaoId == taobaoId) {
+                        expireDate = i.expireDate;
+                        vip = i.vip;
+                    }
+                });
+
+                if (expireDate) {
+                    expireDateObj = new Date();
+                    var dateStr = expireDate.split(' ')[0];
+                    var dateStrArr = dateStr.split('-');
+                    var point;
+                    var _fm;
+                    expireDateObj.setFullYear(dateStrArr[0]);
+                    expireDateObj.setMonth(dateStrArr[1] - 1);
+                    expireDateObj.setDate(dateStrArr[2]);
+                    expireDateObj.setHours(0, 0, 0);
+                    daysToExpire = parseInt((expireDateObj.getTime() - nowDateObj.getTime()) / (24 * 3600 * 1000)) + 1;
+                    var isExpire_7 = daysToExpire <= 7 && daysToExpire > 0;
+                    var isExpire_8to15 = daysToExpire > 7;
+                    picUrl = isExpire_8to15 ? picUrl_8to15 : picUrl_7;
+                    if (vip == 1 || vip == 3) {
+                        version = '2'; //付费用户（多店铺）
+                        point = '11194.11720.54184.56751.56753.56756'
+                        _fm = '10248';
+                        picSrc = isExpire_8to15 ? picUrl[version] : picUrl[version][daysToExpire - 1];
+                        areaHtml = '<div id="51Adv" class="advertisement" style="width:100%;height:60px;">'
+                            + '<img border="0" usemap="#planetmap1" src="'
+                            + picSrc
+                            + '" alt="" style="height:60px;width:100%;">'
+                            + '<map name="planetmap1" id="planetmap1"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="0,4,1910,58" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_210423111455%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1006941991%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=8BC120FD4F39BC6ED20CFD011A752382&spm=a313p.266.15n3x5.1263898559986&short_name=Y4.esNDY&app=chrome" target="_blank"  data-clickData-points="point=11194.11720.54184.56751.56753.56757&_fm=10249"></map></div>';
+
+                        if (daysToExpire <= 15) {
+                            isShowBanner = true;
+                        }
+                    } else if (vip == 5) {
+                        version = '4'; //专业版多店铺
+                        point = '11194.11720.54184.56751.56752.56754';
+                        _fm = '10246';
+                        picSrc = isExpire_8to15 ? picUrl[version] : picUrl[version][daysToExpire - 1];
+                        areaHtml = '<div id="51Adv" class="advertisement" style="width:100%;height:60px;">'
+                            + '<img border="0" usemap="#planetmap1" src="'
+                            + picSrc
+                            + '" alt="" style="height:60px;width:100%;">'
+                            + '<map name="planetmap1" id="planetmap1"><area style="background:rgba(0,0,0,0)" class="close J-clickPoint feedback" shape="rect" coords="0,4,1910,58" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_210423111455%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1006941993%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=438B5678DF439A0674AB27751B1C815D&spm=a313p.266.15n3x5.1262915466873&short_name=Y4.esKYP&app=chrome" target="_blank"  data-clickData-points="point=11194.11720.54184.56751.56752.56755&_fm=10247"></map></div>';
+
+                        if (daysToExpire <= 15) {
+                            isShowBanner = true;
+                        }
+                    }
+
+                    if (daysToExpire <= 0) {
+                        isShowBanner = false;
+                    }
+
+                    if (!isShowBanner) {
+                        return;
+                    }
+
+                    var Advertisement = function () {
+                        function Impl() { }
+                        function bindListener(dom) {
+                            dom.on("click", ".close", function () {
+                                dom.remove();
+                            });
+                        }
+                        Impl.show = function () {
+                            $html = $(areaHtml); console.log('new!');
+                            if ($("#J_app-main-page #51Adv").length) {
+                                return;
+                            }
+                            $("#J_app-main-page").prepend($html); bindListener($html);
+
+                            if (point) {
+                                Tatami.pub('Tatami.clickPoint.manualTrigger', {
+                                    point,
+                                    _fm
+                                });
+                            }
+
+                        };
+                        return Impl;
+                    };
+                    advertisement = new Advertisement();
+                    advertisement.show();
+                }
+            });
+        }());
+</script>
+
+
+<script>
+    (function () {
+        var ignore = ['p66'], flag = false;
+        for (var i = 0; i < ignore.length; i++) {
+            if ($.trim(ignore[i]) && window.location.host.indexOf($.trim(ignore[i])) > -1) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            return;
+        }
+        var rc = Tatami,
+            rcc = rc.controls;
+        var h = rc.localcache.get('loginUserData', 'session'),
+            taobaoId = h.taobaoId,
+            version,
+            vip,
+            expireDate,
+            nowDateObj = new Date(),
+            daysToExpire,
+            expireDateObj,
+            picUrl_7 = {
+                '1': [  //试用免费
+                    'https://img.alicdn.com/imgextra/i1/69942425/O1CN01rgMtgj1Tmh7Q3fO72_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01J9AUqj1Tmh7IPbFIZ_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01DtjW8N1Tmh7NJoXkC_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01zCW5UV1Tmh7O35uDa_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i2/69942425/O1CN01LO4wK91Tmh7LxKVS5_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i1/69942425/O1CN01hPnMjG1Tmh7MD4iKX_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN015tuQv61Tmh7LxIYqQ_!!69942425.png'
+                ],
+                '2': [  //付费（多店铺）
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01GfkXnX1Tmh7KojLCy_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN012dDU4g1Tmh7J1ICIP_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN016ZLqJg1Tmh7RT0Jxm_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i2/69942425/O1CN01zODRCK1Tmh7H9Lubq_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN015Em3e51Tmh7Q3dNPo_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i1/69942425/O1CN01h930GR1Tmh7J1K0ZM_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01TfKhVM1Tmh7QwmOlQ_!!69942425.png'
+                ],
+                '3': [  //付费（单店铺）
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01GfkXnX1Tmh7KojLCy_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN012dDU4g1Tmh7J1ICIP_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN016ZLqJg1Tmh7RT0Jxm_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i2/69942425/O1CN01zODRCK1Tmh7H9Lubq_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN015Em3e51Tmh7Q3dNPo_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i1/69942425/O1CN01h930GR1Tmh7J1K0ZM_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01TfKhVM1Tmh7QwmOlQ_!!69942425.png'
+                ],
+                '4': [ //专业版（多店铺）
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN012QfDwn1Tmh7NkIjMG_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i2/69942425/O1CN01UUUgHP1Tmh7M8V0zu_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01Ihh0sM1Tmh7EpyeHg_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01dHyXOE1Tmh7OdvQkk_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01Bi86Fj1Tmh7OdwIl4_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01NxJ7Jv1Tmh7G6XvCe_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN0146iUq71Tmh7NkIfDk_!!69942425.png'
+                ],
+                '5': [ //专业版（单店铺）
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01hkvIeU1Tmh7P8jTO9_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i1/69942425/O1CN01QUIlFV1Tmh7Lk16ON_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01CKAvOG1Tmh7IwKjXw_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i3/69942425/O1CN01QbTPUu1Tmh7JtBhHb_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01yiCXOb1Tmh7IwLCgV_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i2/69942425/O1CN01eWMR7P1Tmh7JtBUpT_!!69942425.png',
+                    'https://img.alicdn.com/imgextra/i4/69942425/O1CN01J1ULEz1Tmh7IhPsqV_!!69942425.png'
+                ]
+            },
+            picUrl_8to15 = {
+                '1': 'https://img.alicdn.com/imgextra/i3/69942425/O1CN01nXYqxh1Tmh8u9D7a3_!!69942425.png', //试用免费
+                '2': 'https://img.alicdn.com/imgextra/i3/69942425/O1CN01vLUZ701Tmh8xq1yWd_!!69942425.png', //付费（多店铺）
+                '3': 'https://img.alicdn.com/imgextra/i3/69942425/O1CN01vLUZ701Tmh8xq1yWd_!!69942425.png', //付费（单店铺）
+                '4': 'https://img.alicdn.com/imgextra/i2/69942425/O1CN01IRMKq81Tmh8u9DvW3_!!69942425.png', //专业版（多店铺）
+                '5': 'https://img.alicdn.com/imgextra/i1/69942425/O1CN01FIcQ6U1Tmh8ocI6XM_!!69942425.png', //专业版（单店铺）
+            },
+            bgUrl,
+            isShowDialog = false,
+            areaHtml;
+
+        rcc.get('control.sellerList').getMethod('getSellerList', function (data) {
+            $.each(data.sellers, function (index, i) {
+                if (i.taobaoId == taobaoId) {
+                    expireDate = i.expireDate;
+                    vip = i.vip;
+                }
+            });
+
+            if (expireDate) {
+                expireDateObj = new Date();
+                var dateStr = expireDate.split(' ')[0];
+                var dateStrArr = dateStr.split('-');
+                expireDateObj.setFullYear(dateStrArr[0]);
+                expireDateObj.setMonth(dateStrArr[1] - 1);
+                expireDateObj.setDate(dateStrArr[2]);
+                expireDateObj.setHours(0, 0, 0);
+                daysToExpire = parseInt((expireDateObj.getTime() - nowDateObj.getTime()) / (24 * 3600 * 1000)) + 1;
+                var isExpire_7 = daysToExpire <= 7 && daysToExpire > 0;
+                var isExpire_8to15 = daysToExpire > 7;
+                var picUrl = isExpire_8to15 ? picUrl_8to15 : picUrl_7;
+
+                if (vip == -1 || vip == -3 || vip == -7) {
+                    version = '1'; //试用用户
+                    areaHtml = [
+                        //'<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50784.50787&_fm=9743" shape="rect" coords="12,291,158,409" href="https://tb.cn/PTHD0Pw" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50784.50788&_fm=9744" shape="rect" coords="55,200,215,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030355%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721453%5D&subParams=cycleNum%3A3%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=C37FC6D4F8B6796EFB8724FB8D105A01" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50784.50789&_fm=9745" shape="rect" coords="225,200,390,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030355%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721453%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=5B3EFA13BCF314F38F1B52C8090F5904&spm=a313p.266.15n3x5.1236751833728&short_name=Y4.WeeEG&app=chrome" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50784.50790&_fm=9746" shape="rect" coords="400,200,565,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030355%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721453%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=3BA2D87FB50907B57B75EAE46F48A399" target="_blank"></area>',
+                    ].join('');
+                    if (daysToExpire < 15) {
+                        isShowDialog = true;
+                    }
+                } else if ((vip == 1 || vip == 3) && data.sellers.length > 1) {
+                    version = '2'; //付费用户（多店铺）
+                    areaHtml = [
+                        //'<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50792.50799&_fm=9749" shape="rect" coords="12,294,156,421" href="https://tb.cn/fQwBtOw" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50792.50800&_fm=9750" shape="rect" coords="55,200,215,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030703%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721454%5D&subParams=cycleNum%3A3%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=3CC27E8EBA92D7855BFF1C79417EA682" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50792.50801&_fm=9751" shape="rect" coords="225,200,390,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030703%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721454%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=EEA70D57F297C637F647558B37BFD643" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50792.50802&_fm=9752" shape="rect" coords="400,200,565,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424030703%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721454%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=8C4B2C1BB109BB887E56E32BFABE2234" target="_blank"></area>',
+                    ].join('');
+                    if (daysToExpire <= 15) {
+                        isShowDialog = true;
+                    }
+                } else if ((vip == 1 || vip == 3) && data.sellers.length == 1) {
+                    version = '3'; //付费用户（单店铺）
+                    areaHtml = [
+                        //'<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50791.50795&_fm=9753" shape="rect" coords="7,334,163,473" href="https://c.tb.cn/Y4.diVPY" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50791.50796&_fm=9754" shape="rect" coords="55,200,215,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424031011%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721455%5D&subParams=cycleNum%3A3%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=55AD994D3BC5799666C4182FBEF35D67&spm=a313p.266.15n3x5.1229607936468&short_name=Y4.d84fB&app=chrome" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50791.50797&_fm=9755" shape="rect" coords="225,200,390,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424031011%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721455%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=C2C642914EE38EDB47B8D94E7D44879B&spm=a313p.266.15n3x5.1231675591037&short_name=Y4.d9lNp&app=chrome" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50785.50791.50798&_fm=9756" shape="rect" coords="400,200,565,390" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_180424031011%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1002721455%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-1&sign=2CFB8B99629303F34A3F7F50FAA61EED&spm=a313p.266.15n3x5.1229608335354&short_name=Y4.dN3n4&app=chrome" target="_blank"></area>',
+                    ].join('');
+                    if (daysToExpire <= 15) {
+                        isShowDialog = true;
+                    }
+                } else if (vip == 5 && data.sellers.length > 1) {
+                    version = '4'; //专业版多店铺
+                    areaHtml = [
+                        //'<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50794.50807&_fm=9761" shape="rect" coords="27,314,182,485" href="https://c.tb.cn/Y4.d9ynd" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50794.50808&_fm=9762" shape="rect" coords="50,320,205,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_200922150204%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1006130584%5D&subParams=cycleNum%3A3%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=95F625DC2291B5E4824D12CBA651C709&spm=a313p.266.15n3x5.1229609819426&short_name=Y4.dQULK&app=chrome" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50794.50809&_fm=9763" shape="rect" coords="220,320,395,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_200922150204%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1006130584%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=7E19E570596CDAD08E898A36E9501684&spm=a313p.266.15n3x5.1231676876212&short_name=Y4.dNcRR&app=chrome" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50794.50810&_fm=9764" shape="rect" coords="410,320,585,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_200922150204%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1006130584%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=6357E22EDF4EE37E16E321BCCA95AA8B&spm=a313p.266.15n3x5.1231678111588&short_name=Y4.diVPs&app=chrome" target="_blank"></area>',
+                    ].join('');
+                    if (daysToExpire <= 15) {
+                        isShowDialog = true;
+                    }
+                } else if (vip == 5 && data.sellers.length == 1) {
+                    version = '5'; //专业版单店铺
+                    areaHtml = [
+                        //'<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50793.50803&_fm=9757" shape="rect" coords="16,370,184,511" href="https://tb.cn/XyiP5Ew" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50793.50804&_fm=9758" shape="rect" coords="50,320,205,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_190320113905%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1003934299%5D&subParams=cycleNum%3A3%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=400A23C5A065CEACB5B80EE5E4302359" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50793.50805&_fm=9759" shape="rect" coords="220,320,395,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_190320113905%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1003934299%5D&subParams=cycleNum%3A6%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=FA749EA6CC69E51D83D28AB4504FA9F5" target="_blank"></area>',
+                        '<area style="background:rgba(0,0,0,0)" class="delIcon J-clickPoint" data-clickData-points="point=11194.11720.50782.50786.50793.50806&_fm=9760" shape="rect" coords="410,320,585,510" href="https://fuwu.taobao.com/ser/confirmOrder1.htm?commonParams=activityCode%3AACT_69942425_190320113905%3BagentId%3Afuwu.taobao.com%7Cmarketing-Order-0%3BmarketKey%3AFWSPP_MARKETING_URL%3BpromIds%3A%5B1003934299%5D&subParams=cycleNum%3A12%2CcycleUnit%3A2%2CitemCode%3Aservice-0-22954-v3&sign=30E2E7D18B94B88D1ADF2D163DE59690" target="_blank"></area>',
+                    ].join('');
+                    if (daysToExpire <= 15) {
+                        isShowDialog = true;
+                    }
+                }
+
+                if (daysToExpire <= 0) {
+                    isShowDialog = false;
+                }
+
+                bgUrl = isExpire_8to15 ? picUrl[version] : picUrl[version][daysToExpire - 1];
+                if (isShowDialog) {
+                    var $d = rcc.get('control.dialog').getMethod('showDialogNoStyle', {
+                        width: 730,
+                        height: 395,
+                        content: [
+                            '<div style="position:relative;">',
+                            '<img src="' + bgUrl + '" border="0" usemap="#renewDlg" />',
+                            '<map name="renewDlg" id="renewDlg">',
+                            areaHtml,
+                            '<area style="background:rgba(0,0,0,0);cursor: pointer" class="delIcon" shape="rect" coords="570,10,600,66"   ></area>',
+                            '</map>',
+                            '</div>'
+                        ].join(''),
+                        shown: function ($d) {
+                            rc.pub('Tatami.clickPoint.manualTrigger', {
+                                point: '11194.11720.50782.50783',
+                                _fm: '9774'
+                            });
+                            rc.pub('AD.SYS.FEEDBACK', '10773');
+                            $d.find('.delIcon').on('click', function () {
+                                $d.remove();
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }());
+</script>

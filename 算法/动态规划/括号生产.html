@@ -1,0 +1,24 @@
+
+<script>
+    var generateParenthesis = function(n) {
+        var arr = []
+        var handleFunc = function(leftNum, rightNum, str = '') {
+            if (str.length == n * 2) {
+                arr.push(str);
+                return;
+            }
+            if (leftNum > 0) {
+                let newLeftNum = leftNum - 1
+                handleFunc(newLeftNum, rightNum, str + '(');
+            }
+            if (rightNum > leftNum) {
+                let newRightNum = rightNum - 1
+                handleFunc(leftNum, newRightNum, str + ')');
+            }
+        }
+        handleFunc(n, n)
+        console.log(arr)
+        return arr;
+    };
+    generateParenthesis(3)
+</script>

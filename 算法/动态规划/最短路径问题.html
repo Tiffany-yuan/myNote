@@ -1,0 +1,47 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-12 15:34:13
+ * @LastEditTime: 2021-09-12 15:38:47
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /test/算法/动态规划/最短路径问题.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+var minimumTotal = function(triangle) {
+    // 用一个数组记住上一行的最短路径，初始化时为第一个
+    var pathTotalArr = triangle[0]
+    let length = triangle.length;
+    let i = 1;
+    var curArr;
+    while(i < length) {
+        var newPathTotalArr = [];
+        curArr = triangle[i];
+        var curLength = curArr.length;
+        // 特殊处理，该行第一个或者最后一个元素，直接求最短路径
+        curArr.forEach((num, index) => {
+            if (index === 0) {
+                newPathTotalArr.push(pathTotalArr[index] + num)
+            } else if (index === curLength - 1) {
+                newPathTotalArr.push(pathTotalArr[index - 1] + num)
+            } else {
+                newPathTotalArr.push(Math.min(pathTotalArr[index - 1] + num, pathTotalArr[index] + num))
+            }
+        })
+        pathTotalArr = newPathTotalArr;
+        i++;
+    }
+    return Math.min(...pathTotalArr)
+};
+minimumTotal([[2],[3,4],[6,5,7],[4,1,8,3]])
+</script>
+</html>
