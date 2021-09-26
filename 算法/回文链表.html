@@ -1,0 +1,60 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-14 10:55:53
+ * @LastEditTime: 2021-09-14 11:28:12
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/回文链表.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // var isPalindrome = function(head) {
+    //     // 定义一个数组用来存放这个链表的所有值
+    //     var list = []
+    //     while(head !== null) {
+    //         list.push(head.val)
+    //         head = head.next
+    //     }
+    //     for (var i = 0, j = list.length-1; i < j; i++, j--) {
+    //         if (list[i] !== list[j]) {
+    //             return false
+    //         }
+    //     }
+    //     return true
+// };
+    var isPalindrome = function(head) {
+        // 双指针，快慢指针
+        var slowNode = head;
+        var fastNode = head;
+        var leftArr = [head.val];
+        var rightArr = [];
+        while(fastNode.next !== null && fastNode.next.next !== null) {
+            slowNode = slowNode.next
+            fastNode = fastNode.next.next
+            leftArr.push(slowNode.val)
+        }
+        if (fastNode.next !== null) {
+            fastNode = fastNode.next
+            slowNode = slowNode.next
+        }
+        rightArr = [slowNode.val]
+        while(slowNode.next !== null) {
+            slowNode = slowNode.next
+            rightArr.unshift(slowNode.val)
+        }
+        if (leftArr.join('') == rightArr.join('')) {
+            return true
+        }
+        return false
+    };
+</script>
+</html>

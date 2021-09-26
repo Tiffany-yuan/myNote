@@ -1,0 +1,109 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-20 22:30:03
+ * @LastEditTime: 2021-09-21 21:45:00
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/倒水问题.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    function pourWarterCount(n1, n2, target) {
+        var count = 0;
+        var pourLogs = [];  // 二维数组存储走过的记录，避免重复
+        var max = Math.max(n1, n2);
+        for(var x=0; x<max; x++){
+            pourLogs[x]=new Array();
+            for(var y=0;y<max;y++){
+                pourLogs[x][y]=0;          //数组初始化为0
+            }
+        }
+        var arr = [];
+        arr.push([0,0]);
+        pourLogs[0][0] = 1;
+        function isInLogs(num1, num2) {
+            if (pourLogs[num1][num2] === 1) {
+                return true
+            }
+            return false
+        }
+        function countLog(curN1, curN2) {
+            if (curN1 === target || curN2 === target) {
+                count++
+            } else if(!isInLogs(curN1, curN2)){
+                pourLogs[curN1][curN2] = 1;
+                arr.push([curN1, curN2]);
+            }
+        }
+        function pour1(curN1, curN2){
+            curN1 = n1;
+            countLog(curN1, curN2)
+        }
+        function pour2(curN1, curN2){
+            curN1 = 0;
+            countLog(curN1, curN2);
+        }
+        function pour3(curN1, curN2){
+            if (curN2 + curN1 > n2) {
+                curN1 = curN1-(n2 - curN2)
+                curN2 = n2
+            } else {
+                curN2 += curN1 
+                curN1 = 0
+            }
+            countLog(curN1, curN2);
+        }
+        function pour4(curN1, curN2){
+            curN2 = n2;
+            countLog(curN1, curN2)
+        }
+        function pour5(curN1, curN2){
+            curN2 = 0;
+            countLog(curN1, curN2);
+        }
+        function pour6(curN1, curN2){
+            if (curN2 + curN1 > n1) {
+                curN2 = curN2-(n1 - curN1)
+                curN1 = n1
+            } else {
+                curN1 += curN2
+                curN2 = 0
+            }
+            countLog(curN1, curN2);
+        }
+
+        // 判断有没有走过
+        while(arr.length) {
+            var cur = arr.shift();
+            var curN1 = cur[0];
+            var curN2 = cur[1];
+            // 六种倒水情况，1倒入，1倒出，1倒到2，2倒入，2倒出，2倒到1
+            // 1倒入
+            pour1(curN1, curN2)
+            // 1倒出
+            pour2(curN1, curN2)
+            // 1倒到2
+            pour3(curN1, curN2)
+            // 2倒入
+            pour4(curN1, curN2)
+            // 2倒出
+            pour5(curN1, curN2)
+            // 2倒到1
+            pour6(curN1, curN2)
+        }
+        console.log(count);
+        return count;
+    }
+    pourWarterCount(3,5,4)
+</script>
+</html>
