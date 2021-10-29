@@ -1,0 +1,40 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-22 16:54:51
+ * @LastEditTime: 2021-10-22 17:03:17
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/哈希表/快乐数.html
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var isHappy = function(n) {
+        // 用一个map来存出现过的数
+        var map = new Set();
+        var totalCount;
+        while(totalCount !== 1) {
+            var arr = (''+(totalCount || n)).split('');
+            totalCount = arr.reduce((total, num) => {
+                return total + num * num
+            }, 0)
+            if (map.has(totalCount)) {
+                return false;
+            } else {
+                map.add(totalCount)
+            }
+        }
+        return true;
+    };
+    isHappy(19)
+</script>
+</html>

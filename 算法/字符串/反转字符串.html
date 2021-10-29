@@ -1,0 +1,33 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-29 15:45:59
+ * @LastEditTime: 2021-10-29 15:53:07
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/字符串/反转字符串.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var reverseString = function(s) {
+        // 双指针
+        var l = 0;
+        var r = s.length - 1;
+        while(l < r) {
+            var temp = s[l];
+            s[l++] = s[r];
+            s[r--] = temp;
+        }
+        return s.join('');
+    };
+    reverseString(["h","e","l","l","o"]);
+</script>
+</html>

@@ -1,0 +1,40 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-20 17:23:35
+ * @LastEditTime: 2021-10-20 17:27:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/算法中的字符串/有效的字母异位词.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function(s, t) {
+    if (s.length !== t.length) return false;
+    var arr = new Array(26).fill(0);
+    const base = 'a'.charCodeAt();
+    for (const key of s) {
+        arr[key.charCodeAt() - base]++;
+    }
+    for (const key of t) {
+        if (!arr[key.charCodeAt() - base]) return false;
+        arr[key.charCodeAt() - base]--;
+    }
+    return true;
+};
+isAnagram("anagram", "nagaram")
+</script>
+</html>
