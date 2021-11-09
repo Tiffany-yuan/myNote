@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var maxSlidingWindow = function(nums, k) {
+        // 单调队列
+        var ansStack = [];
+        var indexArr = [];
+        // * 栈头、栈尾都可出，只有栈尾可进！！！
+        for (var i = 0; i < nums.length; i++) {
+            // 判断当前进入窗口的元素 是否大于等于 所存储栈中最后一个元素，如果大于等于，最后一个元素出栈。注意这里是while，可覆盖多个
+            while (indexArr.length > 0 && nums[i] >= nums[indexArr[indexArr.length - 1]]) {
+                indexArr.pop();
+            }
+            // 存储栈中加入元素下标位置
+            indexArr.push(i);
+            // 判断存储栈中第一个元素是否还在滑动窗口范围内
+            if (indexArr[0] < i - k + 1) {
+                indexArr.shift();
+            }
+            if (i + 1 >= k) ansStack.push(nums[indexArr[0]]);
+        }
+        return ansStack;
+        // 此写法超时，啊啊啊啊啊啊啊好难过，可太难了！！！
+        // var stack = [];
+        // var len = nums.length;
+        // if(k === 1) return nums;
+        // for (var r = k, l = 0; r <= len; r++, l++) {
+        //     var curArr = nums.slice(l, r);
+        //     stack.push(Math.max(...curArr));
+        // }
+        // return stack;
+    };
+    maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3);
+</script>
+</html>

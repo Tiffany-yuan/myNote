@@ -176,4 +176,49 @@ substr: startIndex 为负数时是从倒数第几个元素开始取； length �
 substring: 任何一个参数小于 0 或者为 NaN，则被当作 0。如果 startIndex 大于 endIndex，substring 的执行效果就像两个参数调换了一样。
 
 
+## 集合引用类型
+
+### Object
+
+### Array
+Array 构造函数还有两个 ES6 新增的用于创建数组的静态方法: `from()`和`of()`。`from()`用于将类数组结构转换为数组实例，而`of()`用于将一组参数转换为数组实例。
+#### Array.from()
+```javascript
+console.log(Array.from("Matt")); // ["M", "a", "t", "t"]
+
+const m = new Map().set(1, 2).set(3, 4);
+const s = new Set().add(1).add(2).add(3).add(4);
+console.log(Array.from(m)); // [[1, 2], [3, 4]]
+console.log(Array.from(s)); // [1, 2, 3, 4]
+
+// Array.from()对现有数组执行浅复制
+const a1 = [1, 2, 3, 4];
+const a2 = Array.from(a1);
+
+// 可以使用任何可迭代对象 
+const iter = {
+  *[Symbol.iterator]() {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+  }
+};
+console.log(Array.from(iter)); // [1, 2, 3, 4]
+```
+**Array.from()还接收第二个可选的映射函数参数；还可以接受第三个参数，用于指定映射函数中this的值，但这个重写的this值在箭头函数中不适用。**
+```javascript
+const a1 = [1, 2, 3, 4];
+const a2 = Array.from(a1, x => x**2);
+const a3 = Array.from(a1, function(x) {return x**this.exponent}, {exponent: 2});
+console.log(a2); // [1, 4, 9, 16]
+console.log(a3); // [1, 4, 9, 16]
+```
+
+**Array.of()可以把一组参数转换为数组。**
+```javascript
+console.log(Array.of(1, 2, 3, 4)); // [1, 2, 3, 4]
+```
+
+
 

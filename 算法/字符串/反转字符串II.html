@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 16:04:27
- * @LastEditTime: 2021-10-29 16:43:46
+ * @LastEditTime: 2021-11-03 17:57:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /myNote/算法/字符串/反转字符串II.html
@@ -25,25 +25,25 @@
         输入: s = "abcdefg", k = 2
         输出: "bacdfeg"
     */
-    // var reverseStr = function(s, k) {
-    //     var sArr = s.split('');
-    //     var length = sArr.length;
-    //     for (var i = 0; i < length; i += 2*k) {
-    //         var l = i;
-    //         var r = i + k > length ? length - 1 : i + k - 1;
-    //         while(l < r) {
-    //             [sArr[l++], sArr[r--]] = [sArr[r], sArr[l]];
-    //         }
-    //     }
-    //     return sArr.join('');
-    // };
     var reverseStr = function(s, k) {
-        var str = '';
-        for (var i = 0; i < s.length; i += 2*k) {
-            str += s.slice(i, i + k).split('').reverse().join('') + s.slice(i + k, i + 2 * k);
+        var sArr = s.split('');
+        var length = sArr.length;
+        for (var i = 0; i < length; i += 2*k) {
+            var l = i;
+            var r = i + k > length ? length - 1 : i + k - 1;
+            while(l < r) {
+                [sArr[l++], sArr[r--]] = [sArr[r], sArr[l]];
+            }
         }
-        return str;
+        return sArr.join('');
     };
+    // var reverseStr = function(s, k) {
+    //     var str = '';
+    //     for (var i = 0; i < s.length; i += 2*k) {
+    //         str += s.slice(i, i + k).split('').reverse().join('') + s.slice(i + k, i + 2 * k);
+    //     }
+    //     return str;
+    // };
     reverseStr("abcdefg", 2);
 </script>
 </html>
