@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number[]}
+     */
+    // 递归
+    // var inorderTraversal = function(root) {
+    //     var arr = [];
+    //     var func = node => {
+    //         if(node === null) return;
+    //         func(node.left);
+    //         arr.push(node.val);
+    //         func(node.right);
+    //     }
+    //     func(root);
+    //     return arr;
+    // };
+
+    // 迭代
+    var inorderTraversal = function(root) {
+        var res = [];
+        var nodeArr = [];
+        while(root || nodeArr.length) {
+            if (root) {
+                nodeArr.push(root);
+                root = root.left;
+            } else {
+                var curNode = nodeArr.pop();
+                res.push(curNode.val);
+                if (curNode.right) root = curNode.right;
+            }
+        }
+        return res;
+    };
+
+    var node3 = { val: 3, left: null, right: null };
+    var node4 = { val: 4, left: null, right: null };
+    var node5 = { val: 5, left: null, right: null };
+    var node1 = { val: 1, left: node3, right: null };
+    var node2 = { val: 2, left: node5, right: node4 };
+    var root = { val: 0, left: node1, right: node2 };
+    inorderTraversal(root);
+</script>
+</html>

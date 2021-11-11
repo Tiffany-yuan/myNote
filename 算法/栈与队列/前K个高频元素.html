@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[]} nums
+     * @param {number} k
+     * @return {number[]}
+     */
+    // 应该用优先级队列（大顶堆、小顶堆）做，但是似乎写不出来，先用另一种方式处理
+    var topKFrequent = function(nums, k) {
+        var map = new Map();
+        var set = [...new Set(nums)];
+        for (var i = 0; i < nums.length; i++) {
+            const val = nums[i];
+            map.set(val, map.has(val) ? map.get(val) + 1 : 1);
+        }
+        return set.sort((a, b) => map.get(b) - map.get(a)).slice(0, k);
+    };
+    topKFrequent([3,0,1,0], 1)
+</script>
+</html>

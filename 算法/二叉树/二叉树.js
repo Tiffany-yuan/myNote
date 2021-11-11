@@ -24,16 +24,24 @@ var preOrderTraverSal = root => {
     // console.log(root.data)
     // root.left && preOrderTraverSal(root.left)
     // root.right && preOrderTraverSal(root.right)
-
-    // 非递归
-    var arr = []
-    arr.push(root)
-    while (arr.length) {
-        const currentNode = arr.pop()
-        console.log(currentNode.data);
-        currentNode.right && arr.push(currentNode.right)
-        currentNode.left && arr.push(currentNode.left)
+    var arr = [];
+    var func = (node) => {
+        if (node === null) return;
+        arr.push(node.val);
+        func(node.left);
+        func(node.right);
     }
+    func(root);
+    return arr;
+    // // 非递归
+    // var arr = []
+    // arr.push(root)
+    // while (arr.length) {
+    //     const currentNode = arr.pop()
+    //     console.log(currentNode.data);
+    //     currentNode.right && arr.push(currentNode.right)
+    //     currentNode.left && arr.push(currentNode.left)
+    // }
 }
 // 二叉树的后序遍历
 var postOrderTraverSal = root => {
@@ -92,8 +100,8 @@ var node2 = { data: 3, left: null, right: node4 };
 var root = { data: 4, left: node1, right: node2 };
 // midOrderTraverSal(root);
 // console.log('--------------------');
-// preOrderTraverSal(root);
+preOrderTraverSal(root);
 // console.log('--------------------');
-postOrderTraverSal(root);
+// postOrderTraverSal(root);
 // console.log('--------------------');
 // levelOrderTraverSal(root)

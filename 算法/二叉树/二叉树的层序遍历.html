@@ -1,0 +1,205 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var levelOrder = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            var curRes = [];
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                curRes.push(node.val);
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            res.push(curRes)
+        }
+        return res;
+    };
+
+    // 二叉树的层次遍历 II
+    var levelOrderBottom = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            var curRes = [];
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                curRes.push(node.val);
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            res.push(curRes)
+        }
+        return res.reverse();
+    };
+
+    // 二叉树的右视图
+    var rightSideView = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                if(i === length - 1) res.push(node.val);
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+        }
+        return res;
+    };
+
+    // 二叉树的层平均值
+    var averageOfLevels = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            let length = nodeArr.length;
+            var total = 0;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                total += node.val;
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            res.push(total / length);
+        }
+        return res;
+    };
+
+    // N 叉树的层序遍历
+    var levelOrder = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            var curRes = [];
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                curRes.push(node.val);
+                node.children.forEach(item => {
+                    if (item) nodeArr.push(item);
+                })
+            }
+            res.push(curRes)
+        }
+        return res;
+    };
+
+    // 在每个树行中找最大值
+    var largestValues = function(root) {
+        var nodeArr = [root];
+        var res = [];
+        if (root === null) return res;
+        while(nodeArr.length) {
+            var curRes = [];
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                curRes.push(node.val);
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            res.push(Math.max(...curRes));
+        }
+        return res;
+    };
+
+    // 填充每个节点的下一个右侧节点指针
+    var connect = function(root) {
+        var nodeArr = [root];
+        if (root === null) return root;
+        while(nodeArr.length) {
+            let length = nodeArr.length;
+            var prevNode = null;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                // 每层最后一个节点指向null
+                if (prevNode === null) {
+                    prevNode = node;
+                } else {
+                    prevNode.next = node;
+                    prevNode = node;
+                    node.next = null;
+                }
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+        }
+        return root;
+    };
+
+    // 填充每个节点的下一个右侧节点指针 II  同上
+
+    // 二叉树的最大深度
+    var maxDepth = function(root) {
+        if (root === null) return 0;
+        var nodeArr = [root];
+        var deps = 0;
+        while(nodeArr.length) {
+            let length = nodeArr.length;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            deps++;
+        }
+        return deps;
+    };
+
+    // 二叉树的最小深度
+    var minDepth = function(root) {
+        if (root === null) return 0;
+        var nodeArr = [root];
+        var deps = 0;
+        while(nodeArr.length) {
+            let length = nodeArr.length;
+            deps++;
+            for (var i = 0; i < length; i++) {
+                var node = nodeArr.shift();
+                if (node.left === null && node.right === null) return deps;
+                if (node.left) nodeArr.push(node.left);
+                if (node.right) nodeArr.push(node.right);
+            }
+            
+        }
+        return deps;
+    };
+
+
+    var node3 = { val: 3, left: null, right: null };
+    var node6 = { val: 6, left: null, right: null };
+    var node4 = { val: 4, left: node6, right: null };
+    var node5 = { val: 5, left: null, right: null };
+    var node1 = { val: 1, left: node3, right: null };
+    var node2 = { val: 2, left: node5, right: node4 };
+    var root = { val: 0, left: node1, right: node2 };
+    // levelOrder(root);
+    // levelOrderBottom(root);
+    // rightSideView(root);
+    // averageOfLevels(root);
+    // levelOrder(root);
+    // largestValues(root);
+    // connect(root);
+    // maxDepth(root);
+    minDepth(root);
+
+</script>
+</html>
