@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @param {TreeNode} subRoot
+     * @return {boolean}
+     */
+    var isSubtree = function(root, subRoot) {
+        const compareNode = (left, right) => {
+            if (left === null && right === null) return true;
+            if (left === null && right !== null || left !== null && right === null) return false;
+            if (left.val !== right.val) return false;
+            var outerSame = compareNode(left.left, right.left);
+            var innerSame = compareNode(left.right, right.right);
+            return outerSame && innerSame;
+        }
+        let nodeList = [root];
+        while(nodeList.length) {
+            let curNode = nodeList.shift();
+            if (compareNode(curNode, subRoot)) {
+                return true;
+            } else {
+                curNode.left && nodeList.push(curNode.left);
+                curNode.right && nodeList.push(curNode.right);
+            }
+        }
+        return false;
+    };
+
+    var node4 = { val: 2, left: null, right: null };
+    var node3 = { val: 1, left: null, right: null };
+    var node2 = { val: 5, left: node5, right: node6 };
+    var node1 = { val: 4, left: node3, right: node4 };
+    var root = { val: 3, left: node1, right: node2 };
+
+    var node6 = { val: 2, left: null, right: null };
+    var node5 = { val: 1, left: null, right: null };
+    var root2 = { val: 4, left: node5, right: node6 };
+
+    isSubtree(root, root2);
+</script>
+</html>

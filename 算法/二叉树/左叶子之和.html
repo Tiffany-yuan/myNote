@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number}
+     */
+     var sumOfLeftLeaves = function(root) {
+        if (root === null) return 0;
+        var nodeArr = [root];
+        var leftTotal = 0;
+        while(nodeArr.length) {
+            var curNode = nodeArr.shift();
+            // 是左叶子
+            if (curNode.left && curNode.left.left === null && curNode.left.right === null) {
+                leftTotal += curNode.left.val;
+            } else if (curNode.left) {
+                nodeArr.push(curNode.left);
+            }
+            curNode.right && nodeArr.push(curNode.right);
+        }
+        return leftTotal;
+    };
+
+    var node4 = { val: -1, left: null, right: null };
+    var node3 = { val: -7, left: node4, right: null };
+    var node2 = { val: 0, left: node3, right: null };
+    var node1 = { val: 2, left: node2, right: null };
+    var root = { val: 9, left: null, right: node1 };
+
+    sumOfLeftLeaves(root);
+</script>
+</html>

@@ -16,6 +16,7 @@
         // 先根据needle构建next数组
         var j = 0;
         var next = [0];
+        // i代表后缀末尾，j代表前缀末尾
         for(var i = 1; i < needle.length; i++) {
             while(j > 0 && needleArr[j] !== needleArr[i]) j = next[j - 1];
             if (needleArr[j] === needleArr[i]) j++;

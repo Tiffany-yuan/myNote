@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+    * Definition for a binary tree node.
+    * function TreeNode(val, left, right) {
+    *     this.val = (val===undefined ? 0 : val)
+    *     this.left = (left===undefined ? null : left)
+    *     this.right = (right===undefined ? null : right)
+    * }
+    */
+    /**
+    * @param {TreeNode} root
+    * @return {boolean}
+    */
+    var isBalanced = function(root) {
+        if (root === null) return true;
+        const treeHeight = (node) => {
+            if(node === null) return 0;
+            const leftHeight = treeHeight(node.left);
+            const rightHeight = treeHeight(node.right);
+            if (leftHeight === -1) return -1;
+            if (rightHeight === -1) return -1;
+            if (Math.abs(leftHeight - rightHeight) > 1) {
+                return -1;
+            } else {
+                return Math.max(leftHeight, rightHeight) + 1;
+            }
+        }
+        return !(treeHeight(root) === -1);
+    };
+    var node5 = { val: 6, left: null, right: null };
+    var node4 = { val: 2, left: node5, right: null };
+    var node3 = { val: 1, left: null, right: null };
+    var node2 = { val: 5, left: null, right: null };
+    var node1 = { val: 4, left: node3, right: node4 };
+    var root = { val: 3, left: node1, right: node2 };
+    
+    isBalanced(root);
+</script>
+</html>
