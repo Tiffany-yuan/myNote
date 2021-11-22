@@ -482,3 +482,76 @@ console.log(getSum(1,2,3)); // 6
 ## 函数声明与函数表达式
 JS引擎在任何代码执行前，会先读取函数声明，并在执行上下文中生成函数定义。 而 函数表达式 必须等到代码执行到它那一行，才会在执行上下文中生成函数定义。 这个过程叫做 **函数声明提升**。
 
+## 函数内部
+在ES5中，函数内部存在两个特殊的对象：`arguments` 和 `this`。ES6中又新增了 `new.target` 属性。
+
+### arguments 
+看一个经典的阶乘函数：
+```javascript
+function factorial(num) {
+  if (num <= 1) {
+    return 1;
+  } else {
+    return num * arguments.callee(num - 1);
+  }
+}
+```
+**这里注意，使用`arguments.callee`可以让函数逻辑与函数名解耦**
+
+但是在严格模式下是不能访问`arguments.callee`的，可以使用命名函数表达式达到目的。
+```javascript
+function factorial = (function f(num) {
+  if (num <= 1) {
+    return 1;
+  } else {
+    return num * f(num - 1);
+  }
+})
+```
+
+
+### this
+在标准函数中，this引用的是把函数当成方法调用的上下文对象，这时候通常称其为this值(在网页的全局上下文中调用函数时，this指向windows)。
+
+箭头函数中的this会保留定义该函数时的上下文。
+
+### new.target
+ES6新增了检测函数是否使用new关键字调用的`new.target`属性。吴国函数是正常调用的，则`new.target`是`undefined`；如果是使用`new`关键字调用的，则`new.target`将引用被调用的构造函数。
+```javascript
+function King() {
+  console.log(new.target);
+}
+new King(); // ƒ King() { console.log(new.target); }
+King();     // undefined
+```
+
+### 函数的方法
+`apply()` 和 `call()`。这两个方法都会设置调用函数时函数体内 this 对象的值。 只是传参的形式不同，`call()`向函数传递参数时，必须将参数一个一个列出来。
+
+### 尾调用优化
+在 ES6 优化之前，执行这个例子会在内存中发生如下操作。
+1. 执行到 outerFunction 函数体，第一个栈帧被推到栈上。
+2. 执行 outerFunction 函数体，到 return 语句。计算返回值必须先计算 innerFunction。
+3. 执行到 innerFunction 函数体，第二个栈帧被推到栈上。
+4. 执行 innerFunction 函数体，计算其返回值。
+5. 将返回值传回 outerFunction，然后 outerFunction 再返回值。
+6. 将栈帧弹出栈外。
+
+在 ES6 优化之后，执行这个例子会在内存中发生如下操作。
+1. 执行到 outerFunction 函数体，第一个栈帧被推到栈上。
+2. 执行 outerFunction 函数体，到达 return 语句。为求值返回语句，必须先求值 innerFunction。 
+3. 引擎发现把第一个栈帧弹出栈外也没问题，因为 innerFunction 的返回值也是 outerFunction
+的返回值。
+4. 弹出 outerFunction 的栈帧。
+5. 执行到 innerFunction 函数体，栈帧被推到栈上。
+6. 执行 innerFunction 函数体，计算其返回值。
+7. 将 innerFunction 的栈帧弹出栈外。 
+
+很明显，第一种情况下每多调用一次嵌套函数，就会多增加一个栈帧。而第二种情况下无论调用多
+少次嵌套函数，都只有一个栈帧。这就是 ES6 尾调用优化的关键:如果函数的逻辑允许基于尾调用将其 销毁，则引擎就会那么做。
+
+### 闭包
+闭包会保留它们包含函数的作用域，所以比其他函数更占内存。过度使用闭包可能导致内存过度占用。V8优化的js引擎会努力回收被闭包困住的内存，不过我们还是建议谨慎使用闭包。
+
+
+
