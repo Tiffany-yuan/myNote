@@ -529,6 +529,11 @@ King();     // undefined
 `apply()` 和 `call()`。这两个方法都会设置调用函数时函数体内 this 对象的值。 只是传参的形式不同，`call()`向函数传递参数时，必须将参数一个一个列出来。
 
 ### 尾调用优化
+```javascript
+function outerFunction() {
+  return innerFunction(); // 尾调用
+}
+```
 在 ES6 优化之前，执行这个例子会在内存中发生如下操作。
 1. 执行到 outerFunction 函数体，第一个栈帧被推到栈上。
 2. 执行 outerFunction 函数体，到 return 语句。计算返回值必须先计算 innerFunction。
@@ -552,6 +557,73 @@ King();     // undefined
 
 ### 闭包
 闭包会保留它们包含函数的作用域，所以比其他函数更占内存。过度使用闭包可能导致内存过度占用。V8优化的js引擎会努力回收被闭包困住的内存，不过我们还是建议谨慎使用闭包。
+
+### this
+**如果内部函数没有使用箭头函数定义，则`this`对象会在运行时绑定到执行函数的上下文。**`this`在严格模式下等于`window`，在非严格模式下是`undefined`。由于闭包的写法所致，这个事实有时候不容易看出来。例如：
+```javascript
+window.identity = 'The Window';
+let object = {
+  identity: 'The Object',
+  getIdentityFunc() {
+    return function() {
+      return this.identity;
+    }
+  }
+}
+object.getIdentityFunc()(); // The Window
+```
+为什么匿名函数没有使用其包含作用域(getIdentityFunc())的 this 对象呢? 
+
+每个函数在被调用时都会自动创建两个特殊变量：`this`和`arguments`，内部函数永远不可能直接访问外部函数的这两个变量。
+```javascript
+window.identity = 'The Window';
+let object = {
+  identity: 'The Object',
+  getIdentityFunc() {
+    let that = this;
+    return function() {
+      return that.identity;
+    }
+  }
+}
+object.getIdentityFunc()(); // The Object
+```
+在一些特殊情况下，`this`值可能并不是我们所期待的值，例如：
+```javascript
+window.identity = 'The Window';
+let object = {
+  identity: 'The Object',
+  getIdentityFunc() {
+    return this.identity;
+  }
+}
+object.getIdentity(); // 'The Object' 
+(object.getIdentity)(); // 'The Object'
+(object.getIdentity = object.getIdentity)(); // 'The Window'
+```
+第一个和第二个比较好理解，第三个执行了一次赋值，然后再调用赋值后的结果，因为赋值表达式是函数本身，`this`值不再与任何对象绑定，所以返回'The Window'。
+
+### 私有变量
+```javascript
+function MyObject() {
+    // 私有变量和私有函数
+    let privateVariable = 10;
+    function privateFunction() {
+        return false;
+    }
+    // 特权方法
+    this.publicMethod = function() {
+        privateVariable++;
+        console.log(privateVariable);
+        return privateFunction();
+    };
+}
+var a = new MyObject();
+a.privateVariable; // undefined
+a.publicMethod(); // 11 false
+```
+**因为定义在构造函数中的特权方法实际是一个闭包，具有访问构造函数中定义的所有变量和函数的能力。**
+
 
 
 

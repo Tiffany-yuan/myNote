@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var lowestCommonAncestor = function (root, p, q) {
+        // 后序遍历
+        var func = (node, p, q) => {
+            if (node === null || node === p || node === q) return node;
+            var leftNode = func(node.left, p, q);
+            var rightNode = func(node.right, p, q);
+            if(leftNode !== null && rightNode !== null) return node;
+            if(leftNode === null && rightNode !== null) return rightNode;
+            if(leftNode !== null && rightNode === null) return leftNode;
+            return null;
+        }
+        return func(root, p, q);
+    }
+    var node3 = { val: 3, left: null, right: null };
+    var node4 = { val: 4, left: null, right: null };
+    var node5 = { val: 5, left: null, right: null };
+    var node1 = { val: 1, left: node3, right: null };
+    var node2 = { val: 2, left: node5, right: node4 };
+    var root = { val: 0, left: node1, right: node2 };
+    lowestCommonAncestor(root, node2, node4);
+</script>
+</html>

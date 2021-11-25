@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {boolean}
+     */
+
+    var isValidBST = function(root) {
+        // 中序遍历是否有序
+        var valArr = [];
+        var nodeArr = [];
+        while(root || nodeArr.length) {
+            if(root) {
+                nodeArr.push(root);
+                root = root.left;
+            } else {
+                var curNode = nodeArr.pop();
+                if (valArr.indexOf(curNode.val) > -1) return false;
+                valArr.push(curNode.val);
+                if (curNode.right) root = curNode.right;
+            }
+        }
+        var str = valArr.join('');
+        var str1 = valArr.sort((a, b) => a - b).join('');
+        return str === str1;
+    };
+</script>
+</html>
