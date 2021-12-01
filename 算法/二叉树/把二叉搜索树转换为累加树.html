@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var convertBST = function(root) {
+        if(root === null) return null;
+        const func = (root) => {
+            var arr = [];
+            // var preNode = null;
+            var preVal = 0;
+            while(arr.length || root) {
+                if (root) {
+                    arr.push(root);
+                    root = root.right;
+                } else {
+                    var curNode = arr.pop();
+                    curNode.val += preVal;
+                    preVal = curNode.val;
+                    if(curNode.left) root = curNode.left;
+                }
+            }
+        }
+        func(root);
+        return root;
+    };
+    var node4 = { val: 7, left: null, right: null };
+    var node2 = { val: 6, left: null, right: node4 };
+    var node3 = { val: 2, left: null, right: null };
+    var node6 = { val: 4, left: null, right: null };
+    var node1 = { val: 3, left: node3, right: node6 };
+    var root = { val: 5, left: node1, right: node2 };
+    convertBST(root);
+</script>
+</html>

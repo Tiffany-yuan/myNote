@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var insertIntoBST = function(root, val) {
+        if(root === null) return {val: val, left: null, right: null};
+        if (val < root.val) root.left = insertIntoBST(root.left, val);
+        if (val > root.val) root.right = insertIntoBST(root.right, val);
+        return root;
+    }
+    // 不需要这么复杂，被自己蠢哭了😭
+    // var insertIntoBST = function(root, val) {
+    //     if(root === null) return {val: val, left: null, right: null};
+    //     var nodeValArr = [];
+    //     // 先获取当前树的中序遍历
+    //     var func = (node) => {
+    //         node.left && func(node.left);
+    //         nodeValArr.push(node.val);
+    //         node.right && func(node.right);
+    //     }
+    //     func(root);
+    //     nodeValArr.push(val);
+    //     nodeValArr.sort((a, b) => a - b);
+    //     // 生成二叉搜索树
+    //     var genTree = (arr) => {
+    //         if (arr.length === 0) return null;
+    //         if (arr.length === 1) {
+    //             return {
+    //                 val: arr[0],
+    //                 left: null,
+    //                 right: null
+    //             }
+    //         }
+    //         var curNode = {};
+    //         var leftNodeArr = arr.slice(0, 1);
+    //         var rightNodeArr = arr.slice(2);
+    //         curNode.val = arr[1];
+    //         curNode.left = genTree(leftNodeArr);
+    //         curNode.right = genTree(rightNodeArr);
+    //         return curNode;
+    //     }
+    //     return genTree(nodeValArr);
+    // };
+    var node3 = { val: 3, left: null, right: null };
+    var node4 = { val: 4, left: null, right: null };
+    var node5 = { val: 5, left: null, right: null };
+    var node1 = { val: 1, left: node3, right: null };
+    var node2 = { val: 2, left: node5, right: node4 };
+    var root = { val: 0, left: node1, right: node2 };
+    insertIntoBST(root, 7);
+</script>
+</html>
