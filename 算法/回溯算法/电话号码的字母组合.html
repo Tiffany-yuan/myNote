@@ -34,7 +34,7 @@
         var res = [];
         var path = [];
         var dLen = digits.length; // 递归深度
-        var firtArrLen = getWord(digits[0] >>> 0).length; // for循环
+        var firtArrLen = getWord(+digits[0]).length; // for循环
         var backtracking = (yIndex, curLen) => {
             if (path.length === dLen && dLen !== 0) {
                 res.push(path.join(''));
