@@ -69,6 +69,87 @@ location.assign("http://www.baidu.com");
 ```
 **只要修改了location的一个属性，就会导致页面重新加载新的url。**
 
+调用`reload()`而不传参数，页面会以最有效的方式重新加载。也就是说，如果页面自上次请求以来没有修改过，浏览器可能会从缓存中加载页面。如果想强制从服务器重新加载，可以给`reload()`传个true:
+```javascript
+location.reload(); // 重新加载，可能是从缓存加载 
+location.reload(true); // 重新加载，从服务器加载
+```
+
+## navigator
+`navigator.userAgent` 用来判断浏览器类型
+
+### 检测插件
+```javascript
+// 插件检测，IE10 及更低版本无效
+let hasPlugin = function(name) {
+    name = name.toLowerCase();
+    for (let plugin of window.navigator.plugins){
+        if (plugin.name.toLowerCase().indexOf(name) > -1){
+            return true;
+        }
+    }
+     return false;
+}
+// 检测Flash 
+console.log(hasPlugin("Flash"));
+```
+### 检测插件
+现代浏览器支持navigator上的(在 HTML5 中定义的)`registerProtocolHandler()`方法。 这个方法可以把一个网站注册为处理某种特定类型信息应用程序。
+
+要使用`registerProtocolHandler()`方法，必须传入3个参数:要处理的协议(如"mailto"或 "ftp")、处理该协议的URL，以及应用名称。例如，要把一个Web应用程序注册为默认邮件客户端，可以这样做:
+```javascript
+navigator.registerProtocolHandler("mailto",
+  "http://www.somemailclient.com?cmd=%s",
+  "Some Mail Client");
+```
+这个例子为"mailto"协议注册了一个处理程序，这样邮件地址就可以通过指定的 Web 应用程序打开。注意，第二个参数是负责处理请求的 URL，%s 表示原始的请求。
+
+## history对象
+### 导航
+`go()`可以在用户历史记录中沿任何方向导航，可以前进也可以后退。
+
+这个方法只接受一个参数，这个参数可以是一个整数，表示前进或后退多少步。负值表示在历史记录中后退，而正值表示在历史记录中前进。
+```javascript
+// 后退一页 
+history.go(-1);
+// 前进一页 
+history.go(1);
+// 前进两页 
+history.go(2);
+```
+`go()`有两个简写方法：`back()`和`forward()`。
+
+`history`对象还有一个 length 属性，表示历史记录中有多个条目。 如果`history.length === 1`，可以确定这是用户窗口中的第一个页面。
+
+### 历史状态管理
+**hashchange 事件**。 `hashchange`会在页面URL的散列变化时被触发。 而状态管理API则可以让开发者改变浏览器URL而不会加载新页面。 可以使用`history.pushState()`方法。
+
+`history.pushState()`接收3个参数：
+```javascript
+history.pushState(state, title [, url])
+```
+- state --- 必选。一个state对象
+- title --- 必选。新状态的标题。
+- url --- 可选。相对的URL。
+
+```javascript
+let stateObject = {foo:"bar"};
+history.pushState(stateObject, "My title", "baz.html");
+```
+因为`pushState()`会创建新的历史记录，所以也会相应地启用“后退”按钮。单击“后退”按钮，就会触发`window`对象上的`popstate`事件。`popstate`事件的事件对象有一个`state`属性，其中包含通过`pushState()`第一个参数传入的state对象。
+```javascript
+window.addEventListener("popstate", (event) => { 
+    let state = event.state;
+    if (state) { // 第一个页面加载时状态是null
+        processState(state);
+    }
+});
+```
+```javascript
+history.replaceState({newFoo: "newBar"}, "New title");
+```
+
+
 
 
 

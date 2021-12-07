@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var getWord = (num) => {
+        switch(num) {
+            case 2:
+                return ['a', 'b', 'c'];
+            case 3:
+                return ['d', 'e', 'f'];
+            case 4:
+                return ['g', 'h', 'i'];
+            case 5:
+                return ['j', 'k', 'l'];
+            case 6:
+                return ['m', 'n', 'o'];
+            case 7:
+                return ['p', 'q', 'r', 's'];
+            case 8:
+                return ['t', 'u', 'v'];
+            case 9:
+                return ['w', 'x', 'y', 'z'];
+            default: return [];
+        }
+    }
+    var letterCombinations = function(digits) {
+        var res = [];
+        var path = [];
+        var dLen = digits.length; // 递归深度
+        var firtArrLen = getWord(digits[0] >>> 0).length; // for循环
+        var backtracking = (yIndex, curLen) => {
+            if (path.length === dLen && dLen !== 0) {
+                res.push(path.join(''));
+                return;
+            }
+            var curStr = getWord(+digits[yIndex]);
+            if (curStr.length === 0) return; 
+            for (var i = 0; i < curStr.length; i++) {
+                path.push(curStr[i]);
+                backtracking(yIndex + 1, curStr.length);
+                path.pop();
+            }
+        }
+        backtracking(0, firtArrLen);
+        return res;
+    };
+    // letterCombinations('23');
+    letterCombinations('5678');
+</script>
+</html>
