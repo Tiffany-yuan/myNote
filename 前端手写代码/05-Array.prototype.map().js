@@ -1,4 +1,4 @@
-Array.prototype.filter = (callback, thisArg) => {
+Array.prototype.map = function(callback, thisArg) {
     if (this === undefined) {
         throw new TypeError('this is undefined or not defined');
     }

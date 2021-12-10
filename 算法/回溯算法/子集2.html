@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    var subsetsWithDup = function(nums) {
+        var res = [];
+        var path = [];
+        var len = nums.length;
+        var sortNums = nums.sort((a, b) => a - b);
+        var backtracking = (startIndex) => {
+            res.push([...path]);
+            for(var i = startIndex; i < len; i++) {
+                if (i > startIndex && sortNums[i] === sortNums[i - 1]) continue;
+                path.push(sortNums[i]);
+                backtracking(i + 1);
+                path.pop();
+            }
+        }
+        backtracking(0);
+        return res;
+    };
+    subsetsWithDup([1,2,2]);
+</script>
+</html>

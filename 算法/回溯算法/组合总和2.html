@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // * 1. 使用used数组记录
+    var combinationSum2 = function(candidates, target) {
+        let res = [];
+        let path = [];
+        let total = 0;
+        candidates.sort((a, b) => a - b);
+        let used = new Array(candidates.length).fill(false);
+        const backtracking = (startIndex) => {
+            if (total === target) {
+                res.push([...path]);
+                return;
+            }
+            for(let i = startIndex; i < candidates.length && total < target; i++) {
+                const cur = candidates[i];
+                if (cur > target - total || (i > 0 && cur === candidates[i - 1] && !used[i - 1])) continue;
+                path.push(cur);
+                total += cur;
+                used[i] = true;
+                backtracking(i + 1);
+                path.pop();
+                total -= cur;
+                used[i] = false;
+            }
+        }
+        backtracking(0);
+        return res;
+    };
+
+    // * 2. 使用startIndex
+    var combinationSum2 = function(candidates, target) {
+        var res = [];
+        var path = [];
+        var total = 0;
+        var startIndex = 0;
+        candidates.sort((a, b) => a - b);
+        var backtracking = (startIndex) => {
+            if (total === target) {
+                res.push([...path]);
+                return;
+            }
+            for(var i = startIndex; i < candidates.length && total < target; i++) {
+                var cur = candidates[i];
+                if ( cur > target - total || i > startIndex && candidates[i] === candidates[i - 1]) continue;
+                path.push(cur);
+                total += cur;
+                backtracking(i + 1);
+                path.pop();
+                total -= cur;
+            }
+        }
+        backtracking(startIndex);
+        return res;
+    };
+    combinationSum2([10,1,2,7,6,1,5], 8);
+</script>
+</html>

@@ -1,4 +1,4 @@
-Array.prototype.filter = (callback, thisArg) => {
+Array.prototype.filter = function(callback, thisArg) {
     if (this === undefined) {
         throw new TypeError('this is null or not undefined');
     }

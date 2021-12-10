@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var restoreIpAddresses = function(s) {
+    var path = [];
+    var res = [];
+    var len = s.length;
+    var backtracking = (startIndex) => {
+        if(startIndex === len && path.length === 4) {
+            res.push(path.join('.'));
+            return;
+        }
+        for(var i = startIndex; i < len && path.length < 4; i++) {
+            const str = s.slice(startIndex, i + 1);
+            if(!isValidateNum(str)) continue;
+            path.push(str);
+            backtracking(i + 1);
+            path.pop();
+        }
+    }
+    backtracking(0);
+    return res;
+};
+var isValidateNum = (str) => {
+    const num = +str;
+    if (num < 0 || num > 255 || str.length > 1 && str[0] === '0') return false;
+    return true;
+}
+restoreIpAddresses("010010");
+</script>
+</html>

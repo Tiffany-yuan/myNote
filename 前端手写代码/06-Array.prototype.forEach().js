@@ -1,8 +1,8 @@
-Array.prototype.filter = (callback, thisArg) => {
+Array.prototype.forEach = function(callback, thisArg) {
     if (this === undefined) {
         throw new TypeError('this is undefined or not defined');
     }
-    if (typeof callback !== function) {
+    if (typeof callback !== 'function') {
         throw new TypeError(callback + 'is not a function');
     }
     const _this = Object(this);

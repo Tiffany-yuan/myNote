@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    var findSubsequences = function(nums) {
+        var res = [];
+        var path = [];
+        var len = nums.length;
+        var backTracking = (startIndex) => {
+            if(path.length > 1) {
+                res.push([...path]);
+            }
+            var used = new Map();
+            for(var i = startIndex; i < len; i++) {
+                if(i > 0 && nums[i] < path[path.length - 1] || used.has(nums[i])) continue;
+                // if(i > 0 && nums[i] < path[path.length - 1] || used[nums[i] + 100]) continue;
+                used.set(nums[i], true);
+                // used[nums[i] + 100] = true;
+                path.push(nums[i]);
+                backTracking(i + 1);
+                path.pop();
+            }
+        }
+        backTracking(0);
+        return res;
+    };
+    findSubsequences([4,6,7,7]);
+</script>
+</html>
