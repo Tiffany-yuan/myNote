@@ -15,15 +15,88 @@
      * @return {number[]}
      */
     // 应该用优先级队列（大顶堆、小顶堆）做，但是似乎写不出来，先用另一种方式处理
+    // var topKFrequent = function(nums, k) {
+    //     var map = new Map();
+    //     var set = [...new Set(nums)];
+    //     for (var i = 0; i < nums.length; i++) {
+    //         const val = nums[i];
+    //         map.set(val, map.has(val) ? map.get(val) + 1 : 1);
+    //     }
+    //     return set.sort((a, b) => map.get(b) - map.get(a)).slice(0, k);
+    // };
     var topKFrequent = function(nums, k) {
         var map = new Map();
-        var set = [...new Set(nums)];
-        for (var i = 0; i < nums.length; i++) {
-            const val = nums[i];
-            map.set(val, map.has(val) ? map.get(val) + 1 : 1);
+        for (const num of nums) {
+            map.set(num, (map.get(num) || 0) + 1);
         }
-        return set.sort((a, b) => map.get(b) - map.get(a)).slice(0, k);
+        // 创建小顶堆
+        const priorityQueue = new PriorityQueue((a, b) => a[1] - b[1]);
+        // entry 是一个长度是2的数组，0位置存储key，1位置存储value
+        for(const entry of map.entries()) {
+            priorityQueue.push(entry);
+            if (priorityQueue.size() > k) {
+                priorityQueue.pop();
+            }
+        }
+        const ret = [];
+        for(let i = priorityQueue.size() - 1; i >= 0; i--) {
+            ret[i] = priorityQueue.pop()[0];
+        }
+        return ret;
     };
+
+    class PriorityQueue {
+        constructor(compareFn) {
+            this.compareFn = compareFn;
+            this.queue = [];
+        }
+        // 添加
+        push(item) {
+            this.queue.push(item);
+            let index = this.queue.length - 1;
+            let parent = Math.floor((index - 1) / 2);
+            // 交换
+            while (parent >= 0 && this.compare(parent,index) > 0) {
+                [this.queue[index], this.queue[parent]] = [this.queue[parent], this.queue[index]];
+                index = parent;
+                parent = Math.floor((index - 1) / 2);
+            }
+        }
+        // 获取堆顶元素并移除
+        pop() {
+            const ret = this.queue[0];
+            // 把最后一个节点移到堆顶
+            this.queue[0] = this.queue.pop();
+            let index = 0;
+            // 左子节点下标 2*0+1
+            let left = 1;
+            // （小顶堆）If the left or right node is smaller, swap with the smaller of those.
+            let selectedChild = this.compare(left, left + 1) > 0 ? left + 1 : left;
+            // 下沉
+            while(selectedChild !== undefined && this.compare(index, selectedChild) > 0) {
+                // 交换
+                [this.queue[index], this.queue[selectedChild]] = [this.queue[selectedChild], this.queue[index]];
+                index = selectedChild;
+                left = 2 * index + 1;
+                selectedChild = this.compare(left, left + 1) > 0 ? left + 1 : left;
+            }
+            return ret;
+        }
+        size() {
+            return this.queue.length;
+        }
+        // 使用传入的 compareFn 比较两个位置的元素
+        compare(index1, index2) {
+            if (this.queue[index1] === undefined) {
+                return 1;
+            }
+            if (this.queue[index2] === undefined) {
+                return -1;
+            }
+
+            return this.compareFn(this.queue[index1], this.queue[index2]);
+        }
+    }
     topKFrequent([3,0,1,0], 1)
 </script>
 </html>
