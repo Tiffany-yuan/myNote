@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var jump = function(nums) {
+        let len = nums.length;
+        let coverIndex = 0;
+        let nextCoverIndex = 0;
+        let res = 0;
+        if (len === 1) return 0;
+        for (let i = 0; i < len - 1; i++) {
+            nextCoverIndex = Math.max(nextCoverIndex, nums[i] + i);
+            if (i === coverIndex) {
+                coverIndex = nextCoverIndex;
+                res++;
+            }
+        }
+        return res;
+    };
+    jump([7,0,9,6,9,6,1,7,9,0,1,2,9,0,3]);
+    // jump([3,4,6,1,1,1,1,1,4]);
+    // jump([1,2]);
+</script>
+</html>

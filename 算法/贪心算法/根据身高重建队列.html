@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[][]} people
+     * @return {number[][]}
+     */
+    var reconstructQueue = function(people) {
+        // 按照h1先排序，从大到小排序
+        people.sort((a, b) => {
+            if (a[0] === b[0]) {
+                return a[1] - b[1];
+            } else {
+                return b[0] - a[0];
+            }
+        });
+        var res = [];
+        for (let i = 0; i < people.length; i++) {
+            var curArr = people[i];
+            var index = curArr[1];
+            res.splice(index, 0, curArr);
+        }
+        return res;
+    };
+    reconstructQueue([[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]);
+</script>
+</html>

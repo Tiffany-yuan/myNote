@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 1. 我的解法
+    // var largestSumAfterKNegations = function(nums, k) {
+    //     nums.sort((a, b) => a - b);
+    //     let transLateNums = [];
+    //     let preNum;
+    //     while(k) {
+    //         var minNum;
+    //         if (nums.length > 0) {
+    //             minNum = nums.shift();
+    //             if (minNum > 0 && Math.abs(minNum) >= Math.abs(preNum)) {
+    //                 transLateNums.push(-transLateNums.pop());
+    //                 nums.push(minNum);
+    //             } else {
+    //                 transLateNums.push(-minNum);
+    //                 preNum = minNum;
+    //             }
+    //         } else {
+    //             transLateNums.push(-transLateNums.pop());
+    //         }
+    //         k--;
+    //     }
+    //     var sum = (nums.length > 0 ? nums.reduce((a, b) => a + b) : 0) + (transLateNums.length > 0 ? transLateNums.reduce((a, b) => a + b) : 0);
+    //     return sum;
+    // };
+
+
+    // 2. 别人的解法
+    var largestSumAfterKNegations = function(nums, k) {
+        var len = nums.length;
+        nums.sort((a, b) => {
+            return Math.abs(a) - Math.abs(b);
+        })
+        for (let i = 0; i < len; i++) {
+            if (nums[i] < 0 && k > 0) {
+                nums[i] *= -1;
+            }
+        }
+        if (k > 0 && k % 2 === 1) {
+            nums[nums.length - 1] *= -1;
+        }
+        return nums.reduce((a, b) => a + b);
+    }
+    // largestSumAfterKNegations([3,-1,0,2], 3);
+    largestSumAfterKNegations([-4,-2,-3], 4)
+</script>
+</html>

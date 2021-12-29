@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * 双指针
+     * 指针i顺序找，当 当前 > 上个， 当前 = Math.max(当前, 上个+1)
+     * 指针j倒叙找，当 当前 > 上个， 当前 = Math.max(当前, 上个+1)
+    */
+    // var candy = function(ratings) {
+    //     let i = 0;
+    //     let j = ratings.length - 1;
+    //     let arr = new Array(ratings.length).fill(1);
+    //     while(i < ratings.length - 1) {
+    //         if (ratings[++i] > ratings[i - 1]) {
+    //             arr[i] = Math.max(arr[i], arr[i - 1] + 1);
+    //         }
+    //         if (ratings[--j] > ratings[j + 1]) {
+    //             arr[j] = Math.max(arr[j], arr[j + 1] + 1);
+    //         }
+    //     }
+    //     return arr.reduce((a, b) => a + b);
+    // };
+
+    /**
+     * 线性扫描
+     * 先顺序，再倒序
+     * rating  1 2 2 5 4 3 2
+     * initArr 1 1 1 1 1 1 1
+     * 从前向后 1 2 1 2 1 1 1
+     * 从后往前 1 2 1 4 3 2 1 
+    */
+    var candy = function(ratings) {
+        let i = 0;
+        let arr = new Array(ratings.length).fill(1);
+        for (let i = 1; i < ratings.length; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                arr[i] = arr[i - 1] + 1;
+            }
+        }
+        for(let i = ratings.length - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                arr[i] = Math.max(arr[i], arr[i + 1] + 1);
+            }
+        }
+        return arr.reduce((a, b) => a + b);
+    };
+
+    candy([1,2,2,5,4,3,2]);
+    candy([1,0,2]);
+
+</script>
+</html>

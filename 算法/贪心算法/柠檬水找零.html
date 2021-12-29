@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[]} bills
+     * @return {boolean}
+     */
+    var lemonadeChange = function(bills) {
+        let countArr = [0, 0];
+        for (let i = 0; i < bills.length; i++) {
+            let curBill = bills[i];
+            if (curBill === 5) {
+                countArr[0]++;
+                continue;
+            }
+            if (curBill === 10) {
+                if (countArr[0] > 0) {
+                    countArr[0]--;
+                    countArr[1]++;
+                    continue;
+                }else return false;
+            }
+            if (curBill === 20) {
+                if (countArr[0] > 0 && countArr[1] > 0) {
+                    countArr[0]--;
+                    countArr[1]--;
+                    continue;
+                } else if (countArr[0] > 2) {
+                    countArr[0] -= 3;
+                    continue;
+                }
+                else return false;
+            }
+        }
+        return true;
+    };
+    lemonadeChange([5,5,10,5,20,5,5,5,5,5,20,5,10,5,5,5,5,20,20,5]);
+</script>
+</html>

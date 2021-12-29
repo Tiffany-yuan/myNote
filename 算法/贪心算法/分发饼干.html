@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[]} g
+     * @param {number[]} s
+     * @return {number}
+     */
+    var findContentChildren = function(g, s) {
+        g = g.sort((a, b) => a - b);
+        s = s.sort((a, b) => a - b);
+        let res = 0;
+        let gIndex = 0;
+        let sIndex = 0;
+        if(s[s.length - 1] < g[0]) return res;
+        while(sIndex < s.length && gIndex < g.length) {
+            let curS = s[sIndex];
+            let curG = g[gIndex];
+            if (curS >= curG) {
+                res++;
+                sIndex++;
+                gIndex++;
+            } else {
+                sIndex++;
+            }
+        }
+        return res;
+    };
+    findContentChildren([10,9,8,7], [5,6,7,8]);
+</script>
+</html>
