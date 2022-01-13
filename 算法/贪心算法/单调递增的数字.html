@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number} n
+     * @return {number}
+     */
+    var monotoneIncreasingDigits = function(n) {
+        var wordArr = (n + '').split('').map(item => item >>> 0);
+        var len = startIndex = wordArr.length;
+        for (let i = len - 1; i > 0; i--) {
+            let cur = wordArr[i];
+            let prev = wordArr[i - 1];
+            if (cur < prev) {
+                startIndex = i;
+                wordArr[i - 1]--;
+            }
+        }
+        for (let i = startIndex; i < len; i++) {
+            wordArr[i] = 9;
+        }
+        return wordArr.join('') >>> 0;
+    };
+    // monotoneIncreasingDigits(10);
+    // monotoneIncreasingDigits(1234);
+    // monotoneIncreasingDigits(332);
+    // monotoneIncreasingDigits(9325);
+    monotoneIncreasingDigits(32);
+</script>
+</html>

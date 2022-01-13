@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {string} s
+     * @return {number[]}
+     */
+    // * 1.时间复杂度 O(n2)
+    // var partitionLabels = function(s) {
+    //     var len = s.length;
+    //     var i = 0;
+    //     var res = [];
+    //     while(i < len) {
+    //         var word = s[i];
+    //         var lastIndex = s.lastIndexOf(word);
+    //         var j = i;
+    //         while(j++ < lastIndex) {
+    //             var curWord = s[j];
+    //             var jLastIndex = s.lastIndexOf(curWord);
+    //             lastIndex = Math.max(lastIndex, jLastIndex);
+    //         }
+    //         res.push(lastIndex - i + 1);
+    //         i = lastIndex + 1;
+    //     }
+    //     return res;
+    // };
+
+    // * 2. 使用map优化，时间复杂度 O(n)
+    var partitionLabels = function(s) {
+        var len = s.length;
+        var res = [];
+        var startIndex = 0;
+        var lastIndex = 0;
+        var lastIndexMap = new Map();
+        for (var i = 0; i < len; i++) {
+            var curWord = s[i];
+            lastIndexMap.set(curWord, s.lastIndexOf(curWord));
+        }
+        for (var j = 0; j < len; j++) {
+            var curWord = s[j];
+            var lastIndex = Math.max(lastIndex, lastIndexMap.get(curWord));
+            if (j === lastIndex) {
+                res.push(lastIndex - startIndex + 1);
+                startIndex = lastIndex + 1;
+            }
+        }
+        return res;
+    };
+
+    partitionLabels("jpsegvwolkpystd");
+</script>
+</html>

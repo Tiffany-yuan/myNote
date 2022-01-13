@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number[][]} intervals
+     * @return {number[][]}
+     */
+    var merge = function(intervals) {
+        // 按照左边界排序
+        intervals.sort((a, b) => a[0] - b[0]);
+        var res = [];
+        var len = intervals.length;
+        var left = intervals[0][0];
+        var right = intervals[0][1];
+        for (var i = 1; i < len; i++) {
+            var curRange = intervals[i];
+            var curLeft = curRange[0];
+            var curRight = curRange[1];
+            if (right < curLeft) {
+                res.push([left, right]);
+                left = curLeft;
+                right = curRight;
+            } else {
+                right = Math.max(right, curRight);
+            }
+        }
+        res.push([left, right]);
+        return res;
+    }
+    merge([[1,3],[2,6],[8,10],[15,18]]);
+    // merge([[1,4],[4,5]]);
+</script>
+</html>

@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+    /**
+    * @param {number[]} prices
+    * @param {number} fee
+    * @return {number}
+    * 
+    * 情况一：收获利润的这一天并不是收获利润区间里的最后一天（不是真正的卖出，相当于持有股票），所以后面要继续收获利润。
+    * 情况二：前一天是收获利润区间里的最后一天（相当于真正的卖出了），今天要重新记录最小价格了。
+    * 情况三：不作操作，保持原有状态（买入，卖出，不买不卖）
+    */
+    var maxProfit = function(prices, fee) {
+        var result = 0;
+        var minPrice = prices[0];
+        for (var i = 1; i < prices.length; i++) {
+            // 买入，情况二
+            if (prices[i] < minPrice) {
+                minPrice = prices[i];
+            }
+            // 情况三
+            if (prices[i] > minPrice && prices[i] <= minPrice + fee) {
+                continue;
+            }
+            // 计算利润，可能有多次计算利润，最后一次计算利润才是真正意义的卖出
+            if (prices[i] > minPrice + fee) {
+                result += prices[i] - minPrice - fee;
+                // 避免重复减手续费，情况一
+                minPrice = prices[i] - fee;
+            }
+        }
+        return result;
+    };
+</script>
+</html>
