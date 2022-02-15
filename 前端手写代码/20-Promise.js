@@ -171,9 +171,33 @@ class Promise {
     static all(promiseArr) {
         const len = promiseArr.length;
         const values = new Array(len);
-        
+        // 记录已经成功执行的promise个数
+        let count = 0;
+        return new promise((resolve, reject) => {
+            for (let i = 0; i < len; i++) {
+                // promise.resolve()处理，确保每个都是promise实例
+                Promise.resolve(promiseArr[i]).then(
+                    val => {
+                        values[i] = val;
+                        count++;
+                        // 如果全部执行完，返回promise的状态就可以改变了
+                        if (count === len) resolve(values);
+                    },
+                    err => reject(err),
+                );
+            }
+        })
     }
-    static race() {}
+    static race(promiseArr) {
+        return new Promise((resolve, reject) => {
+            promiseArr.forEach(p => {
+                Promise.resolve(p).then(
+                    val => resolve(val),
+                    err => reject(err)
+                )
+            })
+        })
+    }
 }
 const promise = new Promise((resolve, reject) => {
     Math.random() < 0.5 ? resolve(1) : reject(-1);

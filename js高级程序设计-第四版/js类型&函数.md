@@ -55,6 +55,25 @@ ES6有6种简单数据类型：`Undefined` `Null` `Boolean` `String` `Number` `S
 typeof null返回的是"object"，因为特殊值`null`被认为是一个对空对象的引用。
 **typeof对原始值很有用，但是对引用值的用处不大。**
 
+## 数据类型判断总结
+
+|               | typeof | instanceof | constructor | Object.prototype.toString |
+| :-----------: | :----: | :--------: | :---------: | :-----------------------: |
+|    number     |   ✅    |     ❌      |      ✅      |             ✅             |
+|    string     |   ✅    |     ❌      |      ✅      |             ✅             |
+|    boolean    |   ✅    |     ❌      |      ✅      |             ✅             |
+|    symbol     |   ✅    |     ❌      |      ✅      |             ✅             |
+|      []       |   ❌    |     ✅      |      ✅      |             ✅             |
+|      {}       |   ❌    |     ✅      |      ✅      |             ✅             |
+| function() {} |   ✅    |     ✅      |      ✅      |             ✅             |
+|   undefined   |   ✅    |     ✅      |      ❌      |             ✅             |
+|     null      |   ❌    |     ✅      |      ❌      |             ✅             |
+|  new Date()   |   ❌    |     ✅      |      ✅      |             ✅             |
+|     /\d/g     |   ❌    |     ✅      |      ✅      |             ✅             |
+|  new Error()  |   ❌    |     ✅      |      ✅      |             ✅             |
+
+
+
 # 数值转换
 有三个函数可将非数值转换为数值：Number() parseInt() parseFloat()。Number是转型函数。
 Number()转换规则：
