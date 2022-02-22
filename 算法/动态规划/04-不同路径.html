@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var uniquePaths = function(m, n) {
+        // 1. dp[i][j] 表示[i][j]位置的总路径数是 dp[i][j]
+        // 2. 递推公式 dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        // 3. 初始值 dp[0][j] = 1, dp[i][0] = 1，也可直接将所有值都初始化为1
+        // 4. 遍历顺序从左到右、从上到下
+        var dp = new Array(m).fill(1).map(item => item = new Array(n).fill(1));
+        for (var i = 1; i < m; i++) {
+            for (var j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        console.log('dp', dp);
+        return dp[m-1][n-1];
+    };
+    uniquePaths(3, 7);
+</script>
+</html>

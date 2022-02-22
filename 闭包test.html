@@ -9,24 +9,46 @@
     
 </body>
 <script>
-    function foo() {
-        var myName = "极客时间";
-        let test1 = 1;
-        const test2 = 2;
-        var innerBar = {
-            getName:function(){
-                console.log(test1);
-                return myName;
-            },
-            setName:function(newName){
-                myName = newName;
-            }
-        };
-        return innerBar;
+    // function foo() {
+    //     var myName = "极客时间";
+    //     let test1 = 1;
+    //     const test2 = 2;
+    //     var innerBar = {
+    //         getName:function(){
+    //             console.log(test1);
+    //             return myName;
+    //         },
+    //         setName:function(newName){
+    //             myName = newName;
+    //         }
+    //     };
+    //     return innerBar;
+    // }
+    // var bar = foo();
+    // bar.setName("极客邦");
+    // bar.getName();
+    // console.log(bar.getName());
+    // ----------------------------------------------------------------------------
+    // function bar() { 
+    //     console.log('bar');
+    // }
+    // function foo() { 
+    //     setTimeout(bar, 0); 
+    //     for (let i = 0; i < 5000; i++) { 
+    //         let i = 5+8+8+8; 
+    //         console.log(i); 
+    //     }
+    // }
+    // foo();
+    // ----------------------------------------------------------------------------
+    function timerCallback2(){ 
+        console.log(2);
+    } 
+    function timerCallback(){ 
+        console.log(1);
+        setTimeout(timerCallback2,0);
     }
-    var bar = foo();
-    bar.setName("极客邦");
-    bar.getName();
-    console.log(bar.getName());
+    setTimeout(timerCallback,0);
+    // ----------------------------------------------------------------------------
 </script>
 </html>

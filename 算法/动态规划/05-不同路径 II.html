@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    // 遇到障碍物则设其值为0，障碍物往右、往下的都为0
+    var m = obstacleGrid.length;
+    var n = obstacleGrid[0].length;
+    // 先都初始化为0
+    var dp = new Array(m).fill(0).map(item => new Array(n).fill(0));
+    // 再将边缘且不是障碍的位置初始化为1
+    for (var i = 0; i < m; i++) {
+        if (obstacleGrid[i][0] === 1) {
+            break;
+        }
+        dp[i][0] = 1;
+    }
+    // 再将边缘且不是障碍的位置初始化为1
+    for (var j = 0; j < n; j++) {
+        if (obstacleGrid[0][j] === 1) {
+            break;
+        }
+        dp[0][j] = 1;
+    }
+    console.log('初始化', dp);
+    // 遍历
+    for (var i = 1; i < m; i++) {
+        for (var j = 1; j < n; j++) {
+            if (obstacleGrid[i][j]) {
+                dp[i][j] = 0;
+            } else {
+                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
+            }
+        }
+    }
+    console.log(dp);
+    return dp[m - 1][n - 1];
+};
+uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]);
+</script>
+</html>

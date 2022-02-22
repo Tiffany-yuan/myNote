@@ -3,8 +3,8 @@ Function.prototype.myCall = function(context = window, ...args) {
         throw new TypeError('Type Error');
     }
     const fn = Symbol('fn');
-    context[fn] = this;
-    const res = context[fn](...args);
+    context[fn] = this; // 在context上新增一个属性，并指向当前的执行函数
+    const res = context[fn](...args); // 运行时函数的this值就被隐式的绑定到context上
     delete context[fn];
     return res;
 }

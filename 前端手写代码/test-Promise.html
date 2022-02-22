@@ -1,3 +1,14 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
 
 // https://juejin.cn/post/6860037916622913550
 // Prmise用法
@@ -200,32 +211,55 @@ class Promise {
         })
     }
 }
-// const promise = new Promise((resolve, reject) => {
-//     Math.random() < 0.5 ? resolve(1) : reject(-1);
-// }).then(
-//     res => console.log(res),
-//     err => console.log(err),
-// )
 
-// // 创建Promise对象 x1，并在 exector 函数中执行业务逻辑
-// function exector(resolve, reject) {
-//     resolve(100);
-// }
-// let x1 = new Promise(exector);
+function executor(resolve , reject){
+  let rand = Math.random();
+  console.log(1);
+  console.log(rand);
+  if(rand > 0.5){
+    resolve();
+  }else {
+    reject();
+  }
+}
+var p0 = new Promise(executor);
+var p1 = p0.then((value) => {
+  console.log("succeed-1");
+  return new Promise(executor);
+})
+var p2 = p1.then((value) => {
+   console.log("succeed-2");
+   return new Promise(executor);
+});
+p2.catch((error) => {
+   console.log("error", error);
+});
+console.log(2);
 
-// // x1 延迟绑定回调函数 onResolve
-// function onResolve(value) {
-//     console.log(value);
-//     let x2 = new Promise((resolve, reject) => {
-//         resolve(value + 1);
-//     })
-//     console.log(x2);
-//     return x2;
-// }
-// let x2 = x1.then(onResolve);
-// console.log(x2);
 
-// x2.then(value => {
-//     console.log(value);
-//     console.log(x2);
-// })
+// test2
+function Bromise(executor) {
+    var onResolve_ = null
+    var onReject_ = null
+     //模拟实现resolve和then，暂不支持rejcet
+    this.then = function (onResolve, onReject) {
+        onResolve_ = onResolve
+    };
+    function resolve(value) {
+        //   setTimeout(()=>{
+            onResolve_(value);
+        //    },0)
+    }
+    executor(resolve, null);
+};
+function executor(resolve, reject) {
+    resolve(100);
+}
+let demo = new Bromise(executor);
+
+function onResolve(value){
+    console.log(value);
+}
+demo.then(onResolve);
+</script>
+</html>

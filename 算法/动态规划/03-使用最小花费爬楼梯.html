@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var minCostClimbingStairs = function(cost) {
+        // dp[i] = Math.min(dp[i - 1], dp[i - 2]) + cost[i - 2];
+        var dp = [cost[0], cost[1]];
+        var len = cost.length;
+        for(var i = 2; i < len; i++) {
+            // 如果是从 i-1 走过来的话，就不需要再支付费用了，如果是从 i-2 走来的话，还需要支付 i-2 处的费用
+            dp[i] = Math.min(dp[i - 1], dp[i - 2]) + cost[i];
+        }
+        console.log('dp:', dp);
+        return Math.min(dp[len - 2], dp[len - 1]);
+    };
+    minCostClimbingStairs([10,15,20]);
+    minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1]);
+</script>
+</html>

@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢
+    var climbStairs1 = function(n) {
+        // dp[n] = dp[n - 1] + dp[n - 2]
+        if (n < 3) return n;
+        var dp = [1, 2];
+        for (var i = 2; i < n; i++) {
+            var curSum = dp[0] + dp[1];
+            dp[0] = dp[1];
+            dp[1] = curSum;
+        }
+        return dp[1];
+    };
+
+    // 假如把题目换成：一步一个台阶，两个台阶，三个台阶，直到 m个台阶，有多少种方法爬到n阶楼顶。
+    var climbStairs2 = function(n, m) {
+        var dp = [1];
+        for (var i = 1; i < n; i++) {
+            for (var j = 1; j <= m; j++) {
+                if (i - j >= 0) {
+                    dp[i] = dp[i] ? dp[i] + dp[i - j] : dp[i - j];
+                }
+            }
+        }
+        console.log('dp:', dp);
+        return dp[n];
+    };
+    climbStairs1(5);
+    climbStairs2(5, 2);
+</script>
+</html>
