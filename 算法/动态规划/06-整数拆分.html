@@ -8,4 +8,51 @@
 <body>
     
 </body>
+<script>
+    /**
+     * @param {number} n
+     * @return {number}
+     */
+    // 思路一
+    var integerBreak = function(n) {
+        // dp[i] 表示正整数i的成乘积最大化值
+        // dp[i] = max(dp[1]*dp[i-1], dp[2]*dp[i-2],...)
+        // 初始化dp：
+        var dp = [0, 1, 1, 2];
+        if (n < 4) return dp[n]; 
+        // 遍历
+        for (var i = 4; i <= n; i++) {
+            var curDpList = [];
+            var halfValue = Math.ceil(i / 2);
+            for (var j = 2; j <= halfValue; j++) {
+                var maxJ = Math.max(dp[j], j);
+                var maxIJ = Math.max(dp[i - j], i - j);
+                curDpList.push(maxJ * maxIJ);
+            }
+            dp[i] = Math.max(...curDpList);
+        }
+        console.log(dp);
+        return dp[n];
+    };
+
+    // 思路二
+    var integerBreak2 = function(n) {
+        // dp[i] 表示正整数i的成乘积最大化值
+        // dp[i] = max(dp[i], max((i - j)* j, dp[i - j] * j))
+        // 初始化dp：
+        let dp = new Array(n + 1).fill(0)
+        dp[2] = 1
+        // 遍历
+        for (var i = 3; i <= n; i++) {
+            for (var j = 1; j < i - 1; j++) {
+                dp[i] = Math.max(dp[i], (i - j)* j, dp[i - j] * j)
+            }
+        }
+        console.log(dp);
+        return dp[n];
+    };
+
+    integerBreak(10);
+    integerBreak2(10);
+</script>
 </html>
