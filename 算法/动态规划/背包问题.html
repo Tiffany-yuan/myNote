@@ -11,20 +11,19 @@
 
 <script>
 // dp二维数组
-function testweightbagproblem (wight, value, size) {
+function testweightbagproblem (weight, value, size) {
     // dp[i][j] 表示 从下标[0-1]的物品里任取，放到容量为j的背包中的 最大价值
     // 递推公式 max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i])
     var len = weight.length;
-    var initWeight = wight[0];
     // 初始化
-    var dp = new Array(len).fill(0).map(item => new Array(len).fill(0));
-    for (var j = 0; j < len; j++) {
-        if (j <= initWeight) dp[0][j] = initWeight;
+    var dp = new Array(len).fill(0).map(item => new Array(size + 1).fill(0));
+    for (var j = 0; j <= size; j++) {
+        if (j >= weight[0]) dp[0][j] = value[0];
     }
     console.log('initDp', dp);
     // 遍历，遍历顺序都可以
     for (var i = 1; i < len; i++) { // 先遍历物品
-        for (var j = 1; j < size; j++) { // 再遍历容量
+        for (var j = 1; j <= size; j++) { // 再遍历容量
             if (weight[i] <= j) {
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
             } else {
@@ -32,6 +31,27 @@ function testweightbagproblem (wight, value, size) {
             }
         }
     }
+    console.log('dp1', dp);
 }
+
+// dp一维数组
+function testweightbagproblem2 (weight, value, size) {
+    // 递推公式 dp[j] = max(dp[j], dp[j - weight[i]] + value[i])
+    var len = weight.length;
+    // 初始化
+    var dp = new Array(size + 1).fill(0);
+    console.log('initDp', dp);
+    // 只能先遍历物品，再遍历背包，且背包需要倒序遍历，不然会重复计算
+    for (var i = 0; i < len; i++) {
+        for (var j = size; j >= weight[i]; j--) {
+            dp[j] = Math.max(dp[j], dp[j - weight[i]] + value[i]);
+        }
+    }
+    console.log('dp2', dp);
+}
+
+testweightbagproblem([1, 3, 4], [15, 20, 30], 4);
+testweightbagproblem2([1, 3, 4], [15, 20, 30], 4);
+
 </script>
 </html>
