@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+// dp二维数组
+function testweightbagproblem (wight, value, size) {
+    // dp[i][j] 表示 从下标[0-1]的物品里任取，放到容量为j的背包中的 最大价值
+    // 递推公式 max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i])
+    var len = weight.length;
+    var initWeight = wight[0];
+    // 初始化
+    var dp = new Array(len).fill(0).map(item => new Array(len).fill(0));
+    for (var j = 0; j < len; j++) {
+        if (j <= initWeight) dp[0][j] = initWeight;
+    }
+    console.log('initDp', dp);
+    // 遍历，遍历顺序都可以
+    for (var i = 1; i < len; i++) { // 先遍历物品
+        for (var j = 1; j < size; j++) { // 再遍历容量
+            if (weight[i] <= j) {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+}
+</script>
+</html>
