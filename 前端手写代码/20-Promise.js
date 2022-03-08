@@ -20,6 +20,8 @@
 // Promise.all([promise1, promise2]).then();
 // Promise.race([promise1, promise2]).then();
 
+// 创建 Promise 时，并不会生成微任务，而是需要等到 Promise 对象调用 resolve 或者 reject 函数时，才会产生微任务。
+// 产生的微任务并不会立即执行，而是等待当前宏任务快要执行结束时再执行。
 
 // 定义三种状态
 const PENDING = 'PENDING';       // 进行中
