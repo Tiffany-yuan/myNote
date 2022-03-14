@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * @param {number} amount
+     * @param {number[]} coins
+     * @return {number}
+     */
+    var change = function(amount, coins) {
+        // 背包容量amount，物品价值和重量列表均为coins
+        // 问题转换为，将容量为amount的背包装满，有多少方法
+        // 之前推导过装满背包的递推公式：dp[j] = dp[j] + dp[j - coins[i]]
+        // 初始化0
+        var len = coins.length;
+        var dp = new Array(amount + 1).fill(0);
+        dp[0] = 1;
+        // 遍历顺序 
+        // 如果求组合数就是外层for循环遍历物品，内层for遍历背包。
+        // 如果求排列数就是外层for遍历背包，内层for循环遍历物品。
+        for (var i = 0; i <= len; i++) {
+            for (var j = coins[i]; j <= amount; j++) {
+                dp[j] = dp[j] + dp[j - coins[i]];
+            }
+        }
+        console.log(dp);
+        return dp[amount];
+    };
+    change(5, [1, 2, 5]);
+    change(3, [2, 4]);
+</script>
+</html>

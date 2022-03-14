@@ -25,10 +25,10 @@
     // 假如把题目换成：一步一个台阶，两个台阶，三个台阶，直到 m个台阶，有多少种方法爬到n阶楼顶。
     var climbStairs2 = function(n, m) {
         var dp = [1];
-        for (var i = 1; i < n; i++) {
+        for (var i = 1; i <= n; i++) {
             for (var j = 1; j <= m; j++) {
                 if (i - j >= 0) {
-                    dp[i] = dp[i] ? dp[i] + dp[i - j] : dp[i - j];
+                    dp[i] += dp[i - j];
                 }
             }
         }
