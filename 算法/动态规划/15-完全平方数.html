@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+    // 完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
+
+    // 示例 1：
+    // 输入：n = 12
+    // 输出：3 
+    // 解释：12 = 4 + 4 + 4
+
+    // 示例 2：
+    // 输入：n = 13
+    // 输出：2
+    // 解释：13 = 4 + 9
+
+    /**
+     * @param {number} n
+     * @return {number}
+     */
+     var numSquares = function(n) {
+        // 完全背包
+        var maxNum = Math.floor(Math.sqrt(n));
+        var nums = [];
+        for (var i = 1; i <= maxNum; i++) {
+            nums.push(i*i);
+        }
+        console.log(nums);
+        // 即转换为：物品价值及重量均为nums，装满容量为n的背包，的最少物品数量
+        // 递推公式：dp[j] = min(dp[j], dp[j - num[i]] + 1)
+        // 初始化都为最大值，dp[0]初始化为1
+        var dp = Array(n + 1).fill(Infinity);
+        dp[0] = 0;
+        for (var i = 0; i < nums.length; i++) {
+            for (var j = 0; j <= n; j++) {
+                if (j >= nums[i]) {
+                    dp[j] = Math.min(dp[j], dp[j - nums[i]] + 1);
+                }
+            }
+        }
+        console.log(dp);
+        return dp[n];
+    };
+    numSquares(12);
+    numSquares(13);
+</script>
+</html>
