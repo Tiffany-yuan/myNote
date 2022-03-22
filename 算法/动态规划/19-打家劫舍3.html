@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为 root 。
+    // 除了 root 之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果 两个直接相连的房子在同一天晚上被打劫 ，房屋将自动报警。
+    // 给定二叉树的 root 。返回 在不触动警报的情况下 ，小偷能够盗取的最高金额 。
+
+    // 示例 1:
+    // 输入: root = [3,2,3,null,3,null,1]
+    // 输出: 7 
+    // 解释: 小偷一晚能够盗取的最高金额 3 + 3 + 1 = 7
+
+    // 示例 2:
+    // 输入: root = [3,4,5,1,3,null,1]
+    // 输出: 9
+    // 解释: 小偷一晚能够盗取的最高金额 4 + 5 = 9
+
+    // 树的节点数在 [1, 104] 范围内
+    // 0 <= Node.val <= 104
+
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number}
+     */
+    var rob = function(root) {
+        // 考虑是深度优先遍历还是广度优先遍历。因为需要通过递归函数的返回值来做下一步计算，所以这里需要用后序遍历
+        // 二叉树的递归三部曲
+        // 1. 确定递归函数的参数和返回值。 这里我们需要维护一个节点「偷」与「不偷」得到的金钱，所以 dp数组是一个长度为2的数组。
+        //    dp：下标为0记录不偷该节点所得到的的最大金钱，下标为1记录偷该节点所得到的的最大金钱。
+        // 2. 确定终止条件。 再遍历的过程中如果遇到空节点，就返回
+        // 3. 确定遍历顺序。 后序遍历。
+        var postOrder = node => {
+            // 如果是空节点，就返回
+            if (node === null) return [0, 0]; 
+            var left = postOrder(node.left);
+            var right = postOrder(node.right);
+            // 1. 不选当前节点，左右孩子可选可不选
+            var doNotChooseThis = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+            // 2. 选当前节点，左右孩子一定不能选
+            var chooseThis = node.val + left[0] + right[0];
+            return [doNotChooseThis, chooseThis]
+        }
+        var resArr = postOrder(root);
+        return Math.max(...resArr);
+    };
+
+
+    // 不能用层序遍历！！！反例：[2, 1, 3, null, 4] 的结果为7
+
+    // var rob = function(root) {
+    //     // 把这棵树隔层分为两个数组，求两个数组中和更大的值
+    //     // 1. 选根结点
+    //     // 2. 不选根结点
+    //     // 先将数组转换为层序遍历结果
+    //     var levelRoot = [];
+    //     var nodeArr = [root];
+    //     while(nodeArr.length) {
+    //         var curRes = [];
+    //         var len = nodeArr.length;
+    //         for (var i = 0; i < len; i++) {
+    //             var curNode = nodeArr.shift();
+    //             curRes.push(curNode.val);
+    //             if (curNode.left) nodeArr.push(curNode.left);
+    //             if (curNode.right) nodeArr.push(curNode.right);
+    //         }
+    //         levelRoot.push(curRes);
+    //     }
+
+    //     var arrHasRoot = [];
+    //     var arrNoRoot = [];
+    //     var levelLen = levelRoot.length;
+    //     for (var i = 0; i < levelLen; i++) {
+    //         if (i % 2 === 0) {
+    //             arrHasRoot.push(...levelRoot[i]);
+    //         } else {
+    //             arrNoRoot.push(...levelRoot[i]);
+    //         }
+    //     }
+    //     var result1 = arrHasRoot.reduce((a, b) => a + b);
+    //     var result2 = arrNoRoot.reduce((a, b) => a + b);
+    //     return Math.max(result1, result2);
+    // };
+
+    // var node3 = { val: 1, left: null, right: null };
+    // var node5 = { val: 3, left: null, right: null };
+    // var node4 = { val: 1, left: null, right: null };
+    // var node1 = { val: 4, left: node3, right: node5 };
+    // var node2 = { val: 5, left: null, right: node4 };
+    // var root = { val: 3, left: node1, right: node2 };
+    // rob(root);
+</script>
+</html>
