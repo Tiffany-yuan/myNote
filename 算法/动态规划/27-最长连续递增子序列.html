@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h0r17r5z4jj20u0141jwd.jpg" alt="">
+</body>
+<script>
+    // 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。
+    // 连续递增的子序列 可以由两个下标 l 和 r（l < r）确定，如果对于每个 l <= i < r，都有 nums[i] < nums[i + 1] ，那么子序列 [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] 就是连续递增子序列。
+
+    // 示例 1：
+    // 输入：nums = [1,3,5,4,7]
+    // 输出：3
+    // 解释：最长连续递增序列是 [1,3,5], 长度为3。
+    // 尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。 
+
+    // 示例 2：
+    // 输入：nums = [2,2,2,2,2]
+    // 输出：1
+    // 解释：最长连续递增序列是 [2], 长度为1。
+
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var findLengthOfLCIS = function(nums) {
+        // dp[i] --- i之前包括i的最长连续递增子序列的长度
+        // 递推公式： 这里只需要比较 nums[i] 和 nums[i + 1]的大小。
+        // if (nums[i] > nums[i - 1]) dp[i] = dp[i - 1] + 1
+        // 初始化
+        var len = nums.length;
+        var dp = new Array(len).fill(1);
+        var result = 1;
+        for (var i = 1; i < len; i++) {
+            if (nums[i] > nums[i - 1]) {
+                dp[i] = dp[i - 1] + 1;
+            }
+            result = dp[i] > result ? dp[i] : result;
+        }
+        return result;
+    };
+</script>
+</html>
