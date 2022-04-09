@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。
+    // 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。
+
+    // 示例 1：
+    // 输入："abc" 输出：3 解释：三个回文子串: "a", "b", "c"
+
+    // 示例 2：
+    // 输入："aaa" 输出：6 解释：6个回文子串: "a", "a", "a", "aa", "aa", "aaa"
+
+    // 提示：
+    // 输入的字符串长度不会超过 1000 。
+
+    // 动态规划
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    // var countSubstrings = function(s) {
+    //     // 布尔值类型的dp[i][j] --- 表示区间范围[i,j] （注意是左闭右闭）的子串是否是回文子串，如果是dp[i][j]为true，否则为false。
+    //     // s[i] === s[j], 分三种情况：
+    //     // 1. i === j, dp[i][j] = true
+    //     // 2. j - i === 1, dp[i][j] = true
+    //     // 3. dp[i][j] = dp[i - 1][j - 1] (例如cabac，此时s[i]与s[j]已经相同了，我们看i到j区间是不是回文子串就看aba是不是回文就可以了)
+    //     // s[i] !== s[j], dp[i][j] = false
+    //     // 初始化都为false
+    //     var len = s.length;
+    //     var dp = Array(len).fill(false).map(item => Array(len).fill(false));
+    //     var result = 0;
+    //     for (var i = len; i >= 0; i--) {
+    //         for (var j = i; j < len; j++) {
+    //             if (s[i] === s[j]) {
+    //                 if (j - i <= 1) {
+    //                     dp[i][j] = true;
+    //                 } else {
+    //                     dp[i][j] = dp[i + 1][j - 1];
+    //                 }
+    //                 if (dp[i][j]) {
+    //                     result++;
+    //                 }
+    //             } else {
+    //                 dp[i][j] = false;
+    //             }
+    //         }
+    //     }
+    //     return result;
+    // };
+
+    // 双指针
+    /**
+     * @param {string} s
+     * @return {number}
+     */
+    var countSubstrings = function(s) {
+        // 以当前一个或者两个为中心向两边阔
+        var count = 0;
+        var len = s.length;
+        for (var i = 0; i < len; i++) {
+            // 以一个为中心
+            count += calCounts(s, i, i);
+            // 以两个为中心
+            count += calCounts(s, i, i + 1);
+        }
+        return count;
+    };
+    var calCounts = function(s, i, j) {
+        var len = s.length;
+        var count = 0;
+        while(i >= 0 && j < len && s[i] === s[j]) {
+            i--;
+            j++;
+            count++;
+        }
+        return count;
+    }
+</script>
+</html>

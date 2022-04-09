@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+    // 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+
+    // 示例 1： 输入：s = "abc", t = "ahbgdc" 输出：true
+
+    // 示例 2： 输入：s = "axc", t = "ahbgdc" 输出：false
+
+    // 提示：
+    // 0 <= s.length <= 100
+    // 0 <= t.length <= 10^4
+    // 两个字符串都只由小写字符组成。
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {boolean}
+     */
+    // 找到最长公共子序列，判断这个最长公共子序列长度是否等于s的长度
+    var isSubsequence = function(s, t) {
+        // dp[i][j] 表示以[i - 1]结尾的s 和 表示以[j - 1]结尾的t 的子序列长度
+        // if (s[i - 1] === t[j - 1]) dp[i][j] = max(dp[i][j], dp[i - 1][j - 1] + 1)
+        // else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        var result = 0;
+        var dp = Array(s.length + 1).fill(0).map(item => Array(t.length + 1).fill(0));
+        for (var i = 1; i <= s.length; i++) {
+            for (var j = 1; j <= t.length; j++) {
+                if (s[i - 1] === t[j - 1]) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - 1] + 1);
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+                if (dp[i][j] > resultStr.length) {
+                    result = dp[i][j];
+                }
+            }
+        }
+        return result === s.length;
+    };
+    isSubsequence('axc', 'ahbgdc');
+</script>
+</html>
