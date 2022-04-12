@@ -16,8 +16,95 @@
      * @param {number[]} heights
      * @return {number}
      */
-    var largestRectangleArea = function(heights) {
 
-    };
+    // 解法一：双指针 ------ 超时了！！！ 优化解法二，动态规划
+    // var largestRectangleArea = function(heights) {
+    //     var len = heights.length;
+    //     var result = 0;
+    //     for (var i = 0; i < len; i++) {
+    //         var leftSmallerIndex = rightSmallerIndex = i;
+    //         for (; leftSmallerIndex >= 0; leftSmallerIndex--) {
+    //             if (heights[leftSmallerIndex] < heights[i]) break;
+    //         }
+    //         for (; rightSmallerIndex < len; rightSmallerIndex++) {
+    //             if (heights[rightSmallerIndex] < heights[i]) break;
+    //         }
+    //         var w = rightSmallerIndex - leftSmallerIndex - 1;
+    //         var h = heights[i];
+    //         result = Math.max(result, w * h);
+    //     }
+    //     console.log(result);
+    //     return result;
+    // };
+
+    // 解法二：动态规划
+    // var largestRectangleArea = function(heights) {
+    //     var result = 0;
+    //     var len = heights.length;
+    //     var leftSmallerIndexArr = Array(len).fill(-1);
+    //     var rightSmallerIndexArr = Array(len).fill(len);
+    //     // 记录每个柱子 左边第一个小于该柱子的下标
+    //     for (var i = 1; i < len; i++) {
+    //         var left = i - 1;
+    //         if (heights[i - 1] < heights[i]) {
+    //             leftSmallerIndexArr[i] = i - 1;
+    //         } else {
+    //             while (left >= 0 && heights[i] <= heights[left]) {
+    //                 left = leftSmallerIndexArr[left];
+    //             }
+    //             leftSmallerIndexArr[i] = left;
+    //         }
+    //     }
+    //     // 记录每个柱子 右边第一个小于该柱子的下标
+    //     for (var i = len - 2; i >= 0; i--) {
+    //         var right = i + 1;
+    //         if (heights[i + 1] < heights[i]) {
+    //             rightSmallerIndexArr[i] = i + 1;
+    //         } else {
+    //             while (right < len && heights[i] <= heights[right]) {
+    //                 right = rightSmallerIndexArr[right];
+    //             }
+    //             rightSmallerIndexArr[i] = right;
+    //         }
+    //     }
+    //     for (var i = 0; i < len; i++) {
+    //         var w = rightSmallerIndexArr[i] - leftSmallerIndexArr[i] - 1;
+    //         var h = heights[i];
+    //         result = Math.max(result, w * h);
+    //     }
+    //     console.log(leftSmallerIndexArr, rightSmallerIndexArr, result);
+    //     return result;
+    // }
+
+    // 解法三：单调栈 --- 基本同接雨水，判断大小顺序不一样
+    var largestRectangleArea = function(heights) {
+        heights = [0, ...heights, 0];
+        var len = heights.length;
+        var stack = [];
+        var result = 0;
+        for (var i = 0; i < len; i++) {
+            if (heights[i] > heights[stack[stack.length - 1]]) { // 情况一：当前值较小时直接入栈
+                stack.push(i);
+            } else if (heights[i] === heights[stack[stack.length - 1]]) { // 情况二：相同时，取最右侧的值
+                stack.pop();
+                stack.push(i);
+            } else { // 情况三：当前值较大时形成了凹槽，可以装雨水
+                while(stack.length > 0 && heights[i] < heights[stack[stack.length - 1]]) {
+                    var mid = stack.pop();
+                    if (stack.length > 0) {
+                        var h = heights[mid];
+                        var w = i - stack[stack.length - 1] - 1;
+                        result = Math.max(result, h * w);
+                    }
+                }
+                stack.push(i);
+            }
+        }
+        console.log(result);
+        return result;
+    }
+    largestRectangleArea([2,1,5,6,2,3]);
+    largestRectangleArea([2,1]);
+    largestRectangleArea([4,2,0,3,2,4,3,4]);
 </script>
 </html>
