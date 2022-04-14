@@ -1,0 +1,88 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-24 17:08:14
+ * @LastEditTime: 2022-04-13 15:23:37
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/长度最小的子数组.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个含有 n 个正整数的数组和一个正整数 s ，找出该数组中满足其和 ≥ s 的长度最小的 连续 子数组，并返回其长度。如果不存在符合条件的子数组，返回 0。
+    // 示例：
+    // 输入：s = 7, nums = [2,3,1,2,4,3] 输出：2 解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+
+    // 暴力解法 
+    // var minSubArrayLen = function(target, nums) {
+    //     var len = nums.length;
+    //     var result = 0;
+    //     for (var i = 0; i < len; i++) {
+    //         var j = i + 1;
+    //         var sum = nums[i];
+    //         var curResult = 1;
+    //         while (j < len && sum < target) {
+    //             sum += nums[j];
+    //             j++;
+    //             curResult++;
+    //         }
+    //         if (sum >= target) {
+    //             result = result === 0 ? curResult : Math.min(result, curResult);
+    //         }
+    //     }
+    //     console.log(result);
+    //     return result;
+    // }
+
+    // 滑动窗口
+    var minSubArrayLen = function(target, nums) {
+        var len = nums.length;
+        var result = 0;
+        var sum = 0;
+        var j = 0;
+        var curResult;
+        if (Math.max(...nums) > target) return 1;
+        for (var i = 0; i < len; i++) {
+            sum += nums[i];
+            while (sum >= target) {
+                curResult = i - j + 1;
+                result = result === 0 ? curResult : Math.min(curResult, result);
+                sum -= nums[j++];
+            }
+        }
+        console.log(result);
+        return result;
+    }
+
+
+// 滑动窗口（可以理解为 双指针的一种）
+// var minSubArrayLen = function(target, nums) {
+//     if (Math.max(...nums) >= target) {
+//         return 1
+//     } 
+//     var minLength = 0;
+//     var j = 0;
+//     var countNum = 0;
+//     var curLength =0;
+//     for (var i = 0; i < nums.length; i++) {
+//         countNum += nums[i];
+//         while(countNum >= target) {
+//             curLength = (i - j + 1)
+//             minLength = minLength === 0 ? curLength : Math.min(minLength, curLength)
+//             countNum -= nums[j++]
+//         }
+//     }
+//     return minLength
+// };
+minSubArrayLen(11, [1,2,3,4,5]);
+minSubArrayLen(7, [2,3,1,2,4,3]);
+</script>
+</html>

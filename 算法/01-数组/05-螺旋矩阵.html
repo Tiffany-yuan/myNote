@@ -1,0 +1,107 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-25 15:39:49
+ * @LastEditTime: 2022-04-13 21:10:13
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/螺旋矩阵.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+    // 示例:
+    // 输入: 3 输出: [ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ] ]
+    var generateMatrix = function(n) {
+        //遍历 [i, j) 左闭右开
+        var len = n * n;
+        var sideLen = n;
+        var i = j = startIndex = 0;
+        var curNum = 1;
+        // 初始化
+        var resultArr = Array(n).fill(0).map(item => Array(n).fill(0));
+        // 遍历次数，这里向下取整，当是奇数时，中间的数字单独处理
+        var loopCount = Math.floor(n / 2);
+        while(loopCount--) {
+            i = j = startIndex;
+            for (; j < startIndex + sideLen - 1; j++) {
+                resultArr[i][j] = curNum++;
+            }
+            for (; i < startIndex + sideLen - 1; i++) {
+                resultArr[i][j] = curNum++;
+            }
+            for (; j > startIndex; j--) {
+                resultArr[i][j] = curNum++;
+            }
+            for (; i > startIndex; i--) {
+                resultArr[i][j] = curNum++;
+            }
+            sideLen -= 2;
+            startIndex++;
+        }
+        if (n % 2 === 1) {
+            var center = Math.floor(n / 2);
+            resultArr[center][center] = curNum++;
+        }
+        console.log(resultArr);
+        return resultArr;
+    }
+
+// var generateMatrix = function(n) {
+//     var total = n * n;
+//     var startX = 0;
+//     var startY = 0;
+//     var i, j;
+//     var count = 1;
+//     var loop = Math.floor(n/2); // 需要遍历几次
+//     var borderLength = n; // 边长是多少，遍历完一圈后这个只会减小，需要记录    
+//     // 先初始化一个二维数组，初始值都为0
+//     var arr = [];
+//     for(var x=0; x<n; x++){
+//         arr[x]=new Array();
+//         for(var y=0;y<n;y++){
+//             arr[x][y]=0;          //数组初始化为0
+//         }
+//     }
+//     while (loop--) {
+//         i = startX;
+//         j = startY;
+//         // 上填充
+//         for (; j < startY + borderLength - 1; j++) {
+//             arr[i][j] = count++;
+//         }
+//         // 右填充
+//         for (; i < startX + borderLength - 1; i++) {
+//             arr[i][j] = count++;
+//         }
+//         // 下填充
+//         for (; j > startY; j--) {
+//             arr[i][j] = count++;
+//         }
+//         // 左填充
+//         for (; i > startX; i--) {
+//             arr[i][j] = count++;
+//         }
+//         startX++;
+//         startY++;
+//         borderLength -= 2;
+//     }
+//     // 遍历完之后会发现当奇数是，正中间的数字没有处理到，这里单独处理下
+//     if (n % 2 === 1) {
+//         var center = Math.floor(n/2)
+//         arr[center][center] = n*n;
+//     }
+//     console.log(arr)
+//     return arr
+// };
+generateMatrix(5)
+</script>
+</html>
