@@ -1,0 +1,71 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-20 17:23:35
+ * @LastEditTime: 2022-04-15 17:17:54
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/算法中的字符串/有效的字母异位词.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+    // 注意：若 s 和 t 中每个字符出现的次数都相同，则称 s 和 t 互为字母异位词。
+    // 示例 1: 输入: s = "anagram", t = "nagaram" 输出: true
+    // 示例 2: 输入: s = "rat", t = "car" 输出: false
+    // 说明: 你可以假设字符串只包含小写字母。
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {boolean}
+     */
+    var isAnagram = function(s, t) {
+        var sLen = s.length;
+        var tLen = t.length;
+        if (sLen !== tLen) return false;
+        var map = new Map();
+        for (var i = 0; i < sLen; i++) {
+            var curWord = s[i];
+            var curNum = map.get(curWord);
+            map.set(curWord, curNum === undefined ? 1 : curNum + 1);
+        }
+        for (var i = 0; i < tLen; i++) {
+            var curWord = t[i];
+            var curNum = map.get(curWord);
+            map.set(curWord, curNum === undefined ? 1 : curNum - 1);
+        }
+        for (var [key, item] of map) {
+            if (map.get(key) !== 0) return false;
+        }
+        return true;
+    }
+    /**
+     * @param {string} s
+     * @param {string} t
+     * @return {boolean}
+     */
+    // var isAnagram = function(s, t) {
+    //     if (s.length !== t.length) return false;
+    //     var arr = new Array(26).fill(0);
+    //     const base = 'a'.charCodeAt();
+    //     for (const key of s) {
+    //         arr[key.charCodeAt() - base]++;
+    //     }
+    //     for (const key of t) {
+    //         if (!arr[key.charCodeAt() - base]) return false;
+    //         arr[key.charCodeAt() - base]--;
+    //     }
+    //     return true;
+    // };
+// isAnagram("anagram", "nagaram");
+isAnagram("rat", "car");
+</script>
+</html>

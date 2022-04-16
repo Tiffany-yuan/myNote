@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+    // 输入：head = [1,2,3,4,5], n = 2  输出：[1,2,3,5]
+    // 输入：head = [1], n = 1  输出：[]
+    // 输入：head = [1,2], n = 1  输出：[1]
+    var removeNthFromEnd = function(head, n) {
+        if (!head) return null;
+        var ret = new ListNode(0, head);
+        // 快慢指针
+        var slow = fast = ret;
+        while(n--) {
+            fast = fast.next;
+        }
+        while (fast.next) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        // 当fast.next为null时，当前slow.next是要删除的元素
+        slow.next = slow.next.next;
+        return ret.next;
+    }
+</script>
+</html>

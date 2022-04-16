@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+    // 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+    // 示例: 输入: 1 2 3 4 输出: 2 1 4 3
+    function ListNode(val, next) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+    var swapPairs = function(head) {
+        if (!head || !head.next) return head;
+        var ret = new ListNode(0, head);
+        var cur = ret;
+        while (cur.next && cur.next.next) {
+            var next1 = cur.next;
+            var next2 = cur.next.next;
+            var next3 = cur.next.next.next;
+            cur.next = next2;
+            next2.next = next1;
+            next1.next = next3;
+            cur = next1;
+        }
+        return ret.next;
+    }
+</script>
+</html>
