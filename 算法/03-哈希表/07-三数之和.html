@@ -1,0 +1,91 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-25 11:40:31
+ * @LastEditTime: 2022-04-18 19:47:47
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/哈希表/三数之和.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+    // 注意：答案中不可以包含重复的三元组。
+    
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    // 双指针+set，因为要去重！！！
+    var threeSum = function(nums) {
+        var len = nums.length;
+        if (len < 3) return [];
+        nums = nums.sort((a, b) => a - b);
+        var set = new Set();
+        for (var i = 0; i < len - 2; i++) {
+            var cur = nums[i];
+            var leftIndex = i + 1;
+            var rightIndex = len - 1;
+            while (leftIndex < rightIndex) {
+                var left = nums[leftIndex];
+                var right = nums[rightIndex];
+                var total = cur + left + right;
+                if (total < 0) {
+                    leftIndex++;
+                    continue;
+                }
+                if (total > 0) {
+                    rightIndex--;
+                    continue;
+                }
+                leftIndex++;
+                rightIndex--;
+                set.add(`${cur},${left},${right}`);
+            }
+        }
+        return Array.from(set).map(item => item.split(','));
+    }
+
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    // var threeSum = function(nums) {
+    //     var length = nums.length;
+    //     if (length < 3) return [];
+    //     nums.sort((a, b) => a - b);
+    //     var left, right, sum;
+    //     var set = new Set();
+    //     for(var i = 0; i < length - 2; i++) {
+    //         if (nums[i] > 0) break;
+    //         left = i + 1;
+    //         right = length - 1;
+    //         while(left < right) {
+    //             sum = nums[i] + nums[left] + nums[right];
+    //             if (sum < 0) {
+    //                 left++;
+    //                 continue;
+    //             }
+    //             if (sum > 0) {
+    //                 right--;
+    //                 continue;
+    //             }
+    //             set.add(`${nums[i]},${nums[left]},${nums[right]}`);
+    //             left++;
+    //             right--;
+    //         }
+    //     }
+    //     return Array.from(set).map(str => str.split(","));
+    // };
+    threeSum([-1,0,1,2,-1,-4]);
+    // threeSum([-1,0,1,2,-1,-4,-2,-3,3,0,4])
+</script>
+</html>

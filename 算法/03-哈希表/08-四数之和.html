@@ -1,0 +1,114 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-29 11:13:05
+ * @LastEditTime: 2022-04-18 20:29:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /myNote/算法/哈希表/四数之和.html
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个由 n 个整数组成的数组 nums ，和一个目标值 target 。
+    // 请你找出并返回满足下述全部条件且不重复的四元组 [nums[a], nums[b], nums[c], nums[d]] （若两个四元组元素一一对应，则认为两个四元组重复）：
+    // 0 <= a, b, c, d < n
+    // a、b、c 和 d 互不相同
+    // nums[a] + nums[b] + nums[c] + nums[d] == target
+    // 你可以按 任意顺序 返回答案 。
+    // 示例 1：
+    // 输入：nums = [1,0,-1,0,-2,2], target = 0
+    // 输出：[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+
+    // 示例 2：
+    // 输入：nums = [2,2,2,2,2], target = 8
+    // 输出：[[2,2,2,2]]
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number[][]}
+     */
+    var fourSum = function(nums, target) {
+        var len = nums.length;
+        if (len < 4) return [];
+        nums = nums.sort((a, b) => a - b);
+        var result = [];
+        for (var i = 0; i < len - 3; i++) {
+            // 结果是不重复的四元组，这里去重
+            if (i > 0 && nums[i] === nums[i - 1]) continue; 
+            for (var j = i + 1; j < len - 2; j++) {
+                // 结果是不重复的四元组，这里去重
+                if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+                var curI = nums[i];
+                var curJ = nums[j];
+                var leftIndex = j + 1;
+                var rightIndex = len - 1;
+                while (leftIndex < rightIndex) {
+                    var left = nums[leftIndex];
+                    var right = nums[rightIndex];
+                    var total = curI + curJ + left + right;
+                    if (total < target) {
+                        leftIndex++;
+                        continue;
+                    }
+                    if (total > target) {
+                        rightIndex--;
+                        continue;
+                    }
+                    result.push([curI, curJ, left, right]);
+                    // 结果是不重复的四元组，这里去重
+                    while(leftIndex < rightIndex && nums[leftIndex] === nums[++leftIndex]);
+                    while(leftIndex < rightIndex && nums[rightIndex] === nums[--rightIndex]);
+                }
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number[][]}
+     */
+    // var fourSum = function(nums, target) {
+    //     var length = nums.length;
+    //     if (length < 4) return[];
+    //     nums.sort((a, b) => a - b);
+    //     var arr = [];
+    //     for(var i = 0;i < length - 3;i++) {
+    //         if (i > 0 && nums[i] === nums[i - 1]) continue;
+    //         for(var j = i + 1;j < length - 2;j++) {
+    //             if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+    //             var l = j + 1;
+    //             var r = length - 1;
+    //             while(l < r) {
+    //                 var count = nums[i] + nums[j] + nums[l] + nums[r];
+    //                 if (count < target) {
+    //                     l++;
+    //                     continue;
+    //                 }
+    //                 if (count > target) {
+    //                     r--;
+    //                     continue;
+    //                 }
+    //                 arr.push([nums[i], nums[j], nums[l], nums[r]]);
+    //                 // set.add(`${nums[i]},${nums[j]},${nums[l]},${nums[r]}`);
+    //                 while(l < r && nums[l] === nums[++l]);
+    //                 while(l < r && nums[r] === nums[--r]);
+    //             }
+    //         }
+    //     }
+    //     return arr;
+    // };
+// fourSum([-2,-1,-1,1,1,2,2], 0);
+fourSum([2,2,2,2,2], 8);
+</script>
+</html>

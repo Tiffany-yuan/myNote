@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-22 16:54:51
- * @LastEditTime: 2022-04-15 17:50:58
+ * @LastEditTime: 2022-04-18 18:59:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /myNote/算法/哈希表/快乐数.html
@@ -33,7 +33,18 @@
     // 1^2 + 0^2 + 0^2 = 1
 
     var isHappy = function(n) {
+        var set = new Set();
+        var sum;
+        while(sum !== 1) {
+            var curNumArr = String(sum || n).split('');
+            sum = curNumArr.reduce((prev, cur) => prev + cur*cur, 0);
+            if (set.has(sum)) return false;
+            else set.add(sum);
+        }
+        return true;
     }
+
+    
     // var isHappy = function(n) {
     //     // 用一个map来存出现过的数
     //     var map = new Set();
