@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 16:04:27
- * @LastEditTime: 2021-11-03 17:57:01
+ * @LastEditTime: 2022-04-19 20:15:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /myNote/算法/字符串/反转字符串II.html
@@ -26,17 +26,32 @@
         输出: "bacdfeg"
     */
     var reverseStr = function(s, k) {
-        var sArr = s.split('');
-        var length = sArr.length;
-        for (var i = 0; i < length; i += 2*k) {
-            var l = i;
-            var r = i + k > length ? length - 1 : i + k - 1;
-            while(l < r) {
-                [sArr[l++], sArr[r--]] = [sArr[r], sArr[l]];
+        var sArr = Array.from(s);
+        var len = sArr.length;
+        for (var i = 0; i < len; i += k * 2) {
+            var leftIndex = i;
+            var rightIndex = i + k > len ? len - 1 : i + k - 1;
+            while (leftIndex < rightIndex) {
+                var temp = sArr[leftIndex];
+                sArr[leftIndex++] = sArr[rightIndex];
+                sArr[rightIndex--] = temp;
             }
         }
         return sArr.join('');
-    };
+    }
+
+    // var reverseStr = function(s, k) {
+    //     var sArr = s.split('');
+    //     var length = sArr.length;
+    //     for (var i = 0; i < length; i += 2*k) {
+    //         var l = i;
+    //         var r = i + k > length ? length - 1 : i + k - 1;
+    //         while(l < r) {
+    //             [sArr[l++], sArr[r--]] = [sArr[r], sArr[l]];
+    //         }
+    //     }
+    //     return sArr.join('');
+    // };
     // var reverseStr = function(s, k) {
     //     var str = '';
     //     for (var i = 0; i < s.length; i += 2*k) {
