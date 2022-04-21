@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 有效的运算符包括 + ,  - ,  * ,  / 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+    // 说明：
+    // 整数除法只保留整数部分。 给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+
+    // 示例 1：
+    // 输入: ["2", "1", "+", "3", " * "]
+    // 输出: 9
+    // 解释: 该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9
+    // 示例 2：
+    // 输入: ["4", "13", "5", "/", "+"]
+    // 输出: 6
+    // 解释: 该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6
+
+    var evalRPN = function(tokens) {
+        var len = tokens.length;
+        var stack = [];
+        for (var i = 0; i < len; i++) {
+            var curToken = tokens[i];
+            if (['+', '-', '*', '/'].indexOf(curToken) > -1) {
+                var a = stack.pop();
+                var b = stack.pop();
+                if (curToken === '/') {
+                    stack.push(eval(`parseInt(${b} / ${a})`));
+                } else {
+                    stack.push(eval(`${b} ${curToken} ${a}`));
+                }
+            } else {
+                stack.push(curToken);
+            }
+        }
+        return stack.pop();
+    }
+
+    // var evalRPN = function(tokens) {
+    //     var stack = [];
+    //     for(var i = 0; i < tokens.length; i++) {
+    //         var token = tokens[i];
+    //         if (['+','-','*','/'].indexOf(token) > -1) {
+    //             var b = stack.pop();
+    //             var a = stack.pop();
+    //             if (token === '/') {
+    //                 stack.push(eval(`parseInt(${a} ${token} ${b})`));
+    //                 continue;
+    //             }
+    //             stack.push(eval(`${a} ${token} ${b}`));
+    //         } else {
+    //             stack.push(token);
+    //         }
+    //     }
+    //     return stack.pop();
+    // };
+
+    // var evalRPN = function(tokens) {
+    //     var stack = [];
+    //     var map = new Map([
+    //         ['+', (a, b) => +a + +b],
+    //         ['-', (a, b) => b - a],
+    //         ['*', (a, b) => a * b],
+    //         ['/', (a, b) => parseInt(b / a)], // 位运算只对整数有效，遇到小数时，会将小数部分舍去，只保留整数部分；将一个小数与0进行二进制或运算。等同 取整数位。
+    //     ])
+    //     for(var i = 0; i < tokens.length; i++) {
+    //         var token = tokens[i];
+    //         if(map.has(token)) {
+    //             stack.push(map.get(token)(stack.pop(), stack.pop()));
+    //             continue;
+    //         }
+    //         stack.push(token);
+    //     }
+    //     return stack.pop();
+    // };
+    // evalRPN(["2","1","+","3","*"]);
+    // evalRPN(["4","13","5","/","+"]);
+    evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]);
+</script>
+</html>
