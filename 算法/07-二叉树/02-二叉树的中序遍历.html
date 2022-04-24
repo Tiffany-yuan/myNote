@@ -35,21 +35,52 @@
     // };
 
     // 迭代
+    // var inorderTraversal = function(root) {
+    //     var res = [];
+    //     var nodeArr = [];
+    //     while(root || nodeArr.length) {
+    //         if (root) {
+    //             nodeArr.push(root);
+    //             root = root.left;
+    //         } else {
+    //             var curNode = nodeArr.pop();
+    //             res.push(curNode.val);
+    //             if (curNode.right) root = curNode.right;
+    //         }
+    //     }
+    //     return res;
+    // };
+
+
+    // 递归
+    // var inorderTraversal = function(root) {
+    //     var resultArr = [];
+    //     var func = (node) => {
+    //         if (node === null) return;
+    //         func(node.left);
+    //         resultArr.push(node.val);
+    //         func(node.right);
+    //     }
+    //     func(root);
+    //     return resultArr;
+    // }
+
+    // 迭代
     var inorderTraversal = function(root) {
-        var res = [];
-        var nodeArr = [];
-        while(root || nodeArr.length) {
+        var arr = [];
+        var resultArr = [];
+        while (root || arr.length) {
             if (root) {
-                nodeArr.push(root);
+                arr.push(root);
                 root = root.left;
             } else {
-                var curNode = nodeArr.pop();
-                res.push(curNode.val);
+                var curNode = arr.pop();
+                resultArr.push(curNode.val);
                 if (curNode.right) root = curNode.right;
             }
         }
-        return res;
-    };
+        return resultArr;
+    }
 
     var node3 = { val: 3, left: null, right: null };
     var node4 = { val: 4, left: null, right: null };

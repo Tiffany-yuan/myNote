@@ -10,22 +10,42 @@
 </body>
 <script>
     var levelOrder = function(root) {
-        var nodeArr = [root];
-        var res = [];
-        if (root === null) return res;
-        while(nodeArr.length) {
-            var curRes = [];
-            let length = nodeArr.length;
-            for (var i = 0; i < length; i++) {
-                var node = nodeArr.shift();
-                curRes.push(node.val);
-                if (node.left) nodeArr.push(node.left);
-                if (node.right) nodeArr.push(node.right);
+        var arr = [root];
+        var resultArr = [];
+        if (root === null) return [];
+        while(arr.length) {
+            var curArr = [];
+            var len = arr.length;
+            for (var i = 0; i < len; i++) {
+                var curNode = arr.shift();
+                curNode.left && arr.push(curNode.left);
+                curNode.right && arr.push(curNode.right);
+                curArr.push(curNode.val);
             }
-            res.push(curRes)
+            resultArr.push(curArr);
         }
-        return res;
-    };
+        return resultArr;
+    }
+
+
+
+    // var levelOrder = function(root) {
+    //     var nodeArr = [root];
+    //     var res = [];
+    //     if (root === null) return res;
+    //     while(nodeArr.length) {
+    //         var curRes = [];
+    //         let length = nodeArr.length;
+    //         for (var i = 0; i < length; i++) {
+    //             var node = nodeArr.shift();
+    //             curRes.push(node.val);
+    //             if (node.left) nodeArr.push(node.left);
+    //             if (node.right) nodeArr.push(node.right);
+    //         }
+    //         res.push(curRes)
+    //     }
+    //     return res;
+    // };
 
     // 二叉树的层次遍历 II
     var levelOrderBottom = function(root) {
