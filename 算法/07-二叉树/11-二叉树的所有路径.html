@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个二叉树，返回所有从根节点到叶子节点的路径。
+    // 说明: 叶子节点是指没有子节点的节点。
+
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {string[]}
+     */
+    var binaryTreePaths = function(root) {
+        if (root === null) return [];
+        var result = [];
+        var func = (node, curArr) => {
+            if (node.left === null && node.right === null) result.push(curArr);
+            node.left && func(node.left, curArr.concat(node.left.val));
+            node.right && func(node.right, curArr.concat(node.right.val));
+        }
+        func(root, [root.val]);
+        console.log(result);
+        return result.map(item => item.join('->'));
+    }
+
+
+
+
+
+    // 1. 递归+回溯
+    // var binaryTreePaths = function(root) {
+    //     let res = [];
+    //     const getPath = (node, path) => {
+    //         if(node.left === null && node.right === null) {
+    //             path += node.val;
+    //             res.push(path);
+    //             return;
+    //         }
+    //         path += node.val + '->';
+    //         node.left && getPath(node.left, path);
+    //         node.right && getPath(node.right, path);
+    //     }
+    //     getPath(root, '');
+    //     return res;
+    // }
+    // 2. 迭代+回溯
+    // var binaryTreePaths = function(root) {
+    //     if (root === null) return [];
+    //     let nodeArr = [root];
+    //     let path = [''];
+    //     let res = [];
+    //     while(nodeArr.length){
+    //         let curNode = nodeArr.shift();
+    //         let curPath = path.shift();
+    //         if (curNode.left === null && curNode.right === null) {
+    //             curPath += curNode.val;
+    //             res.push(curPath);
+    //         }
+    //         curPath += curNode.val + '->';
+    //         if (curNode.left !== null) {
+    //             nodeArr.push(curNode.left);
+    //             path.push(curPath);
+    //         }
+    //         if (curNode.right !== null) {
+    //             nodeArr.push(curNode.right);
+    //             path.push(curPath);
+    //         }
+    //     }
+    //     return res;
+    // };
+
+    var node6 = { val: 7, left: null, right: null };
+    var node5 = { val: 6, left: null, right: null };
+    var node4 = { val: 5, left: null, right: null };
+    var node3 = { val: 4, left: null, right: null };
+    var node2 = { val: 3, left: node5, right: node6 };
+    var node1 = { val: 2, left: node3, right: node4 };
+    var root = { val: 1, left: node1, right: node2 };
+
+    binaryTreePaths(root);
+</script>
+</html>

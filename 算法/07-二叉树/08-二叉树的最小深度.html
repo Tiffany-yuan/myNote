@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个二叉树，找出其最小深度。
+    // 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+    // 说明: 叶子节点是指没有子节点的节点。
+    var minDepth = function(root) {
+        if (root === null) return 0;
+        var nodeArr = [root];
+        var result = 0;
+        while (nodeArr.length) {
+            var len = nodeArr.length;
+            result++;
+            for (var i = 0; i < len; i++) {
+                var curNode = nodeArr.shift();
+                if (curNode.left === null && curNode.right === null) return result;
+                curNode.left && nodeArr.push(curNode.left);
+                curNode.right && nodeArr.push(curNode.right);
+            }
+        }
+    }
+</script>
+</html>
