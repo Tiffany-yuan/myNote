@@ -9,6 +9,9 @@
     
 </body>
 <script>
+    // 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+    // 说明: 叶子节点是指没有子节点的节点。
+
     /**
      * Definition for a binary tree node.
      * function TreeNode(val, left, right) {
@@ -20,38 +23,52 @@
     /**
      * @param {TreeNode} root
      * @param {number} targetSum
-     * @return {number[][]}
+     * @return {boolean}
      */
-     let pathSum = function(root, targetSum) {
-        if(root === null) return [];
+    let hasPathSum = function(root, targetSum) {
+        if (root === null) return false;
+        var nodeArr = [root];
+        var result = false;
+        var func = (node, sum) => {
+            sum += node.val;
+            if (node.left === null && node.right === null && sum === targetSum) {
+                result = true;
+                return;
+            }
+            node.left && func(node.left, sum);
+            node.right && func(node.right, sum);
+        }
+        func(root, 0);
+        return result;
+    }
+
+
+
+
+     let hasPathSum = function(root, targetSum) {
+        if(root === null) return false;
         let nodeArr = [root];
-        let resArr = []; // 记录符合目标和的返回路径
-        let tempArr = [[]]; // 对应路径
-        let countArr = [0]; //对应和
+        let valArr = [0];
         while(nodeArr.length) {
             let curNode = nodeArr.shift();
-            let curVal = countArr.shift();
-            let curNodeArr = tempArr.shift();
+            let curVal = valArr.shift();
             curVal += curNode.val;
-            curNodeArr.push(curNode.val);
-            // 为叶子结点，且和等于目标数，将此次结果数组push进返回数组中
+            // 为叶子结点，且和等于目标数，返回true
             if (curNode.left === null && curNode.right === null && curVal === targetSum) {
-                resArr.push(curNodeArr);
+                return true;
             }
-            // 左节点，将当前的和及对应路径也对应记录下来
+            // 左节点，将当前的数值也对应记录下来
             if (curNode.left) {
                 nodeArr.push(curNode.left);
-                countArr.push(curVal);
-                tempArr.push([...curNodeArr]);
+                valArr.push(curVal);
             }
-            // 右节点，将当前的和及对应路径也对应记录下来
+            // 右节点，将当前的数值也对应记录下来
             if (curNode.right) {
                 nodeArr.push(curNode.right);
-                countArr.push(curVal);
-                tempArr.push([...curNodeArr]);
+                valArr.push(curVal);
             }
         }
-        return resArr;
+        return false;
     };
     var node5 = { val: 6, left: null, right: null };
     var node4 = { val: 2, left: node5, right: null };
@@ -60,6 +77,6 @@
     var node1 = { val: 4, left: node3, right: node4 };
     var root = { val: 3, left: node1, right: node2 };
     
-    pathSum(root, 8);
+    hasPathSum(root, 15);
 </script>
 </html>

@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个二叉树的 根节点 root，请找出该二叉树的 最底层 最左边 节点的值。
+    // 假设二叉树中至少有一个节点。
+
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    // 层序遍历能轻松写出来，这里写下迭代
+    var findBottomLeftValue = function(root) {
+        var maxHeight = 0;
+        var result;
+        // 前序遍历
+        var dfs = (node, height) => {
+            if (node.left === null && node.right === null && maxHeight < height) {
+                result = node.val;
+                maxHeight = height;
+            }
+            node.left && dfs(node.left, height + 1);
+            node.right && dfs(node.right, height + 1);
+        }
+        dfs(root, 1);
+        return result;
+    }
+
+    /**
+     * @param {TreeNode} root
+     * @return {number}
+     */
+    // * 1. 层序遍历
+    // var findBottomLeftValue = function(root) {
+    //     // 层序遍历，返回最后一层第一个值
+    //     let nodeArr = [root];
+    //     let lastLevelNodeValArr = [];
+    //     while(nodeArr.length) {
+    //         let curLevelNodeValArr = [];
+    //         let len = nodeArr.length;
+    //         for (var i = 0; i < len; i++) {
+    //             let curNode = nodeArr.shift();
+    //             curLevelNodeValArr.push(curNode.val);
+    //             curNode.left && nodeArr.push(curNode.left);
+    //             curNode.right && nodeArr.push(curNode.right);
+    //         }
+    //         lastLevelNodeValArr = curLevelNodeValArr;
+    //     }
+    //     return lastLevelNodeValArr.shift();
+    // };
+    // // * 2. 递归
+    // var findBottomLeftValue = function(root) {
+    //     var maxDepth = 0;
+    //     var resNode = null;
+    //     const dfsTree = (node, depth) => {
+    //         if (node.left === null && node.right === null) {
+    //             if (depth > maxDepth) {
+    //                 maxDepth = depth;
+    //                 resNode = node;
+    //             }
+    //         }
+    //         node.left && dfsTree(node.left, depth+1);
+    //         node.right && dfsTree(node.right, depth+1);
+    //     }
+    //     dfsTree(root, 1);
+    //     return resNode.val;
+    // }
+
+</script>
+</html>

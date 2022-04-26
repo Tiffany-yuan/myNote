@@ -21,22 +21,38 @@
      * @param {TreeNode} root
      * @return {number}
      */
-     var sumOfLeftLeaves = function(root) {
+    var sumOfLeftLeaves = function(root) {
         if (root === null) return 0;
         var nodeArr = [root];
-        var leftTotal = 0;
+        var result = 0;
         while(nodeArr.length) {
             var curNode = nodeArr.shift();
-            // 是左叶子
-            if (curNode.left && curNode.left.left === null && curNode.left.right === null) {
-                leftTotal += curNode.left.val;
-            } else if (curNode.left) {
-                nodeArr.push(curNode.left);
+            if (curNode.left !== null && curNode.left.left === null && curNode.left.right === null) {
+                result += curNode.left.val;
             }
+            curNode.left && nodeArr.push(curNode.left);
             curNode.right && nodeArr.push(curNode.right);
         }
-        return leftTotal;
-    };
+        return result;
+    }
+
+
+    // var sumOfLeftLeaves = function(root) {
+    //     if (root === null) return 0;
+    //     var nodeArr = [root];
+    //     var leftTotal = 0;
+    //     while(nodeArr.length) {
+    //         var curNode = nodeArr.shift();
+    //         // 是左叶子
+    //         if (curNode.left && curNode.left.left === null && curNode.left.right === null) {
+    //             leftTotal += curNode.left.val;
+    //         } else if (curNode.left) {
+    //             nodeArr.push(curNode.left);
+    //         }
+    //         curNode.right && nodeArr.push(curNode.right);
+    //     }
+    //     return leftTotal;
+    // };
 
     var node4 = { val: -1, left: null, right: null };
     var node3 = { val: -7, left: node4, right: null };
