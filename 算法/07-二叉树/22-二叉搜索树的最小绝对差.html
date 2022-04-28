@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 二叉搜索树的最小绝对差
+    // 给你一个二叉搜索树的根节点 root ，返回 树中任意两不同节点值之间的最小差值 。
+    // 差值是一个正数，其数值等于两值之差的绝对值。
+    // 提示：树中至少有 2 个节点。
+    var getMinimumDifference = function(root) {
+        // 二叉搜索树的中序遍历是有序的
+        var nodeArr1 = [];
+        var result = Infinity;
+        var dfs = (root) => {
+            root.left && dfs(root.left);
+            nodeArr1.push(root.val);
+            root.right && dfs(root.right);
+        }
+        dfs(root);
+        for (var i = 1; i < nodeArr1.length; i++) {
+            result = Math.min(result, Math.abs(nodeArr1[i] - nodeArr1[i - 1]));
+        }
+        return result;
+    }
+</script>
+</html>

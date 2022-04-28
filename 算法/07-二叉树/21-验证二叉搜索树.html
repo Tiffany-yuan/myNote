@@ -9,6 +9,11 @@
     
 </body>
 <script>
+    // 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
+    // 假设一个二叉搜索树具有如下特征：
+    // 节点的左子树只包含小于当前节点的数。
+    // 节点的右子树只包含大于当前节点的数。
+    // 所有左子树和右子树自身必须也是二叉搜索树。
     /**
      * Definition for a binary tree node.
      * function TreeNode(val, left, right) {
@@ -21,6 +26,26 @@
      * @param {TreeNode} root
      * @return {boolean}
      */
+    var isValidBST = function(root) {
+        // 二叉搜索树的中序遍历是有序的
+        var nodeArr1 = [];
+        var flag = true;
+        var dsf = (root) => {
+            root.left && dsf(root.left);
+            if (nodeArr1.length > 0 && nodeArr1[nodeArr1.length - 1] === root.val) {
+                flag = false;
+                return;
+            }
+            nodeArr1.push(root.val);
+            root.right && dsf(root.right);
+        }
+        dsf(root);
+        var str1 = nodeArr1.join('');
+        var str2 = nodeArr1.sort((a, b) => a - b).join('');
+        return flag && str1 === str2;
+    }
+
+
 
     var isValidBST = function(root) {
         // 中序遍历是否有序

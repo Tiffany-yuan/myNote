@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {number[]} inorder
+     * @param {number[]} postorder
+     * @return {TreeNode}
+     */
+    // 根据一棵树的中序遍历与后序遍历构造二叉树。
+    // 注意: 你可以假设树中没有重复的元素。
+    // 例如，给出
+    // 中序遍历 inorder = [9,3,15,20,7] 后序遍历 postorder = [9,15,7,20,3] 返回如下的二叉树：[3, 9, 20, null, null, 15, 7]
+
+    var buildTree = function(inorder, postorder) {
+        if (inorder.length === 0) return null;
+        var root = {};
+        // 后序遍历的最后一个是根结点，依据 根结点和中序遍历 把树分成左右两部分
+        var val = postorder.pop();
+        var index = inorder.indexOf(val);
+        var leftInorderArr = inorder.slice(0, index);
+        var rightInorderArr = inorder.slice(index + 1);
+        var leftPostorderArr = postorder.slice(0, leftInorderArr.length);
+        var rightPostorderArr = postorder.slice(leftInorderArr.length);
+        root.val = val;
+        root.left = leftInorderArr.length > 0 ? buildTree(leftInorderArr, leftPostorderArr) : null;
+        root.right = rightInorderArr.length > 0 ? buildTree(rightInorderArr, rightPostorderArr) : null;
+        return root;
+    }
+
+
+
+    // var buildTree = function(inorder, postorder) {
+    //     if (inorder.length === 0) return null;
+    //     let root = {};
+    //     // 先找到当前根节点
+    //     let rootVal = postorder.pop();
+    //     root.val = rootVal;
+    //     let index = inorder.indexOf(rootVal);
+    //     // 切割中序遍历
+    //     let leftInorder = inorder.slice(0, index);
+    //     let rightInorder = inorder.slice(index + 1);
+    //     // 按照中序遍历的长度来切割后序遍历
+    //     let leftPostorder = postorder.slice(0, leftInorder.length);
+    //     let rightPostorder = postorder.slice(leftInorder.length);
+    //     root.left = leftInorder.length > 0 ? buildTree(leftInorder, leftPostorder) : null;
+    //     root.right = rightInorder.length > 0 ? buildTree(rightInorder, rightPostorder) : null;
+    //     return root;
+    // };
+    buildTree([9,3,15,20,7], [9,15,7,20,3]);
+</script>
+</html>

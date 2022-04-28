@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给你一个含重复值的二叉搜索树（BST）的根节点 root ，找出并返回 BST 中的所有 众数（即，出现频率最高的元素）。
+    // 如果树中有不止一个众数，可以按 任意顺序 返回。
+    // 假定 BST 满足如下定义：
+    // 结点左子树中所含节点的值 小于等于 当前节点的值
+    // 结点右子树中所含节点的值 大于等于 当前节点的值
+    // 左子树和右子树都是二叉搜索树
+
+    // 提示：
+    // 树中节点的数目在范围 [1, 104] 内
+    // -105 <= Node.val <= 105
+
+    // *进阶：你可以不使用额外的空间吗？（假设由递归产生的隐式调用栈的开销不被计算在内）
+
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number[]}
+     */
+    var findMode = function(root) {
+        // 二叉搜索树的中序遍历是有序的
+        var result = [];
+        var count = 0;
+        var maxCount = 1;
+        var prevNode = root;
+        var dfs = (root) => {
+            root.left && dfs(root.left);
+            if (root.val === prevNode.val) {
+                count++;
+            } else {
+                count = 1;
+            }
+            if (maxCount === count) {
+                result.push(root.val);
+            } else if (maxCount < count) {
+                result = [root.val];
+                maxCount = count;
+            }
+            prevNode = root;
+            root.right && dfs(root.right);
+        }
+        dfs(root);
+        return result;
+    }
+
+
+
+    // var findMode = function(root) {
+    //     if(root === null) return;
+    //     var nodeArr = [root];
+    //     var resMap = new Map();
+    //     while(nodeArr.length) {
+    //         var length = nodeArr.length;
+    //         for(var i = 0; i < length; i++) {
+    //             var curNode = nodeArr.shift();
+    //             var curVal = curNode.val;
+    //             resMap.set(curVal, resMap.has(curVal) ? resMap.get(curVal) + 1 : 1);
+    //             curNode.left && nodeArr.push(curNode.left);
+    //             curNode.right && nodeArr.push(curNode.right);
+    //         }
+    //     }
+    //     var maxCount = resMap.get(root.val);
+    //     var resArr = [];
+    //     resMap.forEach((val, key) => {
+    //         if(val === maxCount) {
+    //             resArr.push(key);
+    //         } else if (val > maxCount) {
+    //             resArr = [];
+    //             maxCount = val;
+    //             resArr.push(key);
+    //         }
+    //     })
+    //     return resArr;
+    // };
+    // var findMode = function(root) {
+    //     var resArr = [];
+    //     var count = 0;
+    //     var maxCount = 1;
+    //     var prev = root;
+    //     var func = (node) => {
+    //         if(node === null) return;
+    //         // 中序遍历
+    //         func(node.left);
+    //         if (prev.val === node.val) {
+    //             count++;
+    //         } else {
+    //             count = 1;
+    //         }
+    //         prev = node;
+    //         if (count === maxCount) {
+    //             resArr.push(node.val);
+    //         } else if (count > maxCount) {
+    //             resArr = [];
+    //             maxCount = count;
+    //             resArr.push(node.val);
+    //         }
+    //         func(node.right);
+    //     }
+    //     func(root);
+    //     return resArr;
+    // };
+</script>
+</html>
