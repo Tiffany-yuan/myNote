@@ -9,12 +9,23 @@
     
 </body>
 <script>
+    // 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。返回插入后二叉搜索树的根节点。 
+    // 输入数据保证，新值和原始二叉搜索树中的任意节点值都不同。
+    // 注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回任意有效的结果。
     var insertIntoBST = function(root, val) {
-        if(root === null) return {val: val, left: null, right: null};
-        if (val < root.val) root.left = insertIntoBST(root.left, val);
-        if (val > root.val) root.right = insertIntoBST(root.right, val);
+        if (root === null) return {val, left: null, right: null};
+        if (root.val < val) root.right = insertIntoBST(root.right, val);
+        if (root.val > val) root.left = insertIntoBST(root.left, val);
         return root;
     }
+
+
+    // var insertIntoBST = function(root, val) {
+    //     if(root === null) return {val: val, left: null, right: null};
+    //     if (val < root.val) root.left = insertIntoBST(root.left, val);
+    //     if (val > root.val) root.right = insertIntoBST(root.right, val);
+    //     return root;
+    // }
     // 不需要这么复杂，被自己蠢哭了😭
     // var insertIntoBST = function(root, val) {
     //     if(root === null) return {val: val, left: null, right: null};
@@ -48,12 +59,12 @@
     //     }
     //     return genTree(nodeValArr);
     // };
-    var node3 = { val: 3, left: null, right: null };
-    var node4 = { val: 4, left: null, right: null };
-    var node5 = { val: 5, left: null, right: null };
-    var node1 = { val: 1, left: node3, right: null };
-    var node2 = { val: 2, left: node5, right: node4 };
-    var root = { val: 0, left: node1, right: node2 };
-    insertIntoBST(root, 7);
+    var node3 = { val: 2, left: null, right: null };
+    var node4 = { val: 10, left: null, right: null };
+    var node5 = { val: 6, left: null, right: null };
+    var node1 = { val: 3, left: node3, right: null };
+    var node2 = { val: 8, left: node5, right: node4 };
+    var root = { val: 5, left: node1, right: node2 };
+    insertIntoBST(root, 9);
 </script>
 </html>

@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定一个二叉搜索树的根节点 root 和一个值 key，删除二叉搜索树中的 key 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+    // 一般来说，删除节点可分为两个步骤：
+    // 首先找到需要删除的节点； 如果找到了，删除它。 说明： 要求算法时间复杂度为 $O(h)$，h 为树的高度。
+    /**
+     * 1. 未找到删除的节点，直接返回
+     * 2. 找到了节点
+     *  - 如果该节点没有左孩子，直接返回右孩子
+     *  - 如果该节点没有右孩子，直接返回左孩子
+     *  - 左右孩子都有，删除该节点，将左孩子作为右孩子最左孩子的左孩子。
+    */
+    var deleteNode = function(root, key) {
+        if (root === null) return root;
+        var curVal = root.val;
+        if (curVal === key) {
+            if (root.left === null) return root.right;
+            if (root.right === null) return root.left;
+            var curRightNode = root.right;
+            while(curRightNode.left) {
+                curRightNode = curRightNode.left;
+            }
+            curRightNode.left = root.left;
+            return root.right;
+        }
+        if (curVal < key) {
+            root.right = deleteNode(root.right, key);
+        }
+        if (curVal > key) {
+            root.left = deleteNode(root.left, key);
+        }
+        return root;
+    }
+
+
+    /**
+     * 1. 未找到删除的节点，直接返回
+     * 2. 左孩子null，右孩子null，直接删除节点，返回null
+     * 3. 左孩子有值，右孩子null，删除该节点，返回左孩子
+     * 4. 右孩子有值，左孩子null，删除该节点，返回右孩子
+     * 5. 左右孩子都有值，删除该节点，将左孩子作为右孩子最左孩子的左孩子。
+    */
+    // var deleteNode = function(root, key) {
+    //     if (root === null) return root;
+    //     if (root.val === key) {
+    //         if (root.left === null) {
+    //             return root.right;
+    //         } else if (root.right === null) {
+    //             return root.left;
+    //         } else {
+    //             var curLeftNode = root.left;
+    //             var curRightNode = root.right;
+    //             while(curRightNode.left) {
+    //                 curRightNode = curRightNode.left;
+    //             }
+    //             curRightNode.left = curLeftNode;
+    //             return root.right;
+    //         }
+    //     }
+    //     if (key < root.val) root.left = deleteNode(root.left, key);
+    //     if (key > root.val) root.right = deleteNode(root.right, key);
+    //     return root;
+    // };
+    
+    var node4 = { val: 80, left: null, right: null };
+    var node3 = { val: 60, left: null, right: null };
+    var node6 = { val: 40, left: null, right: null };
+    var node2 = { val: 70, left: node3, right: node4 };
+    var node1 = { val: 30, left: null, right: node6 };
+    var root = { val: 50, left: node1, right: node2 };
+    deleteNode(root, 50);
+</script>
+</html>

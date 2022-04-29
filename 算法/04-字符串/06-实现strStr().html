@@ -10,6 +10,9 @@
 </body>
 <script>
     // KMP
+    // 字符串abedab, 前缀: a ab abe abed abeda
+    //              后缀: a ab dab edab bedab
+    // next[0,0,0,0,1,2]
     var strStr = function(haystack, needle) {
         // 根据匹配串构建next数组
         var haystackArr = Array.from(haystack);

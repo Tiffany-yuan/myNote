@@ -6,9 +6,24 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h1phjjvigtj20ss0lk0vn.jpg" alt="">
 </body>
 <script>
+    // 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+    // 百度百科中最近公共祖先的定义为：
+    // “对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+    // 后序遍历，回溯，回溯过程可以参考上图
+    var lowestCommonAncestor = function (root, p, q) {
+        if (root === null || root === p || root === q) return root;
+        var leftNode = lowestCommonAncestor(root.left, p, q);
+        var rightNode = lowestCommonAncestor(root.right, p, q);
+        if (leftNode !== null || rightNode !== null) return root;
+        return leftNode === null ? rightNode : leftNode;
+    }
+
+
+
+
     var lowestCommonAncestor = function (root, p, q) {
         // 后序遍历
         var func = (node, p, q) => {
