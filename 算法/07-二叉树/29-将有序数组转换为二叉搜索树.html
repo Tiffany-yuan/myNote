@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+    // 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+    var sortedArrayToBST = function(nums) {
+        if (nums.length === 0) return null;
+        var midIndex = nums.length >>> 1;
+        var node = {val: nums[midIndex]};
+        node.left = sortedArrayToBST(nums.slice(0, midIndex));
+        node.right = sortedArrayToBST(nums.slice(midIndex + 1));
+        return node;
+    };
+    // var sortedArrayToBST = function(nums) {
+    //     if (nums.length === 0) return null;
+    //     var midIndex = Math.floor(nums.length / 2);
+    //     var curNode = {};
+    //     curNode.val = nums[midIndex];
+    //     curNode.left = sortedArrayToBST(nums.slice(0, midIndex));
+    //     curNode.right = sortedArrayToBST(nums.slice(midIndex + 1));
+    //     return curNode;
+    // };
+</script>
+</html>
