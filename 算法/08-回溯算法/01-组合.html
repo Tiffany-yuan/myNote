@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。
+    // 你可以按 任何顺序 返回答案。
+    var combine = function(n, k) {
+        var result = [];
+        var backTracking = (curArr, startIndex) => {
+            if (curArr.length === k) {
+                result.push([...curArr]);
+                return;
+            }
+            for (var i = startIndex; i <= n; i++) {
+                curArr.push(i);
+                backTracking(curArr, i + 1);
+                curArr.pop();
+            }
+        }
+        backTracking([], 1);
+        return result;
+    }
+
+
+    // 组合优化，剪枝
+    var combine = function(n, k) {
+        var result = [];
+        var backTracking = (curArr, startIndex) => {
+            if (curArr.length === k) {
+                result.push([...curArr]);
+                return;
+            }
+            for (var i = startIndex; i <= n - (k - curArr.length) + 1; i++) {
+                curArr.push(i);
+                backTracking(curArr, i + 1);
+                curArr.pop();
+            }
+        }
+        backTracking([], 1);
+        return result;
+    }
+
+
+
+
+
+
+    var combine = function(n, k) {
+        // 最后的返回结果res
+        var res = [];
+        // 当前路径
+        var path = [];
+        var backtracking = (n, k, startIndex) => {
+            if (path.length === k) {
+                res.push([...path]);
+                return;
+            }
+            // for (var i = startIndex; i <= n; i++) {
+            for (var i = startIndex; i <= n - ( k - path.length ) + 1; i++) {  // * 优化减枝
+                path.push(i);
+                backtracking(n, k, i + 1);
+                path.pop();
+            }
+        }
+        backtracking(n, k, 1);
+        return res;
+    };
+    combine(4, 2);
+</script>
+</html>
