@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+
+    // 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+    // 有效的 IP 地址 正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 0），整数之间用 '.' 分隔。
+    // 例如："0.1.2.201" 和 "192.168.1.1" 是 有效的 IP 地址，但是 "0.011.255.245"、"192.168.1.312" 和 "192.168@1.1" 是 无效的 IP 地址。
+    // 示例 1：
+    // 输入：s = "25525511135"
+    // 输出：["255.255.11.135","255.255.111.35"]
+
+    // 示例 2：
+    // 输入：s = "010010"
+    // 输出：["0.10.0.10","0.100.1.0"]
+
+    // 示例 3：
+    // 输入：s = "101023"
+    // 输出：["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+
+    var checkStr = (str) => {
+        var num = str >>> 0;
+        if (str.length > 1 && str[0] === '0' || num > 255) return false;
+        return true;
+    }
+    var restoreIpAddresses = function(s) {
+        var result = [];
+        var backtracking = (path, startIndex) => {
+            if (path.length === 4 && startIndex === s.length) {
+                result.push(path.join('.'));
+                return;
+            }
+            for (var i = startIndex; i < s.length && path.length < 4; i++) {
+                var curNum = s.slice(startIndex, i + 1);
+                if (!checkStr(curNum)) continue;
+                path.push(curNum);
+                backtracking(path, i + 1);
+                path.pop();
+            }
+        }
+        backtracking([], 0);
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+var restoreIpAddresses = function(s) {
+    var path = [];
+    var res = [];
+    var len = s.length;
+    var backtracking = (startIndex) => {
+        if(startIndex === len && path.length === 4) {
+            res.push(path.join('.'));
+            return;
+        }
+        for(var i = startIndex; i < len && path.length < 4; i++) {
+            const str = s.slice(startIndex, i + 1);
+            if(!isValidateNum(str)) continue;
+            path.push(str);
+            backtracking(i + 1);
+            path.pop();
+        }
+    }
+    backtracking(0);
+    return res;
+};
+var isValidateNum = (str) => {
+    const num = +str;
+    if (num < 0 || num > 255 || str.length > 1 && str[0] === '0') return false;
+    return true;
+}
+restoreIpAddresses("010010");
+</script>
+</html>
