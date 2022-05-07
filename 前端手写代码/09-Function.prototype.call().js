@@ -8,3 +8,14 @@ Function.prototype.myCall = function(context = window, ...args) {
     delete context[fn];
     return res;
 }
+
+// Function.prototype.myCall = function (context = window, ...args) {
+//     if (typeof this !== 'function') {
+//         throw Error('Type Error');
+//     }
+//     var fn = new Symbol('fn');
+//     context[fn] = this;
+//     var res = context[fn](...args);
+//     delete context[fn];
+//     return res;
+// }
