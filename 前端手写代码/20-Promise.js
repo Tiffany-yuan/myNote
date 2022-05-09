@@ -20,8 +20,15 @@
 // Promise.all([promise1, promise2]).then();
 // Promise.race([promise1, promise2]).then();
 
+// Promise 的入参是一个函数，接受两个参数，reslove函数 和 reject函数
+
 // 创建 Promise 时，并不会生成微任务，而是需要等到 Promise 对象调用 resolve 或者 reject 函数时，才会产生微任务。
 // 产生的微任务并不会立即执行，而是等待当前宏任务快要执行结束时再执行。
+
+// promise中存放了 成功态回调函数 和 失败态回调函数 两个队列；
+// then() 注册成功事件，会将回调函数存放在 成功态回调函数 中，catch () 注册失败事件，会将回调函数存放在 失败态回调函数 中；
+// reslove() 会发布成功事件，并依次执行 成功态回调函数队列中的函数，reject() 会发布失败事件，并依次执行 失败态回调函数队列中的函数；
+
 
 // 定义三种状态
 const PENDING = 'PENDING';       // 进行中
@@ -76,7 +83,7 @@ class Promise {
      */
     then(onFulfilled, onReject) {
         onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
-        onReject = typeof onReject === 'function' ? onReject : value => value;
+        onReject = typeof onReject === 'function' ? onReject : reason => reason;
         // 保存this
         const self = this;
         return new Promise((resolve, reject) => {
@@ -191,6 +198,26 @@ class Promise {
             }
         })
     }
+
+    // 与all相反
+    static any(promiseArr) {
+        const len = promiseArr.length;
+        let count = 0;
+        return new Promise((resolve, reject) => {
+            for (var i = 0; i < len; i++) {
+                Promise.resolve(promiseArr[i]).then(
+                    val => resolve(val),
+                    err => {
+                        count++;
+                        // 如果全部执行完，返回promise的状态就可以改变了
+                        if (count === len) reject(err);
+                    }
+                )
+            }
+        })
+    }
+
+    // 哪个快返回哪个
     static race(promiseArr) {
         return new Promise((resolve, reject) => {
             promiseArr.forEach(p => {
@@ -199,6 +226,40 @@ class Promise {
                     err => reject(err)
                 )
             })
+        })
+    }
+
+    // 接收一个Promise数组，数组中如有非Promise项，则此项当做成功
+    // 把每一个Promise的结果，集合成数组，返回
+    static allSettled(promiseArr) {
+        var len = promiseArr.length;
+        var values = new Array(len);
+        var count = 0;
+        return new Promise((resolve, reject) => {
+            for (var i = 0; i < len; i++) {
+                Promise.resolve(promiseArr[i]).then(
+                    val => {
+                        values[i] = {
+                            status: FULFILLED,
+                            value: val
+                        };
+                        count++;
+                        if (count === len) {
+                            resolve(values);
+                        }
+                    },
+                    err => {
+                        values[i] = {
+                            status: REJECTED,
+                            reason: err
+                        };
+                        count++;
+                        if (count === len) {
+                            resolve(values);
+                        }
+                    }
+                )
+            }
         })
     }
 }
