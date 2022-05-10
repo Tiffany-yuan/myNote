@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h22gi5t1evj217e0u0jxb.jpg" alt="">
+</body>
+<script>
+    /**
+     * @param {character[][]} board
+     * @return {void} Do not return anything, modify board in-place instead.
+     */
+    var solveSudoku = function(board) {
+        var len = board.length;
+        function isValid(row, col, val) {
+            // let len = board.length;
+            // 行不能重复
+            for(let i = 0; i < len; i++) {
+                if(board[row][i] == val) {
+                    return false;
+                }
+            }
+            // 列不能重复
+            for(let i = 0; i < len; i++) {
+                if(board[i][col] == val) {
+                    return false;
+                }
+            }
+            let startRow = Math.floor(row / 3) * 3;
+            let startCol = Math.floor(col / 3) * 3;
+            for(let i = startRow; i < startRow + 3; i++) {
+                for(let j = startCol; j < startCol + 3; j++) {
+                    if(board[i][j] == val) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        var backtracking = () => {
+            for (var i = 0; i < len; i++) { // 遍历行
+                for (var j = 0; j < len; j++) { // 遍历列
+                    if (board[i][j] !== '.') continue;
+                    for (var val = 1; val <= 9; val++) {
+                        if (isValid(i, j, val)) {
+                            board[i][j] = `${val}`;
+                            if (backtracking()) return true;
+                            board[i][j] = '.';
+                        }
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+        backtracking();
+        return board;
+    };
+</script>
+</html>

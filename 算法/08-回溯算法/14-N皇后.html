@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h22ezm02d9j21180u0djd.jpg" alt="">
+</body>
+<script>
+    /**
+     * @param {number} n
+     * @return {string[][]}
+     */
+    var solveNQueens = function(n) {
+        var res = [];
+        var isValid = (row, col, path) => {
+            // 检查列
+            for (var i = 0; i < row; i++) { // 这是一个剪枝
+                if (path[i][col] == 'Q') {
+                    return false;
+                }
+            }
+            // 检查 45度角是否有皇后
+            for (var i = row - 1, j = col - 1; i >=0 && j >= 0; i--, j--) {
+                if (path[i][j] == 'Q') {
+                    return false;
+                }
+            }
+            // 检查 135度角是否有皇后
+            for(var i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+                if (path[i][j] == 'Q') {
+                    return false;
+                }
+            }
+            return true;
+        }
+        var backtracking = (path, row) => {
+            if (row === n) {
+                console.log(path);
+                var transPathArr = path.map(curRow => {
+                    return curRow.reduce((prev, cur) => prev + cur, '');
+                })
+                res.push(transPathArr);
+                return;
+            }
+            for (var col = 0; col < n; col++) {
+                if (isValid(row, col, path)) { // 校验是否合法
+                    path[row][col] = 'Q';
+                    backtracking(path, row + 1);
+                    path[row][col] = '.'; // 撤回
+                }
+            }
+        }
+        backtracking(Array(n).fill('.').map(() => Array(n).fill('.')), 0);
+        return res;
+    };
+    solveNQueens(4);
+</script>
+</html>

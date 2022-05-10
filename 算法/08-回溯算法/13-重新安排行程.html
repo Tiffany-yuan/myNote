@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var findItinerary = (tickets) => {
+        var res = ['JFK']; // 初始放入起点'JFK'
+        var map = {}; // 领接表
+        for (var ticket of tickets) { // 建表
+            var [from, to] = ticket; // 获取每张机票的起点和终点
+            if (!map[from]) {
+                map[from] = []; // 初始化
+            }
+            map[from].push(to); // 建立映射
+        }
+        for (var city in map) { //排序，按照字母顺序，小的在前
+            map[city].sort();
+        }
+        var backtracking = (city, used) => { // city是当前访问的城市，used是已经用掉的机票数
+            if (used === tickets.length) { // 用光了所有的机票，路径找到了
+                return true;
+            }
+            var nextCities = map[city];
+            if (!nextCities || nextCities.length === 0) { // 没有邻接城市了，还没用光机票，就没有下一站了，返回false
+                return false;
+            }
+            for (var i = 0; i < nextCities.length; i++) {
+                var next = nextCities[i]; // 当前选择的下一站
+                nextCities.splice(i, 1); // 从飞出地的list里删除这一站
+                res.push(next);
+                if (backtracking(next, used + 1)) { // 在该递归分支中能找到用完所有机票的路径
+                    return true;
+                } else { // 撤回
+                    nextCities.splice(i, 0, next); // 将删除的这一项加回去
+                    res.pop(); 
+                }
+            }
+        }
+        backtracking('JFK', 0);
+        return res;
+    }
+</script>
+</html>
