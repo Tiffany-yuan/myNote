@@ -262,6 +262,18 @@ class Promise {
             }
         })
     }
+
+    static finally(cb) {
+        return this.then(
+            val => {
+                // 因为cb可能是个异步操作，返回promise
+                return new Promise().resolve(cb()).then(() => val);
+            },
+            err => {
+                return new Promise().resolve(cb()).then(() => { throw err });
+            }
+        )
+    }
 }
 // const promise = new Promise((resolve, reject) => {
 //     Math.random() < 0.5 ? resolve(1) : reject(-1);

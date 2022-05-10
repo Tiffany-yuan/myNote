@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // let obj = {
+    //     name: "一个"
+    // }
+
+    // function allName(firstName, lastName) {
+    //     console.log(this)
+    //     console.log(`我的全名是“${firstName}${this.name}${lastName}”`)
+    // }
+    // Function.prototype.myApply = function(context = window, args) {
+    //     if (typeof this !== 'function') {
+    //         throw new TypeError('Type Error');
+    //     }
+    //     const fn = Symbol('fn');
+    //     context[fn] = this;
+    //     const res = context[fn](...args);
+    //     delete context[fn];
+    //     return res;
+    // }
+    // allName('我是', '前端') //我的全名是“我是前端”  this指向window
+    // allName.myApply(obj, '我是', '前端')
+
+    /**
+ * 实现 add(1)(2)(3)(4)
+ *     add(1)(2,3)(4)
+ */
+
+    var add = (...args) => {
+        var _add = function () {
+            args.push(...arguments);
+            return _add;
+        }
+        _add.toString = () => {
+            var res = args.reduce((prev, cur) => prev + cur);
+            return res;
+        }
+        return _add;
+    }
+
+    var res = add(1)(2, 3); 
+    console.log(res);
+
+</script>
+</html>
