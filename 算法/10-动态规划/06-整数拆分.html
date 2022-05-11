@@ -9,31 +9,58 @@
     
 </body>
 <script>
+    // 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。
+    // 示例 1:
+    // 输入: 2
+    // 输出: 1
+    // 解释: 2 = 1 + 1, 1 × 1 = 1。
+    // 示例 2:
+    // 输入: 10
+    // 输出: 36
+    // 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。
+    // 说明: 你可以假设 n 不小于 2 且不大于 58。
+    var integerBreak = function(n) {
+        // dp[i] 将i拆成若干个整数的最大乘积
+        // dp[i] = max(dp[i], max((i - j) * j, dp[i - j] * j))
+        // 初始化dp：
+        var dp = Array(n + 1).fill(1);
+        dp[2] = 1;
+        for (var i = 3; i <= n; i++) {
+            for (var j = 1; j < i; j++) {
+                dp[i] = Math.max(dp[i], (i - j) * j, dp[i - j] * j);
+            }
+        }
+        console.log('dp', dp);
+        return dp[n];
+    };
+
+
+
     /**
      * @param {number} n
      * @return {number}
      */
     // 思路一
-    var integerBreak = function(n) {
-        // dp[i] 表示正整数i的成乘积最大化值
-        // dp[i] = max(dp[1]*dp[i-1], dp[2]*dp[i-2],...)
-        // 初始化dp：
-        var dp = [0, 1, 1, 2];
-        if (n < 4) return dp[n]; 
-        // 遍历
-        for (var i = 4; i <= n; i++) {
-            var curDpList = [];
-            var halfValue = Math.ceil(i / 2);
-            for (var j = 2; j <= halfValue; j++) {
-                var maxJ = Math.max(dp[j], j);
-                var maxIJ = Math.max(dp[i - j], i - j);
-                curDpList.push(maxJ * maxIJ);
-            }
-            dp[i] = Math.max(...curDpList);
-        }
-        console.log(dp);
-        return dp[n];
-    };
+    // var integerBreak = function(n) {
+    //     // dp[i] 表示正整数i的成乘积最大化值
+    //     // dp[i] = max(dp[1]*dp[i-1], dp[2]*dp[i-2],...)
+    //     // 初始化dp：
+    //     var dp = [0, 1, 1, 2];
+    //     if (n < 4) return dp[n]; 
+    //     // 遍历
+    //     for (var i = 4; i <= n; i++) {
+    //         var curDpList = [];
+    //         var halfValue = Math.ceil(i / 2);
+    //         for (var j = 2; j <= halfValue; j++) {
+    //             var maxJ = Math.max(dp[j], j);
+    //             var maxIJ = Math.max(dp[i - j], i - j);
+    //             curDpList.push(maxJ * maxIJ);
+    //         }
+    //         dp[i] = Math.max(...curDpList);
+    //     }
+    //     console.log(dp);
+    //     return dp[n];
+    // };
 
     // 思路二
     var integerBreak2 = function(n) {

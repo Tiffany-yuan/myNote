@@ -9,11 +9,27 @@
     
 </body>
 <script>
+    // 给你一个整数 n ，求恰由 n 个节点组成且节点值从 1 到 n 互不相同的 二叉搜索树 有多少种？返回满足题意的二叉搜索树的种数。
+    // 1 <= n <= 19
+    var numTrees = function(n) {
+        // dp[n] --- 表示n个节点组成的二叉搜索树的种数
+        // dp[i] = dp[j] + dp[i - j - 1]; // j表示根结点左边的节点数，i - j - 1表示根结点右边的节点数
+        var dp = Array(n + 1).fill(0);
+        dp[0] = 1;
+        dp[1] = 1;
+        for (var i = 2; i <= n; i++) {
+            for (var j = 0; j < i; j++) {
+                dp[i] += dp[j] * dp[i - j - 1];
+            }
+        }
+        return dp[n];
+    }
+
     /**
      * @param {number} n
      * @return {number}
      */
-    var numTrees = function(n) {
+    var numTrees2 = function(n) {
         // dp[n]表示n个节点组成的二叉搜索树数量
         // 初始化dp
         // 这里初始化为 dp = [1]也可，遍历从i = 1开始
@@ -34,5 +50,6 @@
         return dp[n];
     };
     numTrees(4);
+    numTrees2(4);
 </script>
 </html>

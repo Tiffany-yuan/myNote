@@ -19,31 +19,59 @@
     // 输入：nums = [1,2,3,5]
     // 输出：false
     // 解释：数组不能分割成两个元素和相等的子集。
+    var canPartition = function(nums) {
+        var total = nums.reduce((pre, cur) => pre + cur);
+        if (total % 2 !== 0) return false;
+        var size = total >>> 1;
+        // 这样就变成了01背包问题，背包的容量是size，背包的重量和价值都是nums
+        // dp[i][j] 表示 从[0-i]中任取一个物品，放到容量为j的背包中的最大价值
+        // dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i])
+        // 初始化
+        var len = nums.length;
+        var dp = Array(len).fill(0).map(item => Array(size + 1).fill(0));
+        for (var j = nums[0]; j <= size; j++) {
+            dp[0][j] = nums[0];
+        }
+        for (var i = 1; i < len; i++) {
+            for (var j = 1; j <= size; j++) {
+                if (j >= nums[i]) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i])
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        console.log(dp);
+        if (dp[len - 1][size] === size) return true;
+        return false;
+    }
 
     /**
      * @param {number[]} nums
      * @return {boolean}
      */
-    var canPartition = function(nums) {
-        // 先求出总sum
-        var sum = nums.reduce((a, b) => a + b);
-        var isOdd = sum % 2 === 0;
-        if (!isOdd) return false;
-        var halfSum = sum / 2;
-        // 这里把halfSum当作背包的容量
-        // 背包重量为元素数值，价值也为元素数值
-        // 如果能出现把背包装满的情况就说明满足
-        // dp[j]表示 背包总容量是j，最大可以凑成j的子集总和为dp[j]
-        // dp一维数组递推公式 dp[j] = Math.max(dp[j], dp[j - weight[i]] + value[i])
-        // 初始化dp
-        var dp = new Array(halfSum + 1).fill(0);
-        for (var i = 0; i < nums.length; i++) {
-            for (var j = halfSum; j >= nums[i]; j--) {
-                dp[j] = Math.max(dp[j], dp[j - nums[i]] + nums[i]);
-            }
-        }
-        if (dp[halfSum] === halfSum) return true;
-        return false;
-    };
+    // var canPartition = function(nums) {
+    //     // 先求出总sum
+    //     var sum = nums.reduce((a, b) => a + b);
+    //     var isOdd = sum % 2 === 0;
+    //     if (!isOdd) return false;
+    //     var halfSum = sum / 2;
+    //     // 这里把halfSum当作背包的容量
+    //     // 背包重量为元素数值，价值也为元素数值
+    //     // 如果能出现把背包装满的情况就说明满足
+    //     // dp[j]表示 背包总容量是j，最大可以凑成j的子集总和为dp[j]
+    //     // dp一维数组递推公式 dp[j] = Math.max(dp[j], dp[j - weight[i]] + value[i])
+    //     // 初始化dp
+    //     var dp = new Array(halfSum + 1).fill(0);
+    //     for (var i = 0; i < nums.length; i++) {
+    //         for (var j = halfSum; j >= nums[i]; j--) {
+    //             dp[j] = Math.max(dp[j], dp[j - nums[i]] + nums[i]);
+    //         }
+    //     }
+    //     if (dp[halfSum] === halfSum) return true;
+    //     return false;
+    // };
+    canPartition([1,5,11,5]);
+    canPartition([3,3,3,4,5]);
 </script>
 </html>
