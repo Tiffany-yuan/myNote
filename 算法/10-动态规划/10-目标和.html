@@ -13,6 +13,43 @@
     // 向数组中的每个整数前添加 '+' 或 '-' ，然后串联起所有整数，可以构造一个 表达式 ：
     // 例如，nums = [2, 1] ，可以在 2 之前添加 '+' ，在 1 之前添加 '-' ，然后串联起来得到表达式 "+2-1" 。
     // 返回可以通过上述方法构造的、运算结果等于 target 的不同 表达式 的数目。
+    // 给你一个整数数组 nums 和一个整数 target 。
+    // 向数组中的每个整数前添加 '+' 或 '-' ，然后串联起所有整数，可以构造一个 表达式 ：
+    // 例如，nums = [2, 1] ，可以在 2 之前添加 '+' ，在 1 之前添加 '-' ，然后串联起来得到表达式 "+2-1" 。
+    // 返回可以通过上述方法构造的、运算结果等于 target 的不同 表达式 的数目。
+    // 1 <= nums.length <= 20
+    // 0 <= nums[i] <= 1000
+    // 0 <= sum(nums[i]) <= 1000
+    // -1000 <= target <= 1000
+    var findTargetSumWays = function(nums, target) {
+        // 将数据分为两部分、l和r，l为正数、r为负数
+        // l - r = sum  l + r = target  ==》 l = (sum + target) / 2
+        // 变成了背包容量为l，物品重量和价值均为nums的01背包问题，将容量为l的背包装满有多少种方法
+        target = Math.abs(target); // target可能为负数
+        var sum = nums.reduce((a, b) => a + b);
+        if ((sum + target) % 2 !== 0 || target > sum) return 0;
+        var l = (sum + target) / 2;
+        // dp[i][j] --- 使用下标为[0-i]的nums刚好能装满容量为j的背包的种数
+        // dp[j] = dp[j] + dp[j - nums[i]
+        // 理解：比如现在有[1,2,3]，要求dp[4]。
+        // 现在已经有了1(num[i])，那么这个1和dp[3]相组合就能满足和为4
+        // 现在已经有了2(num[i])，那么这个2和dp[2]相组合就能满足和为4
+        // 现在已经有了3(num[i])，那么这个3和dp[1]相组合就能满足和为4
+        // 初始化dp
+        var dp = Array(l + 1).fill(0);
+        // dp[0]一定得初始化为1，因为dp[0]是在公式中一切递推结果的起源，如果dp[0]是0的话，递归结果将都是0
+        // dp[0] = 1，理论上也很好解释，装满容量为0的背包，有1种方法，就是装0件物品
+        dp[0] = 1;
+        for (var i = 0; i < nums.length; i++) {
+            for (var j = l; j >= nums[i]; j--) {
+                dp[j] += dp[j - nums[i]];
+            }
+        }
+        return dp[l];
+    };
+
+
+    
     var findTargetSumWays = function(nums, target) {
         // 将数组分成两份，l和r，l是正数，r是负数。那么l + r = target; l - r = sum; l = (sum + target) / 2;
         // 问题转化为即求 将容量为l的背包装满有多少种方法

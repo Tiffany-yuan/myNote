@@ -25,21 +25,18 @@
      * @return {number}
      */
     var findMaxForm = function(strs, m, n) {
-        // 01背包问题，背包有两个维度，m和n
-        // dp[i][j]表示最多i个0和j个1的最长子集的长度
-        // 递推公式 dp[i][j] = max(dp[i][j], dp[i-zeroNum][j-oneNum]+1)
-        // 初始化dp[i][j] = 0
-        var dp = new Array(m + 1).fill(0).map(item => new Array(n + 1).fill(0));
+        // 背包为两个维度的01背包问题
+        // dp[i][j] --- i个0和j个1的最大子集长度
+        // 递推公式：dp[i][j] = max(dp[i][j], dp[i - curZeroNum][j - curOneNum] + 1)
+        // 初始化dp
+        var dp = Array(m + 1).fill(0).map(item => Array(n + 1).fill(0));
+        // 物品就是strs里的字符串，背包容量就是题目描述中的m和n
         strs.forEach(curStr => {
-            var curStrArr = curStr.split('');
             var zeroNum = 0;
             var oneNum = 0;
-            curStrArr.forEach(word => {
-                if (word === '0') {
-                    zeroNum++;
-                } else {
-                    oneNum++;
-                }
+            Array.from(curStr).forEach(item => {
+                if(item === '0') zeroNum++;
+                else oneNum++;
             })
             for (var i = m; i >= zeroNum; i--) {
                 for (var j = n; j >= oneNum; j--) {
@@ -49,7 +46,42 @@
         })
         console.log(dp);
         return dp[m][n];
-    };
+    }
+
+
+
+
+
+
+
+
+
+    // var findMaxForm = function(strs, m, n) {
+    //     // 01背包问题，背包有两个维度，m和n
+    //     // dp[i][j]表示最多i个0和j个1的最长子集的长度
+    //     // 递推公式 dp[i][j] = max(dp[i][j], dp[i-zeroNum][j-oneNum]+1)
+    //     // 初始化dp[i][j] = 0
+    //     var dp = new Array(m + 1).fill(0).map(item => new Array(n + 1).fill(0));
+    //     strs.forEach(curStr => {
+    //         var curStrArr = curStr.split('');
+    //         var zeroNum = 0;
+    //         var oneNum = 0;
+    //         curStrArr.forEach(word => {
+    //             if (word === '0') {
+    //                 zeroNum++;
+    //             } else {
+    //                 oneNum++;
+    //             }
+    //         })
+    //         for (var i = m; i >= zeroNum; i--) {
+    //             for (var j = n; j >= oneNum; j--) {
+    //                 dp[i][j] = Math.max(dp[i][j], dp[i - zeroNum][j - oneNum] + 1);
+    //             }
+    //         }
+    //     })
+    //     console.log(dp);
+    //     return dp[m][n];
+    // };
     findMaxForm(["10", "0001", "111001", "1", "0"], 3, 3);
     findMaxForm(["10", "0", "1"], 1, 1);
 </script>

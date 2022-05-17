@@ -22,30 +22,50 @@
     // 组合 7 和 8，得到 1，所以数组转化为 [2,1,1,1]，
     // 组合 2 和 1，得到 1，所以数组转化为 [1,1,1]，
     // 组合 1 和 1，得到 0，所以数组转化为 [1]，这就是最优值。
+    var lastStoneWeightII = function(stones) {
+        // 01背包问题
+        // 背包容量为石头总重量之和/2，物品容量和价值均为stones
+        // dp[i][j] --- 从0-i中的石头中任取一个，装进容量为j的背包中的最大价值
+        // dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+        // dp初始化
+        var len = stones.length;
+        var total = stones.reduce((pre, cur) => pre + cur);
+        var size = total >>> 1;
+        var dp = Array(size + 1).fill(0);
+        for(var j = 1; j <= size; j++) {
+            if (j >= stones[0]) dp[j] = stones[0];
+        }
+        for (var i = 1; i < len; i++) {
+            for (var j = size; j >= stones[i]; j--) {
+                dp[j] = Math.max(dp[j], dp[j - stones[i]] + stones[i]);
+            }
+        }
+        return total - 2 * dp[size];
+    };
 
     /**
      * @param {number[]} stones
      * @return {number}
      */
-    var lastStoneWeightII = function(stones) {
-        // 所有石头的总重量为sum，即为求 「石头组成和 < sum/2」的最大值，转为动态规划问题
-        // dp[i][j] --- i为从0-i中任取一个石头，放到容量为j的背包，最多能背多重的石头重量。
-        //    dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
-        // 即 dp[j] = max(dp[j], dp[j - stone[i]] + stone[i]);
-        var sum = stones.reduce((a, b) => a + b);
-        var halfSum = Math.floor(sum / 2);
-        var len = stones.length;
-        // 初始化
-        var dp = new Array(halfSum + 1).fill(0);
-        for (var i = 0; i < len; i++) {
-            for (var j = halfSum; j >= stones[i]; j--) {
-                dp[j] = Math.max(dp[j], dp[j - stones[i]] + stones[i]);
-            }
-        }
-        console.log('dp', dp);
-        // 「石头组成和 < sum/2」的最大值为dp[halfSum]，则剩下一堆重量为「sum - dp[halfSum]」
-        return sum - dp[halfSum] - dp[halfSum];
-    };
+    // var lastStoneWeightII = function(stones) {
+    //     // 所有石头的总重量为sum，即为求 「石头组成和 < sum/2」的最大值，转为动态规划问题
+    //     // dp[i][j] --- i为从0-i中任取一个石头，放到容量为j的背包，最多能背多重的石头重量。
+    //     //    dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+    //     // 即 dp[j] = max(dp[j], dp[j - stone[i]] + stone[i]);
+    //     var sum = stones.reduce((a, b) => a + b);
+    //     var halfSum = Math.floor(sum / 2);
+    //     var len = stones.length;
+    //     // 初始化
+    //     var dp = new Array(halfSum + 1).fill(0);
+    //     for (var i = 0; i < len; i++) {
+    //         for (var j = halfSum; j >= stones[i]; j--) {
+    //             dp[j] = Math.max(dp[j], dp[j - stones[i]] + stones[i]);
+    //         }
+    //     }
+    //     console.log('dp', dp);
+    //     // 「石头组成和 < sum/2」的最大值为dp[halfSum]，则剩下一堆重量为「sum - dp[halfSum]」
+    //     return sum - dp[halfSum] - dp[halfSum];
+    // };
     lastStoneWeightII([2,7,4,1,8,1]);
     lastStoneWeightII([31,26,33,21,40]);
 </script>

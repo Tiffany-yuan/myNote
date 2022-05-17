@@ -304,3 +304,43 @@ class Promise {
 //     console.log(value);
 //     console.log(x2);
 // })
+
+function query(arr){
+    function myArray() { }
+    
+    // if(Object.prototype.toString.call(arr).slice(8,-1)!==='Array') {
+    //     return console.error('must be an array')
+    // }
+
+    myArray.prototype.where = function(){
+         list = list.filter(cb);
+       return { ...myArray };
+    }
+    myArray.prototype.orderBy = function (key) {
+        list = list.sort((a, b) => a[key] - b[key]);
+        return { ...myArray };
+    };
+    myArray.prototype.groupBy = function (key) {
+        let ls = [];
+        let group = list.reduce((pre, item) => {
+            pre[item[key]] = [...(pre[item[key]] || []), item];
+            return pre;
+        }, {});
+        list = [];
+        for (let key in group) {
+            list.push(group[key]);
+        }
+        return { ...myArray };
+    };
+    myArray.prototype.execute = function (key) {
+        return list;
+    };
+    return { ...myArray };
+}
+let res = query(data)
+    .where((item) => item.age > 18)
+    .orderBy("age")
+    .groupBy("city")
+    .execute();
+console.log(res);
+  

@@ -5,8 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    html {
+        font-size: 60px;
+    }
+
+    body {
+        background: #E3E3E3;
+    }
+
+    .card {
+        font-size: 16px;
+        background-color: #FFF0F1;
+        height: 1.36rem;
+        width: 4.3rem;
+        margin: 0 auto;
+        margin-bottom: 0.1rem;
+        display: flex;
+        align-items: center;
+        padding: 0 24px 0 30;
+        justify-content: space-between;
+        border-radius: 12px;
+    }
+    .mini-title{
+        font-size: 22px;
+        color: #666;
+    }
+    .title{
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .btn{
+        width: 108px;
+        height: 45px;
+        border-radius: 8px;
+        font-size: 20px;
+        background-color: #f00;
+        color: white;
+        border: none;
+    }
+</style>
 <body>
-    
+    <div id="app-react">
+        <div class="card">
+            <div class="leftCon">
+                <div class="title">5元券</div>
+                <div class="mini-title">面馆</div>
+            </div>
+            <div class="roghtCon">
+                <button class="btn">抢购</button>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     // function foo() {
