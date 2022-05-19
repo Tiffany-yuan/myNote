@@ -28,6 +28,25 @@
      * @param {number} amount
      * @return {number}
      */
+    var coinChange = function(coins, amount) { 
+        // dp[j] --- 凑成总金额为j的最少硬币数
+        // dp[j] = min(dp[j - coins[i]] + 1, dp[j]);
+        // 初始化：
+        var len = coins.length;
+        var dp = Array(amount + 1).fill(Infinity);
+        dp[0] = 0;
+        for (var i = 0; i <= len; i++) {
+            for (var j = coins[i]; j <= amount; j++) {
+                dp[j] = Math.min(dp[j - coins[i]] + 1, dp[j]);
+            }
+        }
+        return dp[amount] === Infinity ? -1 : dp[amount];
+    }
+
+
+
+
+
     var coinChange = function(coins, amount) {
         // 完全背包
         // dp[j] --- 凑成amount金额的最小硬币个数
