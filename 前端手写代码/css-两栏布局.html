@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container {
+        height: 100%;
+        /* 方法3. lex布局 */
+        /* display: flex;  */
+
+        /* 方法4. 定位 */
+        position: relative;
+    }
+    /* 1. 使用BFC */
+    /* .left {
+        height: 100%;
+        width: 200px;
+        float: left;
+        background: purple;
+    }
+    .right {
+        height: 100%;
+        background: pink;
+        overflow: hidden;
+    } */
+
+    /* 2. 使用margin-left */
+    /* .left {
+        height: 100%;
+        width: 200px;
+        float: left;
+        background: purple;
+    }
+    .right {
+        height: 100%;
+        margin-left: 200px;
+        background: pink;
+    } */
+
+    /* 3. flex布局 */
+    /* .left {
+        height: 100%;
+        width: 200px;
+        background: purple;
+    }
+    .right {
+        flex-grow: 1;
+        height: 100%;
+        background: pink;
+    } */
+
+    /* 4. 定位 */
+    /* .left {
+        position: absolute;
+        height: 100%;
+        width: 200px;
+        background: purple;
+    }
+    .right {
+        margin-left: 200px;
+        height: 100%;
+        background: pink;
+    } */
+</style>
+<body>
+    <div class="container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>

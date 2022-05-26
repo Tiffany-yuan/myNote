@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+    /* 1. 绝对定位 */
+    /* .container {
+        height: 100%;
+        position: relative;
+    }
+    .left {
+        position: absolute;
+        height: 100%;
+        width: 200px;
+        background: purple;
+    }
+    .right {
+        position: absolute;
+        height: 100%;
+        width: 200px;
+        background: pink;
+        top: 0;
+        right: 0;
+    }
+    .center {
+        height: 100%;
+        margin-left: 200px;
+        margin-right: 200px;
+        background: burlywood;
+    } */
+
+    /* 2. flex布局 */
+    /* .container {
+        height: 100%;
+        display: flex;
+    }
+    .left {
+        height: 100%;
+        width: 200px;
+        background: purple;
+    }
+    .right {
+        height: 100%;
+        width: 200px;
+        background: pink;
+    }
+    .center {
+        height: 100%;
+        flex-grow: 1;
+        background: burlywood;
+    } */
+
+    /* 3. float 注意这种方式的html结构，中间一栏必须放在最后面*/
+    .container {
+        height: 100%;
+    }
+    .left {
+        height: 100%;
+        width: 200px;
+        float: left;
+        background: purple;
+    }
+    .center {
+        height: 100%;
+        margin-left: 200px;
+        margin-right: 200px;
+        background: burlywood;
+    }
+    .right {
+        height: 100%;
+        width: 200px;
+        float: right;
+        background: pink;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="left"></div>
+        <!-- <div class="center"></div> -->
+        <div class="right"></div>
+        <div class="center"></div>
+    </div>
+</body>
+</html>
