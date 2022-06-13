@@ -183,7 +183,7 @@ class Promise {
         const values = new Array(len);
         // 记录已经成功执行的promise个数
         let count = 0;
-        return new promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             for (let i = 0; i < len; i++) {
                 // promise.resolve()处理，确保每个都是promise实例
                 Promise.resolve(promiseArr[i]).then(
@@ -304,3 +304,16 @@ class Promise {
 //     console.log(value);
 //     console.log(x2);
 // })
+
+function runAsync(n) {
+    const p = new Promise((reslove, reject) => setTimeout(() => {
+        console.log(n);
+        reslove(n);
+    }, 1000))
+    return p;
+}
+
+Promise.all([runAsync(1), runAsync(3)])
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
+
